@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="DogAnimation" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/DogAnimationFrame.gd" id="1_1k4f6"]
+[ext_resource type="Script" path="res://scripts/DogAnimation.gd" id="2_sx5ab"]
+
+[sub_resource type="Resource" id="Resource_0edvb"]
+script = ExtResource("1_1k4f6")
+rotation = -9.72
+position = Vector2(0.3, -0.35)
+
+[sub_resource type="Resource" id="Resource_xhqhd"]
+script = ExtResource("1_1k4f6")
+rotation = -10.43
+position = Vector2(0.75, 3.75)
+
+[sub_resource type="Resource" id="Resource_1l1at"]
+script = ExtResource("1_1k4f6")
+rotation = -9.72
+position = Vector2(0.3, 2.05)
+
+[sub_resource type="Resource" id="Resource_s1f4c"]
+script = ExtResource("1_1k4f6")
+rotation = -8.5
+position = Vector2(-0.25, -1.1)
+
+[sub_resource type="Resource" id="Resource_qnj42"]
+script = ExtResource("1_1k4f6")
+rotation = -9.72
+position = Vector2(-0.35, -1.85)
+
+[sub_resource type="Resource" id="Resource_wf5a6"]
+script = ExtResource("1_1k4f6")
+rotation = -14.72
+position = Vector2(1.5, 1.55)
+
+[sub_resource type="Resource" id="Resource_iolxv"]
+script = ExtResource("1_1k4f6")
+rotation = -11.94
+position = Vector2(0.75, 2.55)
+
+[sub_resource type="Resource" id="Resource_q270s"]
+script = ExtResource("1_1k4f6")
+rotation = -9.72
+position = Vector2(0.2, -1.05)
+
+[resource]
+script = ExtResource("2_sx5ab")
+origin = Vector2(75, 130)
+ear = "sprDog_paddle_ear"
+A = "sprDog_paddle_A"
+B = "sprDog_paddle_B"
+loop = "1"
+bounce = 0.0
+head = [SubResource("Resource_0edvb"), SubResource("Resource_xhqhd"), SubResource("Resource_1l1at"), SubResource("Resource_s1f4c"), SubResource("Resource_qnj42"), SubResource("Resource_wf5a6"), SubResource("Resource_iolxv"), SubResource("Resource_q270s")]
+body = []

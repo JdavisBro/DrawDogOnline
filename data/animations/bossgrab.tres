@@ -1,0 +1,135 @@
+[gd_resource type="Resource" script_class="DogAnimation" load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://scripts/DogAnimationFrame.gd" id="1_c5ywe"]
+[ext_resource type="Script" path="res://scripts/DogAnimation.gd" id="2_uemx0"]
+
+[sub_resource type="Resource" id="Resource_x525q"]
+script = ExtResource("1_c5ywe")
+rotation = 3.84
+position = Vector2(-4.9, -10.55)
+
+[sub_resource type="Resource" id="Resource_obtyq"]
+script = ExtResource("1_c5ywe")
+rotation = 4.53
+position = Vector2(-3.8, -159.35)
+
+[sub_resource type="Resource" id="Resource_pll5i"]
+script = ExtResource("1_c5ywe")
+rotation = 4.53
+position = Vector2(0, -211.7)
+
+[sub_resource type="Resource" id="Resource_kdy65"]
+script = ExtResource("1_c5ywe")
+rotation = 12.68
+position = Vector2(1.8, -248.65)
+
+[sub_resource type="Resource" id="Resource_vmhnx"]
+script = ExtResource("1_c5ywe")
+rotation = 10.94
+position = Vector2(-25.65, -275.9)
+
+[sub_resource type="Resource" id="Resource_f6lpu"]
+script = ExtResource("1_c5ywe")
+rotation = 39.32
+position = Vector2(-63.4, -266.8)
+
+[sub_resource type="Resource" id="Resource_5ieli"]
+script = ExtResource("1_c5ywe")
+rotation = 45.76
+position = Vector2(-88.35, -250.35)
+
+[sub_resource type="Resource" id="Resource_mxiwa"]
+script = ExtResource("1_c5ywe")
+rotation = 54.86
+position = Vector2(-98.65, -244.4)
+
+[sub_resource type="Resource" id="Resource_b28gd"]
+script = ExtResource("1_c5ywe")
+rotation = 63.81
+position = Vector2(-93.3, -234.65)
+
+[sub_resource type="Resource" id="Resource_j3bsd"]
+script = ExtResource("1_c5ywe")
+rotation = 69.76
+position = Vector2(-87.8, -231.45)
+
+[sub_resource type="Resource" id="Resource_5mch0"]
+script = ExtResource("1_c5ywe")
+rotation = 71.66
+position = Vector2(-82.9, -233.8)
+
+[sub_resource type="Resource" id="Resource_waqxo"]
+script = ExtResource("1_c5ywe")
+rotation = 71.8
+position = Vector2(-82.8, -233.6)
+
+[sub_resource type="Resource" id="Resource_dfdcm"]
+script = ExtResource("1_c5ywe")
+rotation = 30.78
+position = Vector2(-3.05, -45.6)
+
+[sub_resource type="Resource" id="Resource_omegy"]
+script = ExtResource("1_c5ywe")
+rotation = 43.05
+position = Vector2(-0.75, -195.65)
+
+[sub_resource type="Resource" id="Resource_1jby4"]
+script = ExtResource("1_c5ywe")
+rotation = 45.75
+position = Vector2(3.15, -242.7)
+
+[sub_resource type="Resource" id="Resource_jiifs"]
+script = ExtResource("1_c5ywe")
+rotation = 7.39
+position = Vector2(-1.6, -283.4)
+
+[sub_resource type="Resource" id="Resource_2pw5y"]
+script = ExtResource("1_c5ywe")
+rotation = 1.95
+position = Vector2(-32.5, -309.65)
+
+[sub_resource type="Resource" id="Resource_rvfbi"]
+script = ExtResource("1_c5ywe")
+rotation = -36.35
+position = Vector2(-79.7, -295.15)
+
+[sub_resource type="Resource" id="Resource_c5a2g"]
+script = ExtResource("1_c5ywe")
+rotation = -60.95
+position = Vector2(-112.1, -277.05)
+
+[sub_resource type="Resource" id="Resource_l268t"]
+script = ExtResource("1_c5ywe")
+rotation = -77.89
+position = Vector2(-125.6, -265.05)
+
+[sub_resource type="Resource" id="Resource_dwab5"]
+script = ExtResource("1_c5ywe")
+rotation = -86.79
+position = Vector2(-122.45, -250.55)
+
+[sub_resource type="Resource" id="Resource_n2ah8"]
+script = ExtResource("1_c5ywe")
+rotation = -80.84
+position = Vector2(-116, -247.5)
+
+[sub_resource type="Resource" id="Resource_arvfp"]
+script = ExtResource("1_c5ywe")
+rotation = -67.67
+position = Vector2(-108.7, -248.4)
+
+[sub_resource type="Resource" id="Resource_hqiy5"]
+script = ExtResource("1_c5ywe")
+rotation = -69.62
+position = Vector2(-109.5, -248.85)
+
+[resource]
+script = ExtResource("2_uemx0")
+origin = Vector2(354, 536)
+ear = "sprDog_bossgrab_ear"
+A = "sprDog_bossgrab_A"
+B = "sprDog_bossgrab_B"
+loop = "bosshold"
+bounce = 0.0
+head = [SubResource("Resource_dfdcm"), SubResource("Resource_omegy"), SubResource("Resource_1jby4"), SubResource("Resource_jiifs"), SubResource("Resource_2pw5y"), SubResource("Resource_rvfbi"), SubResource("Resource_c5a2g"), SubResource("Resource_l268t"), SubResource("Resource_dwab5"), SubResource("Resource_n2ah8"), SubResource("Resource_arvfp"), SubResource("Resource_hqiy5")]
+body = [SubResource("Resource_x525q"), SubResource("Resource_obtyq"), SubResource("Resource_pll5i"), SubResource("Resource_kdy65"), SubResource("Resource_vmhnx"), SubResource("Resource_f6lpu"), SubResource("Resource_5ieli"), SubResource("Resource_mxiwa"), SubResource("Resource_b28gd"), SubResource("Resource_j3bsd"), SubResource("Resource_5mch0"), SubResource("Resource_waqxo")]

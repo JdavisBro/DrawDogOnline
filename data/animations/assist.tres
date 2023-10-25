@@ -1,0 +1,135 @@
+[gd_resource type="Resource" script_class="DogAnimation" load_steps=27 format=3]
+
+[ext_resource type="Script" path="res://scripts/DogAnimationFrame.gd" id="1_qwg0r"]
+[ext_resource type="Script" path="res://scripts/DogAnimation.gd" id="2_svhi0"]
+
+[sub_resource type="Resource" id="Resource_lrwg4"]
+script = ExtResource("1_qwg0r")
+rotation = 22.83
+position = Vector2(-15.35, -3.7)
+
+[sub_resource type="Resource" id="Resource_vwysw"]
+script = ExtResource("1_qwg0r")
+rotation = 21.61
+position = Vector2(-15.35, -3.7)
+
+[sub_resource type="Resource" id="Resource_pst2o"]
+script = ExtResource("1_qwg0r")
+rotation = 19.27
+position = Vector2(-14.5, -3.7)
+
+[sub_resource type="Resource" id="Resource_etvsy"]
+script = ExtResource("1_qwg0r")
+rotation = 6.76
+position = Vector2(-11.25, -4)
+
+[sub_resource type="Resource" id="Resource_vnj46"]
+script = ExtResource("1_qwg0r")
+rotation = 8.58
+position = Vector2(-5.4, -7.9)
+
+[sub_resource type="Resource" id="Resource_jsmyj"]
+script = ExtResource("1_qwg0r")
+rotation = 13.28
+position = Vector2(8.7, -13.25)
+
+[sub_resource type="Resource" id="Resource_ditdu"]
+script = ExtResource("1_qwg0r")
+rotation = 12.91
+position = Vector2(19, -20.8)
+
+[sub_resource type="Resource" id="Resource_t4aa0"]
+script = ExtResource("1_qwg0r")
+rotation = 4.73
+position = Vector2(22.85, -27.45)
+
+[sub_resource type="Resource" id="Resource_60xbd"]
+script = ExtResource("1_qwg0r")
+rotation = 1.52
+position = Vector2(24.05, -23.95)
+
+[sub_resource type="Resource" id="Resource_3en1x"]
+script = ExtResource("1_qwg0r")
+rotation = 3.0
+position = Vector2(22.15, -15.2)
+
+[sub_resource type="Resource" id="Resource_qyhha"]
+script = ExtResource("1_qwg0r")
+rotation = 6.21
+position = Vector2(22.15, -9.95)
+
+[sub_resource type="Resource" id="Resource_vrcbb"]
+script = ExtResource("1_qwg0r")
+rotation = 1.23
+position = Vector2(21.8, -11)
+
+[sub_resource type="Resource" id="Resource_n3xq0"]
+script = ExtResource("1_qwg0r")
+rotation = 1.67
+position = Vector2(-23.15, -38.15)
+
+[sub_resource type="Resource" id="Resource_yr132"]
+script = ExtResource("1_qwg0r")
+rotation = 1.38
+position = Vector2(-23.1, -38.55)
+
+[sub_resource type="Resource" id="Resource_je52e"]
+script = ExtResource("1_qwg0r")
+rotation = -1.67
+position = Vector2(-20.55, -38.75)
+
+[sub_resource type="Resource" id="Resource_4dmu0"]
+script = ExtResource("1_qwg0r")
+rotation = -6.83
+position = Vector2(-13.2, -38.4)
+
+[sub_resource type="Resource" id="Resource_4x6bu"]
+script = ExtResource("1_qwg0r")
+rotation = -13.16
+position = Vector2(-2.4, -41)
+
+[sub_resource type="Resource" id="Resource_rt8ym"]
+script = ExtResource("1_qwg0r")
+rotation = -11.41
+position = Vector2(12.6, -47.35)
+
+[sub_resource type="Resource" id="Resource_mlptf"]
+script = ExtResource("1_qwg0r")
+rotation = -12.96
+position = Vector2(25.05, -57)
+
+[sub_resource type="Resource" id="Resource_meupy"]
+script = ExtResource("1_qwg0r")
+rotation = -16.68
+position = Vector2(26.3, -62.1)
+
+[sub_resource type="Resource" id="Resource_mxluh"]
+script = ExtResource("1_qwg0r")
+rotation = -17.9
+position = Vector2(25.9, -59.35)
+
+[sub_resource type="Resource" id="Resource_fe6f8"]
+script = ExtResource("1_qwg0r")
+rotation = -11.94
+position = Vector2(22.5, -49.2)
+
+[sub_resource type="Resource" id="Resource_vxu0f"]
+script = ExtResource("1_qwg0r")
+rotation = -1.27
+position = Vector2(25.5, -41.75)
+
+[sub_resource type="Resource" id="Resource_go3by"]
+script = ExtResource("1_qwg0r")
+rotation = -0.32
+position = Vector2(23.85, -44.9)
+
+[resource]
+script = ExtResource("2_svhi0")
+origin = Vector2(75, 130)
+ear = "sprDog_assist_ear"
+A = "sprDog_assist_A"
+B = "sprDog_assist_B"
+loop = "idle"
+bounce = 0.0
+head = [SubResource("Resource_n3xq0"), SubResource("Resource_yr132"), SubResource("Resource_je52e"), SubResource("Resource_4dmu0"), SubResource("Resource_4x6bu"), SubResource("Resource_rt8ym"), SubResource("Resource_mlptf"), SubResource("Resource_meupy"), SubResource("Resource_mxluh"), SubResource("Resource_fe6f8"), SubResource("Resource_vxu0f"), SubResource("Resource_go3by")]
+body = [SubResource("Resource_lrwg4"), SubResource("Resource_vwysw"), SubResource("Resource_pst2o"), SubResource("Resource_etvsy"), SubResource("Resource_vnj46"), SubResource("Resource_jsmyj"), SubResource("Resource_ditdu"), SubResource("Resource_t4aa0"), SubResource("Resource_60xbd"), SubResource("Resource_3en1x"), SubResource("Resource_qyhha"), SubResource("Resource_vrcbb")]

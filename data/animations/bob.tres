@@ -1,0 +1,55 @@
+[gd_resource type="Resource" script_class="DogAnimation" load_steps=11 format=3]
+
+[ext_resource type="Script" path="res://scripts/DogAnimationFrame.gd" id="1_go70x"]
+[ext_resource type="Script" path="res://scripts/DogAnimation.gd" id="2_jit8v"]
+
+[sub_resource type="Resource" id="Resource_rbeoy"]
+script = ExtResource("1_go70x")
+rotation = -9.72
+position = Vector2(0.3, 0.75)
+
+[sub_resource type="Resource" id="Resource_onw3t"]
+script = ExtResource("1_go70x")
+rotation = -10.17
+position = Vector2(0.3, 1.05)
+
+[sub_resource type="Resource" id="Resource_yfab8"]
+script = ExtResource("1_go70x")
+rotation = -11.2
+position = Vector2(0.3, 2.05)
+
+[sub_resource type="Resource" id="Resource_j5812"]
+script = ExtResource("1_go70x")
+rotation = -10.95
+position = Vector2(0.3, 2.8)
+
+[sub_resource type="Resource" id="Resource_46csg"]
+script = ExtResource("1_go70x")
+rotation = -9.72
+position = Vector2(0.3, 2.95)
+
+[sub_resource type="Resource" id="Resource_c11hr"]
+script = ExtResource("1_go70x")
+rotation = -9.28
+position = Vector2(0.3, 2.05)
+
+[sub_resource type="Resource" id="Resource_rpwi6"]
+script = ExtResource("1_go70x")
+rotation = -8.57
+position = Vector2(0.3, 1)
+
+[sub_resource type="Resource" id="Resource_72yto"]
+script = ExtResource("1_go70x")
+rotation = -8.77
+position = Vector2(0.3, 0.7)
+
+[resource]
+script = ExtResource("2_jit8v")
+origin = Vector2(75, 130)
+ear = "sprDog_bob_ear"
+A = "sprDog_bob_A"
+B = "sprDog_bob_B"
+loop = "1"
+bounce = 0.0
+head = [SubResource("Resource_rbeoy"), SubResource("Resource_onw3t"), SubResource("Resource_yfab8"), SubResource("Resource_j5812"), SubResource("Resource_46csg"), SubResource("Resource_c11hr"), SubResource("Resource_rpwi6"), SubResource("Resource_72yto")]
+body = []

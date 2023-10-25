@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="DogAnimation" load_steps=5 format=3]
+
+[ext_resource type="Script" path="res://scripts/DogAnimationFrame.gd" id="1_ordsq"]
+[ext_resource type="Script" path="res://scripts/DogAnimation.gd" id="2_q7by4"]
+
+[sub_resource type="Resource" id="Resource_3frrg"]
+script = ExtResource("1_ordsq")
+rotation = -10.76
+position = Vector2(-22.55, -8.85)
+
+[sub_resource type="Resource" id="Resource_3d2ex"]
+script = ExtResource("1_ordsq")
+rotation = -0.9
+position = Vector2(-21.85, -43.05)
+
+[resource]
+script = ExtResource("2_q7by4")
+origin = Vector2(91, 130)
+ear = "sprDog_brushride_still_ear"
+A = "sprDog_brushride_still_A"
+B = "sprDog_brushride_still_B"
+loop = "0"
+bounce = 0.0
+head = [SubResource("Resource_3d2ex")]
+body = [SubResource("Resource_3frrg")]

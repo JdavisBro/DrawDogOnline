@@ -1,0 +1,95 @@
+[gd_resource type="Resource" script_class="DogAnimation" load_steps=19 format=3]
+
+[ext_resource type="Script" path="res://scripts/DogAnimationFrame.gd" id="1_8hyij"]
+[ext_resource type="Script" path="res://scripts/DogAnimation.gd" id="2_f3v1b"]
+
+[sub_resource type="Resource" id="Resource_e1dea"]
+script = ExtResource("1_8hyij")
+rotation = -2.94
+position = Vector2(-4, -9.9)
+
+[sub_resource type="Resource" id="Resource_vom7d"]
+script = ExtResource("1_8hyij")
+rotation = -3.39
+position = Vector2(-3.8, -9.9)
+
+[sub_resource type="Resource" id="Resource_wt5n7"]
+script = ExtResource("1_8hyij")
+rotation = -3.39
+position = Vector2(-3.6, -9.9)
+
+[sub_resource type="Resource" id="Resource_yhcpd"]
+script = ExtResource("1_8hyij")
+rotation = -3.39
+position = Vector2(-3.2, -9.7)
+
+[sub_resource type="Resource" id="Resource_tfugu"]
+script = ExtResource("1_8hyij")
+rotation = -3.72
+position = Vector2(-3, -9.7)
+
+[sub_resource type="Resource" id="Resource_xbetm"]
+script = ExtResource("1_8hyij")
+rotation = -4.1
+position = Vector2(-3.4, -9.9)
+
+[sub_resource type="Resource" id="Resource_35wlx"]
+script = ExtResource("1_8hyij")
+rotation = -3.42
+position = Vector2(-3.8, -9.9)
+
+[sub_resource type="Resource" id="Resource_t0cgy"]
+script = ExtResource("1_8hyij")
+rotation = -3.12
+position = Vector2(-3.8, -9.9)
+
+[sub_resource type="Resource" id="Resource_el0ff"]
+script = ExtResource("1_8hyij")
+rotation = 23.18
+position = Vector2(1.5, -42.05)
+
+[sub_resource type="Resource" id="Resource_r2nup"]
+script = ExtResource("1_8hyij")
+rotation = 23.18
+position = Vector2(1.9, -42.05)
+
+[sub_resource type="Resource" id="Resource_unxub"]
+script = ExtResource("1_8hyij")
+rotation = 23.18
+position = Vector2(2.3, -41.85)
+
+[sub_resource type="Resource" id="Resource_oood7"]
+script = ExtResource("1_8hyij")
+rotation = 23.18
+position = Vector2(2.9, -41.25)
+
+[sub_resource type="Resource" id="Resource_ql7qj"]
+script = ExtResource("1_8hyij")
+rotation = 23.18
+position = Vector2(2.9, -41.05)
+
+[sub_resource type="Resource" id="Resource_nyqcs"]
+script = ExtResource("1_8hyij")
+rotation = 23.18
+position = Vector2(2.7, -41.25)
+
+[sub_resource type="Resource" id="Resource_a1y2n"]
+script = ExtResource("1_8hyij")
+rotation = 23.18
+position = Vector2(1.9, -41.65)
+
+[sub_resource type="Resource" id="Resource_dmaej"]
+script = ExtResource("1_8hyij")
+rotation = 23.18
+position = Vector2(1.7, -41.85)
+
+[resource]
+script = ExtResource("2_f3v1b")
+origin = Vector2(75, 130)
+ear = "sprDog_slouch_ear"
+A = "sprDog_slouch_A"
+B = "sprDog_slouch_B"
+loop = "1"
+bounce = 0.772727
+head = [SubResource("Resource_el0ff"), SubResource("Resource_r2nup"), SubResource("Resource_unxub"), SubResource("Resource_oood7"), SubResource("Resource_ql7qj"), SubResource("Resource_nyqcs"), SubResource("Resource_a1y2n"), SubResource("Resource_dmaej")]
+body = [SubResource("Resource_e1dea"), SubResource("Resource_vom7d"), SubResource("Resource_wt5n7"), SubResource("Resource_yhcpd"), SubResource("Resource_tfugu"), SubResource("Resource_xbetm"), SubResource("Resource_35wlx"), SubResource("Resource_t0cgy")]
