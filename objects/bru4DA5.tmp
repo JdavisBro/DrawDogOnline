@@ -1,0 +1,53 @@
+[gd_scene load_steps=3 format=3 uid="uid://d21m8qkv2atq5"]
+
+[ext_resource type="Script" path="res://objects/brush.gd" id="1_e6fv8"]
+
+[sub_resource type="GDScript" id="GDScript_i1hb8"]
+script/source = "extends MeshInstance2D
+
+var polygon = PackedVector2Array()
+var color = Color(255,0,0)
+
+const QUAL = 24
+const RAD = 36
+
+func _ready():
+	var last_one
+	var last_two
+
+	var rot = 0
+	for i in range(QUAL):
+		var a = (rot + ((360 * i) / QUAL))
+		var lx = Vector2(1,0).rotated(a).x
+		var ly = Vector2(0.5,0).rotated(a).y
+		
+		var new_two = Vector2(lx * RAD, ly * RAD)
+		var new_one = Vector2(lx * RAD / 2, ly * RAD / 2)
+		if last_one:
+			pass
+			#polygon.append(last_one)
+			#polygon.append(last_two)
+			#polygon.append(new_one)
+			#polygon.append(last_two)
+		polygon.append(new_one)
+		polygon.append(new_two)
+		
+		last_one = new_one
+		last_two = new_two
+	#draw_polygon(polygon, PackedColorArray([color]))
+	#draw_polyline(polygon, color)
+	var surface_array = []
+	surface_array.resize(Mesh.ARRAY_MAX)
+	surface_array[Mesh.ARRAY_VERTEX] = polygon
+	var arr_mesh = ArrayMesh.new()
+	arr_mesh.add_surface_from_arrays(Mesh.PRIMITIVE_TRIANGLE_STRIP, surface_array)
+	mesh = arr_mesh
+
+"
+
+[node name="brush" type="Node2D"]
+script = ExtResource("1_e6fv8")
+
+[node name="circle" type="MeshInstance2D" parent="."]
+position = Vector2(50, 50)
+script = SubResource("GDScript_i1hb8")

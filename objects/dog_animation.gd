@@ -7,9 +7,13 @@ extends Node2D
 var animation: DogAnimation
 var animation_name: String
 
-var frame = 0
+var frame = 0.0
 var previous_f = -1
 var flip = false : set = _set_flip
+
+var speed_scale = 1.0
+
+var tween
 
 var sprites_A := []
 var sprites_B := []
@@ -22,18 +26,33 @@ var sprites_ear := []
 @onready var ear = $ear
 @onready var hat = $hat
 
+const FLIP_TIME = 0.08
+
+func flip_tween(val):
+	if scale.x != val:
+		if tween:
+			tween.kill()
+		tween = get_tree().create_tween()
+		tween.tween_property(self, "scale:x", val, FLIP_TIME).set_ease(tween.EASE_OUT).set_trans(tween.TRANS_SINE)
+
 func _set_flip(value):
-	flip = value
-	for i in [B, body, A, head, ear, hat]: # Add _1s and stuff here
-		i.flip_h = value
+	if flip != value:
+		flip = value
+		if flip:
+			flip_tween(-1)
+		elif scale.x != 1:
+			flip_tween(1)
 
 func _ready():
 	play("idle")
+	for anim in ["run", "runup"]:
+		for l in [["A", Global.loaded_sprites_A], ["B", Global.loaded_sprites_B], ["ear", Global.loaded_sprites_ear]]:
+			load_frames(anim, l[0], l[1])
 
 func _process(delta):
 	var f = int(frame / 10)
 	if f == previous_f:
-		frame += 1
+		frame += 60 * delta * animation.speed_scale * speed_scale
 		return
 	previous_f = f
 	if f >= len(sprites_ear): # All animations have an ear so checking this is best
@@ -66,47 +85,54 @@ func _process(delta):
 			"ear":
 				if sprites_ear:
 					ear.texture = sprites_ear[f]
-	frame += 1
+	frame += 60 * delta * animation.speed_scale * speed_scale
+
+func load_frames(anim, layer, loaded):
+	if anim in loaded:
+		return loaded[anim]
+	var frames = []
+	var i = 0
+	var path = "res://assets/chicory/dog/%s/%s/%02d.png" % [anim, layer, i]
+	while ResourceLoader.exists(path):
+		frames.append(ResourceLoader.load(path))
+		i += 1
+		path = "res://assets/chicory/dog/%s/%s/%02d.png" % [anim, layer, i]
+	loaded[anim] = frames
+	return frames
 
 func play(anim):
-	if ResourceLoader.exists("res://data/animations/" + anim + ".tres"):
-		animation = ResourceLoader.load("res://data/animations/" + anim + ".tres")
-		animation_name = anim
-		frame = 0
-		previous_f = -1
-		for i in [B, A, ear]:
-			if anim == "idle":
-				i.offset = Vector2(-animation.origin.x / 5, -animation.origin.y / 5)
-			else:
-				i.offset = Vector2(-animation.origin.x, -animation.origin.y)
-		for layer in ["B", "A", "ear"]:
-			var frames = []
-			var i = 0
-			var path = "res://assets/chicory/dog/%s/%s/%02d.png" % [animation_name, layer, i]
-			while ResourceLoader.exists(path):
-				frames.append(ResourceLoader.load(path))
-				print(path)
-				i += 1
-				path = "res://assets/chicory/dog/%s/%s/%02d.png" % [animation_name, layer, i]
-			match layer:
-				"B":
-					sprites_B = frames
-					if frames.is_empty(): # Not all animations have a B
-						B.texture = null
-						B.visible = false
-					else:
-						B.texture = frames[0]
-						B.visible = true
-				"A":
-					sprites_A = frames
-					if frames.is_empty(): # Not all animations have an A
-						A.texture = null
-						A.visible = false
-					else:
-						A.texture = frames[0]
-						A.visible = true
-				"ear":
-					sprites_ear = frames
-					ear.texture = frames[0] # All animations have an ear, thank god
-	else:
+	if not ResourceLoader.exists("res://data/animations/" + anim + ".tres"):
 		push_warning("Animation not found " + anim)
+		return
+	animation = ResourceLoader.load("res://data/animations/" + anim + ".tres")
+	animation_name = anim
+	frame = 0
+	previous_f = -1
+	for i in [B, A, ear]:
+		if anim == "idle":
+			i.offset = Vector2(-animation.origin.x / 5, -animation.origin.y / 5)
+		else:
+			i.offset = Vector2(-animation.origin.x, -animation.origin.y)
+	var frames = load_frames(anim, "B", Global.loaded_sprites_B)
+	sprites_B = frames
+	if frames.is_empty(): # Not all animations have a B
+		B.texture = null
+		B.visible = false
+	else:
+		B.texture = frames[0]
+		B.visible = true
+	frames = load_frames(anim, "A", Global.loaded_sprites_A)
+	sprites_A = frames
+	if frames.is_empty(): # Not all animations have an A
+		A.texture = null
+		A.visible = false
+	else:
+		A.texture = frames[0]
+		A.visible = true
+	frames = load_frames(anim, "ear", Global.loaded_sprites_ear)
+	sprites_ear = frames
+	ear.texture = frames[0] # All animations have an ear, thank god
+
+func play_if_not(anim):
+	if animation_name != anim:
+		play(anim)

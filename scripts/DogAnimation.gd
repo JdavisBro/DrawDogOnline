@@ -9,3 +9,4 @@ extends Resource
 @export var bounce: float = 0.0
 @export var head: Array = []
 @export var body: Array = []
+@export var speed_scale: float = 1.0

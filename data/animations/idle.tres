@@ -93,3 +93,4 @@ loop = "1"
 bounce = 0.0
 head = [SubResource("Resource_hp02u"), SubResource("Resource_3awra"), SubResource("Resource_oegh8"), SubResource("Resource_q6xq3"), SubResource("Resource_mk5wl"), SubResource("Resource_hogf5"), SubResource("Resource_j3k1n"), SubResource("Resource_0qqpj")]
 body = [SubResource("Resource_sylbt"), SubResource("Resource_s2lfk"), SubResource("Resource_mr34o"), SubResource("Resource_0e7tb"), SubResource("Resource_8k7r5"), SubResource("Resource_rxcnj"), SubResource("Resource_a5n30"), SubResource("Resource_ldq57")]
+speed_scale = 1.0

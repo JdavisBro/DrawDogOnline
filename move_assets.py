@@ -105,17 +105,17 @@ for fp in export.glob("sprDog_expression_*.png"):
     new.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(fp, new)
 
-im = Image.new("RGBA", (12*4, 12*4), color=(0,0,0,0))
-for i, fp in enumerate(sorted(export.glob("sprMsquare_*.png"), key=lambda a: int(a.stem.split("_")[-1]))):
-    frame = int(fp.stem.split("_")[-1])
-    im2 = Image.open(fp)
-    im.paste(im2, ((i+1) % 4 * 12, (i+1)//4 * 12))
+# im = Image.new("RGBA", (12*4, 12*4), color=(0,0,0,0))
+# for i, fp in enumerate(sorted(export.glob("sprMsquare_*.png"), key=lambda a: int(a.stem.split("_")[-1]))):
+#     frame = int(fp.stem.split("_")[-1])
+#     im2 = Image.open(fp)
+#     im.paste(im2, ((i+1) % 4 * 12, (i+1)//4 * 12))
 
-    # new = out / "paint" / f"{frame:02}.png"
-    # new.parent.mkdir(parents=True, exist_ok=True)
-    # shutil.copy(fp, new)
+#     # new = out / "paint" / f"{frame:02}.png"
+#     # new.parent.mkdir(parents=True, exist_ok=True)
+#     # shutil.copy(fp, new)
 
-im.save(out / "paint.png")
+# im.save(out / "paint.png")
 
 shutil.copy(export / "sprRainbownoise_0.png", out / "paintnoise.png")
 

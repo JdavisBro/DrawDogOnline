@@ -1,0 +1,42 @@
+[gd_scene load_steps=3 format=3 uid="uid://d21m8qkv2atq5"]
+
+[ext_resource type="Script" path="res://objects/brush.gd" id="1_e6fv8"]
+
+[sub_resource type="GDScript" id="GDScript_i1hb8"]
+script/source = "extends Node2D
+
+var polygon = PackedVector2Array()
+var color = Color(255,0,0)
+
+const QUAL = 24
+const RAD = 36
+
+func _draw():
+	var last_one
+	var last_two
+	for i in range(QUAL):
+		var a = 2 * PI * i / QUAL
+		var lx = cos(a)
+		var ly = -sin(a)
+		
+		var new_two = Vector2(lx * RAD, ly * RAD)
+		var new_one = Vector2(lx * RAD / 2, ly * RAD / 2)
+		if last_one:
+			polygon.append(last_one)
+			polygon.append(last_two)
+			polygon.append(new_one)
+			polygon.append(last_two)
+			polygon.append(new_one)
+			polygon.append(new_two)
+		
+		last_one = new_one
+		last_two = new_two
+	#draw_polygon(polygon, PackedColorArray([color]))
+	draw_polyline(polygon, color)
+"
+
+[node name="brush" type="Node2D"]
+script = ExtResource("1_e6fv8")
+
+[node name="circle" type="Node2D" parent="."]
+script = SubResource("GDScript_i1hb8")
