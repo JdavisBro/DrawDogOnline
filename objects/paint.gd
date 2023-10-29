@@ -53,19 +53,27 @@ func _process(delta):
 		map.material.set_shader_parameter("boil", randf())
 		boil_timer = fmod(boil_timer, 0.25)
 	if update_needed:
-		for y in range(update_rect.position.y, min(update_rect.end.y, size.y-1)):
-			for x in range(update_rect.position.x, min(update_rect.end.x, size.x-1)):
-				if not updated[y][x] or not updated[y][x+1] or not updated[y+1][x] or not updated[y+1][x+1]:
-					for i in range(len(palette)):
-						map.set_cell(i, Vector2(x, y))
-					var spot = paint[y][x]
-					var donecol = []
-					for color in [paint[y][x], paint[y][x+1], paint[y+1][x+1], paint[y+1][x]]:
-						if color not in donecol and color > 0:
-							donecol.append(color)
-							var val = int(spot == color) + (int(paint[y][x+1] == color) << 1) + (int(paint[y+1][x+1] == color) << 2) + (int(paint[y+1][x] == color) << 3) 
-							if val > 0:
-								@warning_ignore("integer_division")
-								map.set_cell(color-1, Vector2(x, y), 0, Vector2((val) % 4, (val)/4))
-					updated[y][x] = true
+#		update_rect.position = update_rect.position.clamp(Vector2.ZERO, size-Vector2.ONE)
+#		update_rect.end = update_rect.end.clamp(Vector2.ZERO, size-Vector2.ONE)
+#		PaintUtilsCs.UpdatePaint(update_rect, paint, updated, map, palette)# not actually faster?
+#		update_needed = false
+		var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
+		if not newrect.encloses(update_rect):
+			update_rect = newrect
+		for y in range(update_rect.position.y-1, update_rect.end.y): # -1 because we only render ones we can do msquares of
+			for x in range(update_rect.position.x-1, update_rect.end.x):
+				if updated[y][x]:
+					continue
+				for i in range(len(palette)):
+					map.set_cell(i, Vector2(x, y))
+				var donecol = []
+				for color in [paint[y][x], paint[y][x+1], paint[y+1][x], paint[y+1][x+1]]:
+					if color in donecol or color == 0:
+						continue
+					donecol.append(color)
+					var val = int(paint[y][x] == color) + (int(paint[y][x+1] == color) << 1) + (int(paint[y+1][x+1] == color) << 2) + (int(paint[y+1][x] == color) << 3) 
+					if val > 0:
+						@warning_ignore("integer_division")
+						map.set_cell(color-1, Vector2(x, y), 0, Vector2((val) % 4, (val) / 4))
+				updated[y][x] = true
 		update_needed = false

@@ -1,7 +1,7 @@
 extends Node
 
 func ensure_bounds(size: Vector2, position: Vector2):
-	var newpos = position.clamp(Vector2.ZERO, size-Vector2.ONE)
+	var newpos = position.clamp(Vector2.ZERO, size-Vector2.ONE).floor()
 	if newpos != position:
 		pass#push_warning("Paint drawing out of paint bounds.")
 	return newpos
@@ -11,10 +11,9 @@ func ensure_rect_bounds(size: Vector2, rect: Rect2):
 	if paint_rect.encloses(rect):
 		return rect
 	pass#push_warning("Paint rect drawing out of paint bounds.")
-	var new_rect = Rect2(rect.position.clamp(Vector2.ZERO, size), Vector2.ONE)
+	var new_rect = Rect2(rect.position.clamp(Vector2.ZERO, size), Vector2.ZERO)
 	new_rect.end = rect.end.clamp(Vector2.ZERO, size)
 	return new_rect
-	
 
 func update_pos(paint, color: int, position: Vector2):
 	position = ensure_bounds(paint.size, position)
@@ -22,15 +21,17 @@ func update_pos(paint, color: int, position: Vector2):
 		return
 	paint.paint[position.y][position.x] = color
 	paint.updated[position.y][position.x] = false
+	paint.updated[position.y][position.x-1] = false
+	paint.updated[position.y-1][position.x] = false
+	paint.updated[position.y-1][position.x-1] = false
 	if not paint.update_needed:
 		paint.update_rect = Rect2(position - Vector2.ONE, Vector2.ONE*2)
-	paint.update_rect = paint.update_rect.expand(position+Vector2.ONE)
-	paint.update_rect = paint.update_rect.expand(position-Vector2.ONE)
+	else:
+		paint.update_rect = paint.update_rect.merge(Rect2(position - Vector2.ONE, Vector2.ONE*2))
 	paint.update_needed = true
 
 func draw_rect(paint, color: int, rect: Rect2):
 	rect = ensure_rect_bounds(paint.size, rect)
-	print(rect.position, rect.end)
 	for x in range(rect.position.x, rect.end.x):
 		for y in range(rect.position.y, rect.end.y):
 			var position = Vector2(x, y)
@@ -66,49 +67,3 @@ func draw_line(paint, color: int, start: Vector2, end: Vector2, thickness: int=1
 		if position == end:
 			break
 		position = position.move_toward(end, 0.75)
-
-func flood_from(paint, color: int, center: Vector2, min_dist: int, max_dist: int):
-	center = center.floor() # ehh maybe do this better but i kinda don't care
-	draw_rect(paint, color, Rect2(center.x + max_dist/2, center.y + max_dist/4, 1, 1).expand(Vector2(center.x + min_dist/2, center.y - max_dist/4))) # RIGHT
-	draw_rect(paint, color, Rect2(center.x - max_dist/2, center.y + max_dist/4, 1, 1).expand(Vector2(center.x - min_dist/2, center.y - max_dist/4))) # LEFT
-	draw_rect(paint, color, Rect2(center.x - max_dist/4, center.y - max_dist/2, 1, 1).expand(Vector2(center.x + max_dist/4, center.y - min_dist/2))) # UP
-	draw_rect(paint, color, Rect2(center.x - max_dist/4, center.y + max_dist/2, 1, 1).expand(Vector2(center.x + max_dist/4, center.y + min_dist/2))) # DOWN
-	var corners = [
-		Vector2(1,1), Vector2(-1,1), Vector2(1,-1), Vector2(-1,-1)
-	]
-	var add = Vector2(0,1)
-	
-	for corner in corners:
-		var minpos1 = Vector2(center.x + (min_dist/2 * corner.x), center.y + (min_dist/4 * corner.y))
-		var minpos2 = Vector2(center.x + (min_dist/4 * corner.x), center.y + (min_dist/2 * corner.y))
-		var maxpos1 = Vector2(center.x + (max_dist/2 * corner.x), center.y + (max_dist/4 * corner.y))+add
-		var maxpos2 = Vector2(center.x + (max_dist/4 * corner.x), center.y + (max_dist/2 * corner.y))+add
-		var mid1 = minpos1.lerp(maxpos1, 0.5)
-		var mid2 = minpos2.lerp(maxpos2, 0.5)
-		var thickness = floor(minpos1.distance_to(maxpos1))
-		draw_line(paint, color, mid1, mid2, thickness)
-		add = Vector2.ZERO
-
-#	var flood_pos = [position]
-#	print(position)
-#	var flood_done = []
-#	while flood_pos:
-#		position = flood_pos[-1]
-#		var dist = center.distance_to(position)
-#		if dist > max_dist:
-#			flood_pos.erase(position)
-#			flood_done.append(position)
-#			continue
-#		if dist < min_dist:
-#			flood_pos.erase(position)
-#			flood_done.append(position)
-#			flood_pos.append(position+Vector2(1,0))
-#			continue
-#		if dist >= min_dist:
-#			update_pos(paint, color, position)
-#		flood_done.append(position)
-#		flood_pos.erase(position)
-#		for pos in [position+Vector2(-1, 0), position+Vector2(1,0), position+Vector2(0, 1), position+Vector2(0,-1),position+Vector2(-1, 1),position+Vector2(-1, -1)]:
-#			if pos in flood_done or pos in flood_pos or center.distance_to(pos) > max_dist and pos != center:
-#				continue
-#			flood_pos.append(pos)
