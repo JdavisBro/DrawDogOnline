@@ -34,6 +34,7 @@ tile_size = Vector2i(12, 12)
 sources/0 = SubResource("TileSetAtlasSource_odaiu")
 
 [node name="paint" type="Node2D"]
+z_index = -2
 script = ExtResource("1_km0p0")
 
 [node name="TileMap" type="TileMap" parent="."]

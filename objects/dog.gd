@@ -53,6 +53,8 @@ func change_sprite_by_velocity():
 func _physics_process(delta):
 	do_movement(delta)
 	
+	z_index = global_position.y
+	
 	change_sprite_by_velocity()
 	
 	if Input.is_action_just_pressed("fullscreen"):
@@ -63,4 +65,5 @@ func _physics_process(delta):
 
 func _ready():
 	brush = preload("res://objects/brush.tscn").instantiate()
+	brush.dog = self
 	get_node("..").add_child.call_deferred(brush)

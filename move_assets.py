@@ -119,6 +119,12 @@ for fp in export.glob("sprDog_expression_*.png"):
 
 shutil.copy(export / "sprRainbownoise_0.png", out / "paintnoise.png")
 
+for fp in export.glob("sprBrush_*.png"):
+    frame = int(fp.stem.split("_")[-1])
+    new = out / "brush" / f"{frame}.png"
+    new.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(fp, new)
+
 head = export / "sprDog_head_0.png"
 im = Image.new("RGBA", (750, 750))
 im2 = Image.open(head)

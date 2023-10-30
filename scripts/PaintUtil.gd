@@ -1,7 +1,7 @@
 extends Node
 
 func ensure_bounds(size: Vector2, position: Vector2):
-	var newpos = position.clamp(Vector2.ZERO, size-Vector2.ONE).floor()
+	var newpos = position.clamp(Vector2.ZERO, size-Vector2.ONE).round()
 	if newpos != position:
 		pass#push_warning("Paint drawing out of paint bounds.")
 	return newpos
@@ -38,9 +38,10 @@ func draw_rect(paint, color: int, rect: Rect2):
 			update_pos(paint, color, position)
 
 func draw_line(paint, color: int, start: Vector2, end: Vector2, thickness: int=1):
-	if start.distance_to(end) < 0.1:
+	if start.distance_to(end) == 0:
 		update_pos(paint, color, start)
 		return
+	prints(start - end, start.angle_to_point(end))
 	var position = start
 	@warning_ignore("integer_division")
 	var half_thickness = thickness / 2

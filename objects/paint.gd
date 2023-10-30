@@ -7,15 +7,12 @@ var paint := []
 var update_needed := true
 var update_rect := Rect2(Vector2.ZERO, size-Vector2.ONE)
 var updated := []
-var palette := [
-	Color("#00f3dd"), Color("#d8ff55"), Color("#ffa694"), Color("#b69aff"), Color(0,0,0)
-]
+var palette = Global.palette
 var boil_timer := 0.0
-
 
 @onready var map = $TileMap
 
-func random_paint():
+func clear_paint(random=false):
 	randomize()
 	paint = []
 	updated = []
@@ -23,7 +20,10 @@ func random_paint():
 		if i % int(size.x) == 0:
 			paint.append([])
 			updated.append([])
-		paint[-1].append(randi_range(0,4))
+		var col = 0
+		if random:
+			col = randi_range(0,4)
+		paint[-1].append(col)
 		updated[-1].append(false)
 		update_rect = Rect2(0,0,size.x,size.y)
 		update_needed = true
@@ -40,13 +40,13 @@ func setup_tilemap_layers():
 
 func _ready():
 	setup_tilemap_layers()
-	random_paint()
+	clear_paint()
 	if not Global.paint_target:
 		Global.paint_target = self
 
 func _process(delta):
 	if Input.is_action_just_pressed("ui_accept"):
-		random_paint()
+		clear_paint(true)
 	boil_timer += delta
 	randomize()
 	if boil_timer > 0.25:

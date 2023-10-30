@@ -6,6 +6,7 @@ var anims = ["idle", "run", "runup", "walk", "walkup", "jump", "hop_up", "hop_do
 @onready var animation = $AnimationManager
 
 func _process(delta):
+	z_index = global_position.x
 	var prev = anim
 	if Input.is_action_just_pressed("ui_left"):
 		anim -= 1

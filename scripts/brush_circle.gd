@@ -10,10 +10,7 @@ const RAD = 36
 
 @onready var brush = get_node("..")
 
-func _process(delta):
-	time_rot += ROT_SPEED*delta
-	time_rot = fmod(time_rot, 360)
-	
+func create_mesh():
 	color = Global.palette[brush.color_index]
 	
 	if color == Color.BLACK:
@@ -40,3 +37,11 @@ func _process(delta):
 			mesh.surface_add_vertex_2d(Vector2(lx * inner_rad, ly * inner_rad))
 		mesh.surface_set_color(Color(0,0,0))
 	mesh.surface_end()
+
+func _process(delta):
+	time_rot += ROT_SPEED*delta
+	time_rot = fmod(time_rot, 360)
+	
+	if visible:
+		create_mesh()
+

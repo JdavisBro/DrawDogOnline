@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bf5dgidotmx4e" path="res://assets/chicory/dog/idle/ear/00.png" id="8_tugl6"]
 
 [node name="Dog" type="Node2D"]
+y_sort_enabled = true
 script = ExtResource("1_cqfht")
 
 [node name="AnimationManager" type="Node2D" parent="."]
