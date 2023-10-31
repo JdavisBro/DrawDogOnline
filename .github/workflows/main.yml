@@ -2,7 +2,7 @@ name: "Export"
 on: push
 
 env:
-  GODOT_VERSION: 3.3.4
+  GODOT_VERSION: 4.2.1
   EXPORT_NAME: DrawDog
   PROJECT_PATH: .
   
