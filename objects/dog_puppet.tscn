@@ -10,7 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://bf5dgidotmx4e" path="res://assets/chicory/dog/idle/ear/00.png" id="8_tugl6"]
 [ext_resource type="PackedScene" uid="uid://wvf60gr2lk61" path="res://objects/brush_prop.tscn" id="9_opc51"]
 
-[node name="DogPuppet" type="Node2D"]
+[node name="DogPuppet" type="Node2D" groups=["dogpuppets"]]
 script = ExtResource("1_cqfht")
 
 [node name="AnimationManager" type="Node2D" parent="."]

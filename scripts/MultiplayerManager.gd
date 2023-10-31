@@ -61,6 +61,7 @@ func _on_connected_ok():
 	print("Connected")
 	connected = true
 	uid = multiplayer.get_unique_id()
+	me.position = level_scene.get_node("Dog").position
 	me.username = Global.username
 	move_to_level.rpc_id(1, me, Global.current_level)
 
@@ -190,16 +191,16 @@ func clent_level_moved(userinfo, level):
 	if server: return
 	if level != Global.current_level:
 		if pid in level_puppets:
-			level_puppets[pid].queue_free()
 			level_puppets.erase(pid)
+		get_tree().call_group("dogpuppets", "queue_free")
 	else:
 		add_puppet(pid, userinfo)
 
-@rpc("authority", "call_remote", "reliable")
+@rpc("authority", "call_remote", "reliable", 3)
 func complete_level_move(newpaint, puppets):
 	for puppet in level_puppets:
-		level_puppets[puppet].queue_free()
 		level_puppets.erase(puppet)
+	get_tree().call_group("dogpuppets", "queue_free")	
 	for pid in puppets:
 		if pid == uid: continue
 		add_puppet(pid, puppets[pid])
