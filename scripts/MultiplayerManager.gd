@@ -61,6 +61,7 @@ func _on_connected_ok():
 	print("Connected")
 	connected = true
 	uid = multiplayer.get_unique_id()
+	me.username = Global.username
 	move_to_level.rpc_id(1, me, Global.current_level)
 
 func _on_connected_fail():
@@ -92,7 +93,7 @@ func new_paint():
 	for i in range(Global.paint_total):
 		if i % int(Global.paint_size.x) == 0:
 			newpaint.append([])
-		newpaint[-1].append(randi_range(0,3))
+		newpaint[-1].append(0)
 	return newpaint
 	
 func load_level_paint(level):
@@ -184,7 +185,7 @@ func move_to_level(userinfo, level):
 		return server_move_to_level(pid, userinfo, level)
 
 @rpc("any_peer", "call_remote", "reliable")
-func cient_level_moved(userinfo, level):
+func clent_level_moved(userinfo, level):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
 	if level != Global.current_level:
@@ -205,7 +206,7 @@ func complete_level_move(newpaint, puppets):
 	Global.paint_target.clear_paint()
 	Global.paint_target.paint = newpaint
 	get_tree().paused = false
-	cient_level_moved.rpc(me, Global.current_level)
+	clent_level_moved.rpc(me, Global.current_level)
 
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func brush_update(position, drawing, color, size):

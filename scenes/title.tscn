@@ -11,8 +11,7 @@ func _on_join_button_pressed():
 	print(MultiplayerManager.me)
 	Global.username = $UsernameEnter.text.strip_edges()
 	print(Global.username)
-	var level = preload(\"res://scenes/level.tscn\").instantiate()
-	get_tree().get_root().add_child(level)
+	get_tree().change_scene_to_file(\"res://scenes/level.tscn\")
 	queue_free()
 	MultiplayerManager.start()
 "
