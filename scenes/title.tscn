@@ -5,9 +5,12 @@ script/source = "extends Control
 
 func _ready():
 	$IPEnter.placeholder_text = MultiplayerManager.DEFAULT_IP
+	$Status.text = MultiplayerManager.connection_status
 
 func _on_join_button_pressed():
-	MultiplayerManager.get_ip_port($IPEnter.text)
+	if not MultiplayerManager.get_ip_port($IPEnter.text):
+		$IPTitle.text = \"IP - Invalid:\"
+		return
 	print(MultiplayerManager.me)
 	Global.username = $UsernameEnter.text.strip_edges()
 	print(Global.username)
@@ -82,5 +85,14 @@ offset_bottom = 845.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Join"
+
+[node name="Status" type="Label" parent="."]
+layout_mode = 0
+offset_top = 956.0
+offset_right = 571.0
+offset_bottom = 1058.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+horizontal_alignment = 1
 
 [connection signal="pressed" from="JoinButton" to="." method="_on_join_button_pressed"]

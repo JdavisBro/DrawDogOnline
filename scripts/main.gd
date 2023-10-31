@@ -9,7 +9,11 @@ func process_arg(key, value=""):
 		MultiplayerManager.server = true
 		MultiplayerManager.port = MultiplayerManager.DEFAULT_PORT
 		if value != "default":
-			MultiplayerManager.port = str(int(value))
+			if value.is_valid_int():
+				MultiplayerManager.port = int(value)
+			else:
+				print("Port Invalid")
+				get_tree().quit()
 		get_tree().change_scene_to_file("res://scenes/server.tscn")
 		MultiplayerManager.start()
 		scene_changed = true
@@ -23,7 +27,6 @@ func _ready():
 	var key = ""
 	var getting_value = false
 	var args = OS.get_cmdline_args()
-	print(args)
 	for value in args:
 		if value.is_absolute_path(): continue
 		if not getting_value:

@@ -71,7 +71,7 @@ func connected():
 		for x in range(paint_diff_rect.position.x, paint_diff_rect.end.x + 1):
 			for y in range(paint_diff_rect.position.y, paint_diff_rect.end.y + 1):
 				newdiff += hex[paint_diff[y][x]]
-		MultiplayerManager.draw_diff.rpc(newdiff, paint_diff_rect, Global.current_level)
+		#MultiplayerManager.draw_diff.rpc(newdiff, paint_diff_rect, Global.current_level)
 		MultiplayerManager.draw_diff_to_server.rpc_id(1, newdiff, paint_diff_rect, Global.current_level)
 		clear_paint_diff()
 

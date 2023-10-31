@@ -39,7 +39,6 @@ func update_drawing(delta, pos, prev_position):
 func update_not_drawing(delta, pos, return_timer):
 	return_timer += delta
 	if return_timer > 0.5:
-		var facing_dir = [1, -1][int(dog.facing)]
 		global_position = dog.global_position + Vector2(0, -25)
 		z_index = dog.z_index - 1
 		rotation_degrees = 135 + 90 * ( ( ( -dog.animation.scale.x )+1 ) / 2.0 )

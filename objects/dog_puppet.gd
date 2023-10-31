@@ -21,7 +21,7 @@ func _ready():
 	brush.dog = self
 
 func _process(delta):
-	z_index = global_position.y
+	z_index = int(global_position.y)
 	if prev_position:
 		if (position.x - prev_position.x) != 0:
 			facing = (position.x - prev_position.x) < 0

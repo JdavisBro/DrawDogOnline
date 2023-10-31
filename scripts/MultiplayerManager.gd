@@ -7,6 +7,8 @@ const LEVEL_RANGE = Vector2(20, 20)
 
 const PAINT_CHANNEL = 2
 
+var connection_status = ""
+
 var ip = DEFAULT_IP
 var port = DEFAULT_PORT
 
@@ -40,6 +42,7 @@ func _ready():
 	multiplayer.connected_to_server.connect(_on_connected_ok)
 	multiplayer.connection_failed.connect(_on_connected_fail)
 	multiplayer.server_disconnected.connect(_on_server_disconnected)
+	process_mode = PROCESS_MODE_ALWAYS
 
 # SIGNALS
 
@@ -54,33 +57,47 @@ func _on_player_disconnected(id):
 			player_location.erase(id)
 	else:
 		if id in level_puppets:
-			level_puppets[id].queue_free()
+			if is_instance_valid(level_puppets[id]):
+				level_puppets[id].queue_free()
 			level_puppets.erase(id)
 
 func _on_connected_ok():
-	print("Connected")
+	connection_status = "Conncted to server"
+	print("Connected to server!")
 	connected = true
 	uid = multiplayer.get_unique_id()
 	me.position = level_scene.get_node("Dog").position
 	me.username = Global.username
+	set_loading(true)
 	move_to_level.rpc_id(1, me, Global.current_level)
 
 func _on_connected_fail():
-	print("Connection Fail")
+	connection_status = "Connection to server failed"
+	print("Connection to server failed.")
+	set_loading(false)
+	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
 func _on_server_disconnected():
+	connection_status = "Disconnected from server"
+	print("Disconnected from Server.")
 	connected = false
-	print("Disconnected")
+	set_loading(false)
 	get_tree().change_scene_to_file("res://scenes/title.tscn")
 
 # OTHER
+
+func set_loading(loading):
+	Global.loading_screen.visible = loading
 
 func get_ip_port(newip):
 	if ":" in newip:
 		var both = newip.split(":")
 		ip = both[0]
+		if not both[1].is_valid_int():
+			return false
 		port = int(both[1])
 	ip = newip
+	return true
 
 # SERVER
 
@@ -97,7 +114,7 @@ func new_paint():
 		newpaint[-1].append(0)
 	return newpaint
 	
-func load_level_paint(level):
+func load_level_paint(_level):
 	return new_paint()
 
 func check_server_level(level):
@@ -141,7 +158,7 @@ func server_dog_update_animation(pid, animation):
 
 @rpc("any_peer", "call_remote", "reliable", PAINT_CHANNEL)
 func draw_diff_to_server(diff, rect, level):
-	var pid = multiplayer.get_remote_sender_id()
+	var _pid = multiplayer.get_remote_sender_id()
 	draw_diff_from_server.rpc(diff, rect, level)
 	var i = 0
 	for x in range(rect.size.x+1):
@@ -160,7 +177,7 @@ func draw_diff_from_server(diff, rect, level):
 
 @rpc("any_peer", "call_remote", "unreliable") # unreliable paint doesn't need to be on paint channel
 func draw_diff(diff, rect, level):
-	var pid = multiplayer.get_remote_sender_id()
+	var _pid = multiplayer.get_remote_sender_id()
 	if server: return
 	if level == Global.current_level:
 		PaintUtil.apply_diff(Global.paint_target, diff, rect)
@@ -207,6 +224,7 @@ func complete_level_move(newpaint, puppets):
 	Global.paint_target.clear_paint()
 	Global.paint_target.paint = newpaint
 	get_tree().paused = false
+	set_loading(false)
 	clent_level_moved.rpc(me, Global.current_level)
 
 @rpc("any_peer", "call_remote", "unreliable_ordered")

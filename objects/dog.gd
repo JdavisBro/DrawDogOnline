@@ -57,7 +57,7 @@ func change_sprite_by_velocity():
 func _physics_process(delta):
 	do_movement(delta)
 	
-	z_index = global_position.y
+	z_index = int(global_position.y)
 	
 	change_sprite_by_velocity()
 	
@@ -76,6 +76,7 @@ func _physics_process(delta):
 		position.y = 1079
 	if Global.current_level != old_level:
 		MultiplayerManager.me.position = position
+		MultiplayerManager.set_loading(true)		
 		MultiplayerManager.move_to_level.rpc_id(1, MultiplayerManager.me, Global.current_level)
 		get_tree().paused = true
 		return
