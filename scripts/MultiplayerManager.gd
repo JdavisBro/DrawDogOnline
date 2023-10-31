@@ -1,0 +1,227 @@
+extends Node
+
+const DEFAULT_IP = "127.0.0.1"
+const DEFAULT_PORT = 33363
+
+const LEVEL_RANGE = Vector2(20, 20)
+
+const PAINT_CHANNEL = 2
+
+var ip = DEFAULT_IP
+var port = DEFAULT_PORT
+
+var server = false
+
+var connected = false
+
+var uid = 0
+
+# Server
+var paint = {}
+var server_puppets = {} # pid: {id: {position: position, animation: animation}}
+var player_location = {} # pid: level
+
+# Client
+var level_puppets = {} # pid: dogpuppet
+var dogpuppet = preload("res://objects/dog_puppet.tscn")
+var level_scene
+
+func _ready():
+	multiplayer.peer_connected.connect(_on_player_connected)
+	multiplayer.peer_disconnected.connect(_on_player_disconnected)
+	multiplayer.connected_to_server.connect(_on_connected_ok)
+	multiplayer.connection_failed.connect(_on_connected_fail)
+	multiplayer.server_disconnected.connect(_on_server_disconnected)
+
+# SIGNALS
+
+func _on_player_connected(id):
+	prints(" new peer", id)
+
+func _on_player_disconnected(id):
+	prints("lost peer", id)
+	if server:
+		if id in player_location:
+			server_puppets[player_location[id]].erase(id)
+			player_location.erase(id)
+	else:
+		if id in level_puppets:
+			level_puppets[id].queue_free()
+			level_puppets.erase(id)
+
+func _on_connected_ok():
+	print("Connected")
+	connected = true
+	uid = multiplayer.get_unique_id()
+	move_to_level.rpc_id(1, level_scene.get_node("Dog").position, Global.current_level)
+
+func _on_connected_fail():
+	print("Connection Fail")
+
+func _on_server_disconnected():
+	connected = false
+	print("Disconnected")
+	get_tree().change_scene_to_file("res://scenes/title.tscn")
+
+# OTHER
+
+func get_ip_port(newip):
+	if ":" in newip:
+		var both = newip.split(":")
+		ip = both[0]
+		port = int(both[1])
+	ip = newip
+
+# SERVER
+
+func check_level_in_bounds(level):
+	if level.x > LEVEL_RANGE.x or level.x < -LEVEL_RANGE.x or level.y > LEVEL_RANGE.y or level.y < -LEVEL_RANGE.y:
+		return false
+	return true
+
+func new_paint():
+	var newpaint = []
+	for i in range(Global.paint_total):
+		if i % int(Global.paint_size.x) == 0:
+			newpaint.append([])
+		newpaint[-1].append(randi_range(0,3))
+	return newpaint
+	
+func load_level_paint(level):
+	return new_paint()
+
+func check_server_level(level):
+	if not check_level_in_bounds(level): return
+	if level not in server_puppets:
+		server_puppets[level] = {}
+	if level not in paint:
+		paint[level] = load_level_paint(level)
+
+func server_start():
+	var peer = ENetMultiplayerPeer.new()
+	var error = peer.create_server(port)
+	if error:
+		print(error)
+	multiplayer.multiplayer_peer = peer
+	print("Server Started")
+
+func server_move_to_level(pid, position, level):
+	if pid in player_location:
+		server_puppets[player_location[pid]].erase(pid)
+		player_location.erase(pid)
+	check_server_level(level)
+	complete_level_move.rpc_id(pid, paint[level], server_puppets[level])
+	server_puppets[level][pid] = {"position": position, "animation": "idle"}
+	player_location[pid] = level
+
+func server_dog_update_position(pid, position):
+	if pid in player_location:
+		server_puppets[player_location[pid]][pid]["position"] = position
+
+func server_dog_update_animation(pid, animation):
+	if pid in player_location:
+		server_puppets[player_location[pid]][pid]["animation"] = animation
+
+@rpc("any_peer", "call_remote", "reliable", PAINT_CHANNEL)
+func draw_diff_to_server(diff, rect, level):
+	var pid = multiplayer.get_remote_sender_id()
+	draw_diff_from_server.rpc(diff, rect, level)
+	var i = 0
+	for x in range(rect.size.x+1):
+		for y in range(rect.size.y+1):
+			if diff[i] != "X":
+				var target_pos = rect.position + Vector2(x, y)
+				paint[level][target_pos.y][target_pos.x] =  diff[i].hex_to_int()
+			i += 1
+
+
+# CLIENT
+
+@rpc("authority", "call_remote", "reliable", PAINT_CHANNEL)
+func draw_diff_from_server(diff, rect, level):
+	draw_diff(diff, rect, level)
+
+@rpc("any_peer", "call_remote", "unreliable") # unreliable paint doesn't need to be on paint channel
+func draw_diff(diff, rect, level):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	if level == Global.current_level:
+		PaintUtil.apply_diff(Global.paint_target, diff, rect)
+
+func add_puppet(pid, position, animation):
+	var puppet = dogpuppet.instantiate()
+	puppet.position = position
+	level_puppets[pid] = puppet
+	level_scene.add_child(puppet)
+	puppet.animation.play(animation)
+
+@rpc("any_peer", "call_remote", "reliable")
+func move_to_level(position, level):
+	var pid = multiplayer.get_remote_sender_id()
+	if server:
+		return server_move_to_level(pid, position, level)
+
+@rpc("any_peer", "call_remote", "reliable")
+func cient_level_moved(position, level):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	if level != Global.current_level:
+		if pid in level_puppets:
+			level_puppets[pid].queue_free()
+			level_puppets.erase(pid)
+	else:
+		add_puppet(pid, position, "idle")
+
+@rpc("authority", "call_remote", "reliable")
+func complete_level_move(newpaint, puppets):
+	for puppet in level_puppets:
+		level_puppets[puppet].queue_free()
+		level_puppets.erase(puppet)
+	for pid in puppets:
+		if pid == uid: continue
+		add_puppet(pid, puppets[pid]["position"], "idle")
+	Global.paint_target.clear_paint()
+	Global.paint_target.paint = newpaint
+	get_tree().paused = false
+	cient_level_moved.rpc(level_scene.get_node("Dog").position, Global.current_level)
+
+@rpc("any_peer", "call_remote", "unreliable_ordered")
+func brush_update(position, drawing, color, size):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	if pid in level_puppets:
+		level_puppets[pid].brush_position = position
+		level_puppets[pid].brush_drawing = drawing
+		level_puppets[pid].brush_color = color
+		level_puppets[pid].brush_size = size
+
+@rpc("any_peer", "call_remote", "unreliable_ordered")
+func dog_update_position(position):
+	var pid = multiplayer.get_remote_sender_id()
+	if server:
+		return server_dog_update_position(pid, position)
+	if pid in level_puppets:
+		level_puppets[pid].position = position
+
+@rpc("any_peer", "call_remote", "reliable")
+func dog_update_animation_reliable(animation):
+	dog_update_animation(animation)
+
+@rpc("any_peer", "call_remote", "unreliable_ordered")
+func dog_update_animation(animation):
+	var pid = multiplayer.get_remote_sender_id()
+	if server:
+		return server_dog_update_animation(pid, animation)
+	if pid in level_puppets:
+		level_puppets[pid].animation.play(animation)
+
+func start():
+	if server:
+		return server_start()
+	get_tree().paused = true
+	var peer = ENetMultiplayerPeer.new()
+	var error = peer.create_client(ip, port)
+	if error:
+		print(error)
+	multiplayer.multiplayer_peer = peer
+	print("Connection Started")

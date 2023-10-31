@@ -1,27 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://c8n4gjq3v6y35"]
+[gd_scene load_steps=2 format=3 uid="uid://c3dnwhbxyfrvk"]
 
-[ext_resource type="PackedScene" uid="uid://doo4hph7vj7lr" path="res://objects/paint.tscn" id="2_17mc2"]
-[ext_resource type="PackedScene" uid="uid://bebdv4x8a47fm" path="res://objects/dog.tscn" id="2_vqjo6"]
+[ext_resource type="Script" path="res://scripts/main.gd" id="1_xxvfm"]
 
-[sub_resource type="GDScript" id="GDScript_gfrtc"]
-script/source = "extends Label
-
-func _process(_delta):
-	text = str(Engine.get_frames_per_second())
-"
-
-[node name="main" type="Node2D"]
-
-[node name="paint" parent="." instance=ExtResource("2_17mc2")]
-
-[node name="Dog" parent="." instance=ExtResource("2_vqjo6")]
-position = Vector2(51, 47)
-
-[node name="Framerate" type="Label" parent="."]
-visible = false
-offset_right = 40.0
-offset_bottom = 23.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 72
-text = "framerate"
-script = SubResource("GDScript_gfrtc")
+[node name="main" type="Node"]
+script = ExtResource("1_xxvfm")

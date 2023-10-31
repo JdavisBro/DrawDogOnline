@@ -9,6 +9,10 @@ var prev_position = Vector2.ZERO
 var prev_paint_pos = Vector2.ZERO
 var paint_pos = Vector2.ZERO
 
+var prev_draw_col = 1
+var prev_size = 24
+var prev_drawing = false
+
 var texture_movement = 0.0
 
 var flood_start_timer = 0.0
@@ -29,7 +33,8 @@ func reset_flood():
 
 func _physics_process(delta):
 	prev_position = pos
-	pos = get_global_mouse_position()
+	if DisplayServer.window_is_focused():
+		pos = get_global_mouse_position()
 	
 	prev_paint_pos = paint_pos
 	paint_pos = (pos / Global.paint_res).round()
@@ -81,6 +86,14 @@ func _physics_process(delta):
 		prop.end_color = Color.WHITE
 	else:
 		prop.end_color = Global.palette[color_index]
+	
+	if draw_col == null:
+		draw_col = color_index + 1
+	if (pos != prev_position and (not brush_return_timer > 0.5)) or prev_draw_col != draw_col or prev_size != size or prev_drawing != drawing:
+		MultiplayerManager.brush_update.rpc(pos, drawing, draw_col, size)
+	prev_draw_col = draw_col
+	prev_drawing = drawing
+	prev_size = size
 
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN

@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://c06eh5ixn3h81"]
+[gd_scene load_steps=10 format=3 uid="uid://c06eh5ixn3h81"]
 
 [ext_resource type="Script" path="res://objects/dog_puppet.gd" id="1_cqfht"]
 [ext_resource type="Script" path="res://objects/dog_animation.gd" id="2_fnchd"]
@@ -8,9 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://jwr6p4602ecr" path="res://assets/chicory/expression/0.png" id="6_nn8rm"]
 [ext_resource type="Texture2D" uid="uid://be2fjv8q22m0" path="res://assets/chicory/hat/00.png" id="7_s6lqm"]
 [ext_resource type="Texture2D" uid="uid://bf5dgidotmx4e" path="res://assets/chicory/dog/idle/ear/00.png" id="8_tugl6"]
+[ext_resource type="PackedScene" uid="uid://wvf60gr2lk61" path="res://objects/brush_prop.tscn" id="9_opc51"]
 
-[node name="Dog" type="Node2D"]
-y_sort_enabled = true
+[node name="DogPuppet" type="Node2D"]
 script = ExtResource("1_cqfht")
 
 [node name="AnimationManager" type="Node2D" parent="."]
@@ -42,3 +42,6 @@ offset = Vector2(-77, -84)
 [node name="ear" type="Sprite2D" parent="AnimationManager"]
 texture = ExtResource("8_tugl6")
 centered = false
+
+[node name="prop" parent="." instance=ExtResource("9_opc51")]
+z_as_relative = false

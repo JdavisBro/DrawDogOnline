@@ -19,6 +19,13 @@ config/icon="res://icon.svg"
 
 Global="*res://scripts/Global.gd"
 PaintUtil="*res://scripts/PaintUtil.gd"
+MultiplayerManager="*res://scripts/MultiplayerManager.gd"
+
+[debug]
+
+multirun/number_of_windows=3
+multirun/add_custom_args=true
+multirun/window_args=["join-server 127.0.0.1", "server-start default", "join-server 127.0.0.1"]
 
 [display]
 
@@ -26,6 +33,14 @@ window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/initial_position_type=4
 window/stretch/mode="viewport"
+
+[editor]
+
+run/main_run_args="join-server 127.0.0.1"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/multirun/plugin.cfg")
 
 [input]
 

@@ -10,6 +10,11 @@ var updated := []
 var palette = Global.palette
 var boil_timer := 0.0
 
+var paint_diff := []
+var drawing_paint_diff = false
+var paint_diff_rect = Rect2(Vector2.ZERO, Vector2.ZERO)
+var paint_diff_changed = false
+
 @onready var map = $TileMap
 
 func clear_paint(random=false):
@@ -28,6 +33,14 @@ func clear_paint(random=false):
 		update_rect = Rect2(0,0,size.x,size.y)
 		update_needed = true
 
+func clear_paint_diff():
+	paint_diff = []
+	for i in range(total_pixel):
+		if i % int(size.x) == 0:
+			paint_diff.append([])
+		paint_diff[-1].append(-1)
+	paint_diff_changed = true
+
 func setup_tilemap_layers():
 	while map.get_layers_count() > 1:
 		map.remove_layer(map.get_layers_count()-1)
@@ -44,9 +57,29 @@ func _ready():
 	if not Global.paint_target:
 		Global.paint_target = self
 
+var hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "X"]
+
+func connected():
+	if not drawing_paint_diff:
+		clear_paint_diff()
+	drawing_paint_diff = true
+	if paint_diff_changed:
+		var newdiff = ""
+		var newrect = Rect2(Vector2.ZERO, size)
+		if not newrect.encloses(paint_diff_rect):
+			paint_diff_rect = newrect
+		for x in range(paint_diff_rect.position.x, paint_diff_rect.end.x + 1):
+			for y in range(paint_diff_rect.position.y, paint_diff_rect.end.y + 1):
+				newdiff += hex[paint_diff[y][x]]
+		MultiplayerManager.draw_diff.rpc(newdiff, paint_diff_rect, Global.current_level)
+		MultiplayerManager.draw_diff_to_server.rpc_id(1, newdiff, paint_diff_rect, Global.current_level)
+		clear_paint_diff()
+
 func _process(delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		clear_paint(true)
+#	if Input.is_action_just_pressed("ui_accept"):
+#		clear_paint(true)
+	if MultiplayerManager.connected:
+		connected()
 	boil_timer += delta
 	randomize()
 	if boil_timer > 0.25:

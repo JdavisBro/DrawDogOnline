@@ -22,9 +22,9 @@ func update(delta, drawing, return_timer, pos, prev_position, size):
 
 func update_drawing(delta, pos, prev_position):
 	rotation = 0
-	position = pos
+	global_position = pos
 	position.y += -50 * scale.y + 15
-	z_index = global_position.y
+	z_index = pos.y
 	if pos.x != prev_position.x:
 		end.flip_h = pos.x < prev_position.x
 	var x_movement = abs(pos.x - prev_position.x)
@@ -37,16 +37,17 @@ func update_drawing(delta, pos, prev_position):
 	return 0.0
 
 func update_not_drawing(delta, pos, return_timer):
-	z_index = -1
 	return_timer += delta
 	if return_timer > 0.5:
 		var facing_dir = [1, -1][int(dog.facing)]
-		position = dog.position + Vector2(0, -25)
+		global_position = dog.global_position + Vector2(0, -25)
+		z_index = dog.z_index - 1
 		rotation_degrees = 135 + 90 * ( ( ( -dog.animation.scale.x )+1 ) / 2.0 )
 		position += Vector2(0, 60).rotated(rotation)
 	else:
-		position = pos
+		global_position = pos
 		position.y += -50 * scale.y
+		z_index = pos.y
 	handle.rotation_degrees = move_toward(handle.rotation_degrees, 0, 360*delta)
 	end.texture = Global.loaded_brush[0]
 	return return_timer

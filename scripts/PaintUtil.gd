@@ -17,6 +17,7 @@ func ensure_rect_bounds(size: Vector2, rect: Rect2):
 
 func update_pos(paint, color: int, position: Vector2):
 	position = ensure_bounds(paint.size, position)
+	update_diff(paint, color, position)
 	if paint.paint[position.y][position.x] == color:
 		return
 	paint.paint[position.y][position.x] = color
@@ -29,6 +30,28 @@ func update_pos(paint, color: int, position: Vector2):
 	else:
 		paint.update_rect = paint.update_rect.merge(Rect2(position - Vector2.ONE, Vector2.ONE*2))
 	paint.update_needed = true
+	
+func update_diff(paint, color, position):
+	if not paint.drawing_paint_diff:
+		return
+	paint.paint_diff[position.y][position.x] = color
+	if not paint.paint_diff_changed:
+		paint.paint_diff_rect = Rect2(position, Vector2.ONE)
+	else:
+		paint.paint_diff_rect = paint.paint_diff_rect.expand(position)
+	paint.paint_diff_changed = true
+
+func apply_diff(paint, diff, rect):
+	var diffing = paint.drawing_paint_diff
+	paint.drawing_paint_diff = false
+	var i = 0
+	for x in range(rect.size.x+1):
+		for y in range(rect.size.y+1):
+			if diff[i] != "X":
+				var target_pos = rect.position + Vector2(x, y)
+				update_pos(paint, diff[i].hex_to_int(), target_pos)
+			i += 1
+	paint.drawing_paint_diff = diffing
 
 func draw_rect(paint, color: int, rect: Rect2):
 	rect = ensure_rect_bounds(paint.size, rect)

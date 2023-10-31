@@ -7,6 +7,8 @@ extends Node2D
 var animation: DogAnimation
 var animation_name: String
 
+var puppet = true
+
 var frame = 0.0
 var previous_f = -1
 var flip = false : set = _set_flip
@@ -104,6 +106,9 @@ func play(anim):
 	if not ResourceLoader.exists("res://data/animations/" + anim + ".tres"):
 		push_warning("Animation not found " + anim)
 		return
+	if not puppet and MultiplayerManager.connected:
+		MultiplayerManager.dog_update_animation.rpc(anim)
+		MultiplayerManager.dog_update_animation_reliable.rpc(anim)
 	animation = ResourceLoader.load("res://data/animations/" + anim + ".tres")
 	animation_name = anim
 	frame = 0

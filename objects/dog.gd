@@ -3,6 +3,8 @@ extends CharacterBody2D
 const ACCEL = 6000
 const MAX_SPEED = 600
 
+var prev_position
+
 var brush
 
 var facing = false : set = _set_facing
@@ -16,6 +18,8 @@ func _set_facing(new):
 	animation.flip = new
 
 func do_movement(delta):
+	prev_position = position
+	
 	var move = Input.get_vector("left", "right", "up", "down").limit_length() # this is weird compared to usual but idk how to fix it maybe later?
 	
 	velocity += move.normalized() * ACCEL * delta
@@ -34,8 +38,8 @@ func do_movement(delta):
 	
 	velocity = unmodified_vel
 	
-	position.x = fposmod(position.x, 1920) # DEBUG: loop position on screen
-	position.y = fposmod(position.y, 1080)
+	if prev_position != position and MultiplayerManager.connected:
+		MultiplayerManager.dog_update_position.rpc(position)
 
 func change_sprite_by_velocity():
 	if velocity.x != 0:
@@ -57,6 +61,25 @@ func _physics_process(delta):
 	
 	change_sprite_by_velocity()
 	
+	var old_level = Global.current_level
+	if position.x > 1920 and Global.current_level.x + 1 <= MultiplayerManager.LEVEL_RANGE.x:
+		Global.current_level.x += 1
+		position.x = 1
+	elif position.x < 0 and Global.current_level.x - 1 >= -MultiplayerManager.LEVEL_RANGE.x:
+		Global.current_level.x += -1
+		position.x = 1919
+	if position.y > 1080 and Global.current_level.y + 1 <= MultiplayerManager.LEVEL_RANGE.y:
+		Global.current_level.y += 1
+		position.y = 1
+	elif position.y < 0 and Global.current_level.y - 1 >= -MultiplayerManager.LEVEL_RANGE.y:
+		Global.current_level.y += -1
+		position.y = 1079
+	if Global.current_level != old_level:
+		MultiplayerManager.move_to_level.rpc_id(1, position, Global.current_level)
+		get_tree().paused = true
+		return
+	
+	
 	if Input.is_action_just_pressed("fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
@@ -64,6 +87,7 @@ func _physics_process(delta):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 func _ready():
+	animation.puppet = false
 	brush = preload("res://objects/brush.tscn").instantiate()
 	brush.dog = self
 	get_node("..").add_child.call_deferred(brush)
