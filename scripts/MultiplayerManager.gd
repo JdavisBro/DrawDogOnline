@@ -125,19 +125,41 @@ func check_server_level(level):
 		paint[level] = load_level_paint(level)
 
 func server_start():
-	var peer = ENetMultiplayerPeer.new()
+	var peer = WebSocketMultiplayerPeer.new()
+	peer.supported_protocols = ["ludus"]
 	var error = peer.create_server(port)
 	if error:
 		print(error)
 	multiplayer.multiplayer_peer = peer
 	print("Server Started")
 
+var hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
+
+func paint_to_str(inpaint):
+	var out = ""
+	for y in inpaint:
+		for i in y:
+			out += hex[i]
+	return out
+
+func paint_from_str(instr):
+	var newpaint = []
+	for i in range(Global.paint_total):
+		if i % int(Global.paint_size.x) == 0:
+			newpaint.append([])
+		newpaint[-1].append(instr[i].hex_to_int())
+	return newpaint
+
 func server_move_to_level(pid, userinfo, level):
 	if pid in player_location:
 		players[player_location[pid]].erase(pid)
 		player_location.erase(pid)
 	check_server_level(level)
-	complete_level_move.rpc_id(pid, paint[level], players[level])
+	recieve_level_paint.rpc_id(pid, paint_to_str(paint[level]))
+	kill_puppets.rpc_id(pid)
+	for puppet in players[level]:
+		recieve_puppet.rpc_id(pid, puppet, players[level][puppet])
+	complete_level_move.rpc_id(pid)
 	players[level][pid] = userinfo
 	player_location[pid] = level
 
@@ -196,13 +218,13 @@ func add_puppet(pid, userinfo):
 	puppet.animation.flip = userinfo.facing
 	puppet.facing = userinfo.facing
 
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_remote", "reliable", 3)
 func move_to_level(userinfo, level):
 	var pid = multiplayer.get_remote_sender_id()
 	if server:
 		return server_move_to_level(pid, userinfo, level)
 
-@rpc("any_peer", "call_remote", "reliable")
+@rpc("any_peer", "call_remote", "reliable", 3)
 func clent_level_moved(userinfo, level):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
@@ -214,15 +236,23 @@ func clent_level_moved(userinfo, level):
 		add_puppet(pid, userinfo)
 
 @rpc("authority", "call_remote", "reliable", 3)
-func complete_level_move(newpaint, puppets):
+func recieve_level_paint(newpaint):
+	Global.paint_target.clear_paint()
+	Global.paint_target.paint = paint_from_str(newpaint)
+
+@rpc("authority", "call_remote", "reliable", 3)
+func kill_puppets():
 	for puppet in level_puppets:
 		level_puppets.erase(puppet)
 	get_tree().call_group("dogpuppets", "queue_free")
-	for pid in puppets:
-		if pid == uid: continue
-		add_puppet(pid, puppets[pid])
-	Global.paint_target.clear_paint()
-	Global.paint_target.paint = newpaint
+
+@rpc("authority", "call_remote", "reliable", 3)
+func recieve_puppet(puppet, userinfo):
+	if puppet != uid:
+		add_puppet(puppet, userinfo)
+
+@rpc("authority", "call_remote", "reliable", 3)
+func complete_level_move():
 	get_tree().paused = false
 	set_loading(false)
 	clent_level_moved.rpc(me, Global.current_level)
@@ -252,10 +282,6 @@ func dog_update_position(position):
 	if pid in level_puppets:
 		level_puppets[pid].position = position
 
-@rpc("any_peer", "call_remote", "reliable")
-func dog_update_animation_reliable(animation):
-	dog_update_animation(animation)
-
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func dog_update_animation(animation):
 	var pid = multiplayer.get_remote_sender_id()
@@ -268,8 +294,11 @@ func start():
 	if server:
 		return server_start()
 	get_tree().paused = true
-	var peer = ENetMultiplayerPeer.new()
-	var error = peer.create_client(ip, port)
+	var peer = WebSocketMultiplayerPeer.new()
+	peer.supported_protocols = ["ludus"]
+	#var error = peer.create_client(ip, port)
+	var error = peer.create_client("ws://%s:%s" % [ip, port])
+	print("ws://%s:%s" % [ip, port])
 	if error:
 		print(error)
 	multiplayer.multiplayer_peer = peer

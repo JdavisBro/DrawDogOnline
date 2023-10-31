@@ -23,9 +23,9 @@ MultiplayerManager="*res://scripts/MultiplayerManager.gd"
 
 [debug]
 
-multirun/number_of_windows=3
+multirun/number_of_windows=5
 multirun/add_custom_args=true
-multirun/window_args=["join-server 127.0.0.1", "join-server 127.0.0.1", "server-start default"]
+multirun/window_args=["join-server 127.0.0.1", "server-start default", "join-server 127.0.0.1", "join-server 127.0.0.1", "join-server 127.0.0.1"]
 
 [display]
 

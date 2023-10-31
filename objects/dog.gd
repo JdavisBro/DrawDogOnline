@@ -76,7 +76,7 @@ func _physics_process(delta):
 		position.y = 1079
 	if Global.current_level != old_level:
 		MultiplayerManager.me.position = position
-		MultiplayerManager.set_loading(true)		
+		MultiplayerManager.set_loading(true)
 		MultiplayerManager.move_to_level.rpc_id(1, MultiplayerManager.me, Global.current_level)
 		get_tree().paused = true
 		return
