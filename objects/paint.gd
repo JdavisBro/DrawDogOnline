@@ -68,8 +68,8 @@ func connected():
 		var newrect = Rect2(Vector2.ZERO, size)
 		if not newrect.encloses(paint_diff_rect):
 			paint_diff_rect = newrect
-		for x in range(paint_diff_rect.position.x, paint_diff_rect.end.x + 1):
-			for y in range(paint_diff_rect.position.y, paint_diff_rect.end.y + 1):
+		for x in range(paint_diff_rect.position.x, paint_diff_rect.end.x):
+			for y in range(paint_diff_rect.position.y, paint_diff_rect.end.y):
 				newdiff += hex[paint_diff[y][x]]
 		#MultiplayerManager.draw_diff.rpc(newdiff, paint_diff_rect, Global.current_level)
 		var diffs = MultiplayerManager.encode_diff(newdiff)

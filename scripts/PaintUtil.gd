@@ -36,17 +36,18 @@ func update_diff(paint, color, position):
 		return
 	paint.paint_diff[position.y][position.x] = color
 	if not paint.paint_diff_changed:
-		paint.paint_diff_rect = Rect2(position, Vector2.ONE)
+		paint.paint_diff_rect = Rect2(position, Vector2.ONE*2)
 	else:
 		paint.paint_diff_rect = paint.paint_diff_rect.expand(position)
+		paint.paint_diff_rect = paint.paint_diff_rect.expand(position+Vector2.ONE)
 	paint.paint_diff_changed = true
 
 func apply_diff(paint, diff, rect):
 	var diffing = paint.drawing_paint_diff
 	paint.drawing_paint_diff = false
 	var i = 0
-	for x in range(rect.size.x+1):
-		for y in range(rect.size.y+1):
+	for x in range(rect.size.x):
+		for y in range(rect.size.y):
 			if diff[i] != "X":
 				var target_pos = rect.position + Vector2(x, y)
 				update_pos(paint, diff[i].hex_to_int(), target_pos)

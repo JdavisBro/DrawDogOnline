@@ -194,13 +194,12 @@ func draw_diff_to_server(size, diff, rect, level):
 	draw_diff_from_server.rpc(size, diff, rect, level)
 	diff = decode_diff(diff, size)
 	var i = 0
-	for x in range(rect.size.x+1):
-		for y in range(rect.size.y+1):
+	for x in range(rect.size.x):
+		for y in range(rect.size.y):
 			if diff[i] != "X":
 				var target_pos = rect.position + Vector2(x, y)
 				paint[level][target_pos.y][target_pos.x] =  diff[i].hex_to_int()
 			i += 1
-
 
 # CLIENT
 
