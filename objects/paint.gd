@@ -39,7 +39,7 @@ func clear_paint_diff():
 		if i % int(size.x) == 0:
 			paint_diff.append([])
 		paint_diff[-1].append(-1)
-	paint_diff_changed = true
+	paint_diff_changed = false
 
 func setup_tilemap_layers():
 	while map.get_layers_count() > 1:
@@ -72,7 +72,8 @@ func connected():
 			for y in range(paint_diff_rect.position.y, paint_diff_rect.end.y + 1):
 				newdiff += hex[paint_diff[y][x]]
 		#MultiplayerManager.draw_diff.rpc(newdiff, paint_diff_rect, Global.current_level)
-		MultiplayerManager.draw_diff_to_server.rpc_id(1, newdiff, paint_diff_rect, Global.current_level)
+		var diffs = MultiplayerManager.encode_diff(newdiff)
+		MultiplayerManager.draw_diff_to_server.rpc_id(1, diffs[0], diffs[1], paint_diff_rect, Global.current_level)
 		clear_paint_diff()
 
 func _process(delta):

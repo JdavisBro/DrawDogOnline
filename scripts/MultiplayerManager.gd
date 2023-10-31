@@ -99,6 +99,13 @@ func get_ip_port(newip):
 	ip = newip
 	return true
 
+func encode_diff(diff):
+	var buffer = diff.to_ascii_buffer()
+	return [buffer.size(), buffer.compress()]
+
+func decode_diff(diff, size):
+	return diff.decompress(size).get_string_from_ascii()
+
 # SERVER
 
 func check_level_in_bounds(level):
@@ -140,9 +147,11 @@ func paint_to_str(inpaint):
 	for y in inpaint:
 		for i in y:
 			out += hex[i]
-	return out
+	var buffer = out.to_ascii_buffer()
+	return [buffer.size(), buffer.compress()]
 
-func paint_from_str(instr):
+func paint_from_str(instr, size):
+	instr = instr.decompress(size).get_string_from_ascii()
 	var newpaint = []
 	for i in range(Global.paint_total):
 		if i % int(Global.paint_size.x) == 0:
@@ -155,13 +164,14 @@ func server_move_to_level(pid, userinfo, level):
 		players[player_location[pid]].erase(pid)
 		player_location.erase(pid)
 	check_server_level(level)
-	recieve_level_paint.rpc_id(pid, paint_to_str(paint[level]))
+	var newpaint = paint_to_str(paint[level])
+	recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0])
 	kill_puppets.rpc_id(pid)
 	for puppet in players[level]:
 		recieve_puppet.rpc_id(pid, puppet, players[level][puppet])
-	complete_level_move.rpc_id(pid)
 	players[level][pid] = userinfo
 	player_location[pid] = level
+	complete_level_move.rpc_id(pid)
 
 func server_brush_update(pid, position, drawing, color, size):
 	if pid in player_location:
@@ -179,9 +189,10 @@ func server_dog_update_animation(pid, animation):
 		players[player_location[pid]][pid].animation = animation
 
 @rpc("any_peer", "call_remote", "reliable", PAINT_CHANNEL)
-func draw_diff_to_server(diff, rect, level):
+func draw_diff_to_server(size, diff, rect, level):
 	var _pid = multiplayer.get_remote_sender_id()
-	draw_diff_from_server.rpc(diff, rect, level)
+	draw_diff_from_server.rpc(size, diff, rect, level)
+	diff = decode_diff(diff, size)
 	var i = 0
 	for x in range(rect.size.x+1):
 		for y in range(rect.size.y+1):
@@ -194,14 +205,15 @@ func draw_diff_to_server(diff, rect, level):
 # CLIENT
 
 @rpc("authority", "call_remote", "reliable", PAINT_CHANNEL)
-func draw_diff_from_server(diff, rect, level):
-	draw_diff(diff, rect, level)
+func draw_diff_from_server(size, diff, rect, level):
+	draw_diff(size, diff, rect, level)
 
 @rpc("any_peer", "call_remote", "unreliable") # unreliable paint doesn't need to be on paint channel
-func draw_diff(diff, rect, level):
+func draw_diff(size, diff, rect, level):
 	var _pid = multiplayer.get_remote_sender_id()
 	if server: return
 	if level == Global.current_level:
+		diff = decode_diff(diff, size)
 		PaintUtil.apply_diff(Global.paint_target, diff, rect)
 
 func add_puppet(pid, userinfo):
@@ -236,9 +248,9 @@ func clent_level_moved(userinfo, level):
 		add_puppet(pid, userinfo)
 
 @rpc("authority", "call_remote", "reliable", 3)
-func recieve_level_paint(newpaint):
+func recieve_level_paint(newpaint, size):
 	Global.paint_target.clear_paint()
-	Global.paint_target.paint = paint_from_str(newpaint)
+	Global.paint_target.paint = paint_from_str(newpaint, size)
 
 @rpc("authority", "call_remote", "reliable", 3)
 func kill_puppets():
