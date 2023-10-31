@@ -191,8 +191,8 @@ func clent_level_moved(userinfo, level):
 	if server: return
 	if level != Global.current_level:
 		if pid in level_puppets:
+			level_puppets[pid].queue_free()
 			level_puppets.erase(pid)
-		get_tree().call_group("dogpuppets", "queue_free")
 	else:
 		add_puppet(pid, userinfo)
 
@@ -200,7 +200,7 @@ func clent_level_moved(userinfo, level):
 func complete_level_move(newpaint, puppets):
 	for puppet in level_puppets:
 		level_puppets.erase(puppet)
-	get_tree().call_group("dogpuppets", "queue_free")	
+	get_tree().call_group("dogpuppets", "queue_free")
 	for pid in puppets:
 		if pid == uid: continue
 		add_puppet(pid, puppets[pid])

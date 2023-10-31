@@ -22,24 +22,10 @@ func _ready():
 
 func _process(delta):
 	z_index = global_position.y
-#	var prev = anim
-#	if Input.is_action_just_pressed("ui_left"):
-#		anim -= 1
-#		if anim < 0:
-#			anim = len(anims)-1
-#	if Input.is_action_just_pressed("ui_right"):
-#		anim += 1
-#		if anim >= len(anims):
-#			anim = 0
-#	if anim != prev:
-#		animation.play(anims[anim])
 	if prev_position:
 		if (position.x - prev_position.x) != 0:
 			facing = (position.x - prev_position.x) < 0
 			animation.flip = facing
-		#if prev_position == position:
-			#animation.play_if_not("idle")
-		
 	prev_position = position
 	
 	brush_return_timer = brush.update(delta, brush_drawing, brush_return_timer, brush_position, brush_prev_position, brush_size)
