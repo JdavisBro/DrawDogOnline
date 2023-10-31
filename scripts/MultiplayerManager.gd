@@ -16,15 +16,23 @@ var connected = false
 
 var uid = 0
 
+var USER_INFO = {
+	"username": "Default", "position": Vector2.ZERO, "animation": "idle", "facing": false,
+	"brush": {
+		"position": Vector2.ZERO, "drawing": false, "color": 1, "size": 24
+	}
+}
+
 # Server
 var paint = {}
-var server_puppets = {} # pid: {id: {position: position, animation: animation}}
+var players = {} # level: {pid: userinfo}
 var player_location = {} # pid: level
 
 # Client
 var level_puppets = {} # pid: dogpuppet
 var dogpuppet = preload("res://objects/dog_puppet.tscn")
 var level_scene
+var me = USER_INFO
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
@@ -42,7 +50,7 @@ func _on_player_disconnected(id):
 	prints("lost peer", id)
 	if server:
 		if id in player_location:
-			server_puppets[player_location[id]].erase(id)
+			players[player_location[id]].erase(id)
 			player_location.erase(id)
 	else:
 		if id in level_puppets:
@@ -53,7 +61,7 @@ func _on_connected_ok():
 	print("Connected")
 	connected = true
 	uid = multiplayer.get_unique_id()
-	move_to_level.rpc_id(1, level_scene.get_node("Dog").position, Global.current_level)
+	move_to_level.rpc_id(1, me, Global.current_level)
 
 func _on_connected_fail():
 	print("Connection Fail")
@@ -92,8 +100,8 @@ func load_level_paint(level):
 
 func check_server_level(level):
 	if not check_level_in_bounds(level): return
-	if level not in server_puppets:
-		server_puppets[level] = {}
+	if level not in players:
+		players[level] = {}
 	if level not in paint:
 		paint[level] = load_level_paint(level)
 
@@ -105,22 +113,29 @@ func server_start():
 	multiplayer.multiplayer_peer = peer
 	print("Server Started")
 
-func server_move_to_level(pid, position, level):
+func server_move_to_level(pid, userinfo, level):
 	if pid in player_location:
-		server_puppets[player_location[pid]].erase(pid)
+		players[player_location[pid]].erase(pid)
 		player_location.erase(pid)
 	check_server_level(level)
-	complete_level_move.rpc_id(pid, paint[level], server_puppets[level])
-	server_puppets[level][pid] = {"position": position, "animation": "idle"}
+	complete_level_move.rpc_id(pid, paint[level], players[level])
+	players[level][pid] = userinfo
 	player_location[pid] = level
+
+func server_brush_update(pid, position, drawing, color, size):
+	if pid in player_location:
+		players[player_location[pid]][pid].brush.position = position
+		players[player_location[pid]][pid].brush.drawing = drawing
+		players[player_location[pid]][pid].brush.color = color
+		players[player_location[pid]][pid].brush.size = size
 
 func server_dog_update_position(pid, position):
 	if pid in player_location:
-		server_puppets[player_location[pid]][pid]["position"] = position
+		players[player_location[pid]][pid].position = position
 
 func server_dog_update_animation(pid, animation):
 	if pid in player_location:
-		server_puppets[player_location[pid]][pid]["animation"] = animation
+		players[player_location[pid]][pid].animation = animation
 
 @rpc("any_peer", "call_remote", "reliable", PAINT_CHANNEL)
 func draw_diff_to_server(diff, rect, level):
@@ -148,21 +163,28 @@ func draw_diff(diff, rect, level):
 	if level == Global.current_level:
 		PaintUtil.apply_diff(Global.paint_target, diff, rect)
 
-func add_puppet(pid, position, animation):
+func add_puppet(pid, userinfo):
 	var puppet = dogpuppet.instantiate()
-	puppet.position = position
+	puppet.position = userinfo.position
 	level_puppets[pid] = puppet
 	level_scene.add_child(puppet)
-	puppet.animation.play(animation)
+	puppet.get_node("username").text = userinfo.username
+	puppet.brush_position = userinfo.brush.position
+	puppet.brush_drawing = userinfo.brush.drawing
+	puppet.brush_color = userinfo.brush.color
+	puppet.brush_size = userinfo.brush.size
+	puppet.animation.play(userinfo.animation)
+	puppet.animation.flip = userinfo.facing
+	puppet.facing = userinfo.facing
 
 @rpc("any_peer", "call_remote", "reliable")
-func move_to_level(position, level):
+func move_to_level(userinfo, level):
 	var pid = multiplayer.get_remote_sender_id()
 	if server:
-		return server_move_to_level(pid, position, level)
+		return server_move_to_level(pid, userinfo, level)
 
 @rpc("any_peer", "call_remote", "reliable")
-func cient_level_moved(position, level):
+func cient_level_moved(userinfo, level):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
 	if level != Global.current_level:
@@ -170,7 +192,7 @@ func cient_level_moved(position, level):
 			level_puppets[pid].queue_free()
 			level_puppets.erase(pid)
 	else:
-		add_puppet(pid, position, "idle")
+		add_puppet(pid, userinfo)
 
 @rpc("authority", "call_remote", "reliable")
 func complete_level_move(newpaint, puppets):
@@ -179,21 +201,28 @@ func complete_level_move(newpaint, puppets):
 		level_puppets.erase(puppet)
 	for pid in puppets:
 		if pid == uid: continue
-		add_puppet(pid, puppets[pid]["position"], "idle")
+		add_puppet(pid, puppets[pid])
 	Global.paint_target.clear_paint()
 	Global.paint_target.paint = newpaint
 	get_tree().paused = false
-	cient_level_moved.rpc(level_scene.get_node("Dog").position, Global.current_level)
+	cient_level_moved.rpc(me, Global.current_level)
 
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func brush_update(position, drawing, color, size):
 	var pid = multiplayer.get_remote_sender_id()
-	if server: return
+	if server:
+		return server_brush_update(pid, position, drawing, color, size)
 	if pid in level_puppets:
 		level_puppets[pid].brush_position = position
 		level_puppets[pid].brush_drawing = drawing
 		level_puppets[pid].brush_color = color
 		level_puppets[pid].brush_size = size
+
+func brush_me_update(position, drawing, color, size):
+	me.brush.position = position
+	me.brush.drawing = drawing
+	me.brush.color = color
+	me.brush.size = size
 
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func dog_update_position(position):

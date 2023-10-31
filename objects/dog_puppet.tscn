@@ -45,3 +45,21 @@ centered = false
 
 [node name="prop" parent="." instance=ExtResource("9_opc51")]
 z_as_relative = false
+
+[node name="username" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -100.0
+offset_top = 19.0
+offset_right = 95.0
+offset_bottom = 72.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 36
+text = "USERNAME"
+horizontal_alignment = 1

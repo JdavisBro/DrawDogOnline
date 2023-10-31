@@ -64,7 +64,6 @@ func draw_line(paint, color: int, start: Vector2, end: Vector2, thickness: int=1
 	if start.distance_to(end) == 0:
 		update_pos(paint, color, start)
 		return
-	prints(start - end, start.angle_to_point(end))
 	var position = start
 	@warning_ignore("integer_division")
 	var half_thickness = thickness / 2

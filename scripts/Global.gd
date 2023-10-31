@@ -9,6 +9,8 @@ var loaded_sprites_ear := {}
 
 var loaded_brush = []
 
+var username = "Default"
+
 var palette = [
 	Color("#00f3dd"), Color("#d8ff55"), Color("#ffa694"), Color("#b69aff")
 ]

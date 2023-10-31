@@ -78,7 +78,8 @@ func _physics_process(delta):
 		MultiplayerManager.move_to_level.rpc_id(1, position, Global.current_level)
 		get_tree().paused = true
 		return
-	
+		
+	MultiplayerManager.me.position = position
 	
 	if Input.is_action_just_pressed("fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
@@ -91,3 +92,4 @@ func _ready():
 	brush = preload("res://objects/brush.tscn").instantiate()
 	brush.dog = self
 	get_node("..").add_child.call_deferred(brush)
+	$username.text = Global.username
