@@ -1,9 +1,0 @@
-# Godot 4+ specific ignores
-.godot/
-
-*.tmp
-
-export/
-
-Export_Sprites/
-assets/chicory/
