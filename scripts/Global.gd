@@ -4,6 +4,9 @@ const paint_size := Vector2(162, 91)
 const paint_total := paint_size.x * paint_size.y
 
 @onready var loading_screen = preload("res://scenes/loading.tscn").instantiate()
+@onready var pause_screen = preload("res://scenes/pause.tscn").instantiate()
+
+var pause_enable = false
 
 var loaded_sprites_A := {}
 var loaded_sprites_B := {}
@@ -24,3 +27,4 @@ var current_level = Vector3(0, 0, 0)
 
 func _ready():
 	get_parent().add_child.call_deferred(loading_screen)
+	get_parent().add_child.call_deferred(pause_screen)

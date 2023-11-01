@@ -6,6 +6,7 @@
 script/source = "extends Control
 
 func _ready():
+	Global.pause_enable = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	$IPEnter.placeholder_text = MultiplayerManager.DEFAULT_IP
 	$Status.text = MultiplayerManager.connection_status
@@ -23,10 +24,13 @@ func _on_join_button_pressed():
 
 [node name="title" type="Control"]
 layout_mode = 3
+anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = -1920.0
 offset_bottom = -1080.0
+grow_horizontal = 2
+grow_vertical = 2
 script = SubResource("GDScript_v2flf")
 
 [node name="TitleText" type="Label" parent="."]

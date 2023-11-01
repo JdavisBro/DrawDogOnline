@@ -140,6 +140,11 @@ func client_level_moved(userinfo, level):
 	if server: return
 	client.client_level_moved(pid, userinfo, level)
 
+@rpc("any_peer", "call_local", "reliable")
+func set_palette(palette, level):
+	var pid = multiplayer.get_remote_sender_id()
+	client.set_palette(pid, palette, level)
+
 @rpc("authority", "call_remote", "reliable", 3)
 func recieve_level_paint(newpaint, size):
 	var pid = multiplayer.get_remote_sender_id()

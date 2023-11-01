@@ -105,6 +105,12 @@ func client_level_moved(pid, userinfo, level):
 	else:
 		add_puppet(pid, userinfo)
 
+func set_palette(_pid, palette, level):
+	if level == Global.current_level:
+		Global.palette = palette
+		Global.paint_target.palette = palette
+		Global.paint_target.setup_tilemap_layers()
+
 func brush_update(pid, position, drawing, color, size):
 	if pid in level_puppets:
 		if not is_instance_valid(level_puppets[pid]):

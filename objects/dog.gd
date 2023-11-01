@@ -18,6 +18,9 @@ func _set_facing(new):
 	animation.flip = new
 
 func do_movement(delta):
+	if Input.is_action_just_pressed("ui_accept"):
+		MultiplayerManager.set_palette.rpc([Color.PURPLE, Color.ORANGE, Color.GREEN, Color.BLACK], Global.current_level)
+
 	prev_position = position
 	
 	var move = Input.get_vector("left", "right", "up", "down").limit_length() # this is weird compared to usual but idk how to fix it maybe later?

@@ -42,12 +42,12 @@ func clear_paint_diff():
 	paint_diff_changed = false
 
 func setup_tilemap_layers():
-	while map.get_layers_count() > 1:
+	while map.get_layers_count() > len(palette):
 		map.remove_layer(map.get_layers_count()-1)
 	var i = 0
 	for col in palette:
-		if i > 0:
-			map.add_layer(-1)
+		if i >= map.get_layers_count():
+			map.add_layer(i)
 		map.set_layer_modulate(i, col)
 		i += 1
 
@@ -87,10 +87,6 @@ func _process(delta):
 		map.material.set_shader_parameter("boil", randf())
 		boil_timer = fmod(boil_timer, 0.25)
 	if update_needed:
-#		update_rect.position = update_rect.position.clamp(Vector2.ZERO, size-Vector2.ONE)
-#		update_rect.end = update_rect.end.clamp(Vector2.ZERO, size-Vector2.ONE)
-#		PaintUtilsCs.UpdatePaint(update_rect, paint, updated, map, palette)# not actually faster?
-#		update_needed = false
 		var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
 		if not newrect.encloses(update_rect):
 			update_rect = newrect
@@ -102,7 +98,7 @@ func _process(delta):
 					map.set_cell(i, Vector2(x, y))
 				var donecol = []
 				for color in [paint[y][x], paint[y][x+1], paint[y+1][x], paint[y+1][x+1]]:
-					if color in donecol or color == 0:
+					if color in donecol or color == 0 or color > map.get_layers_count():
 						continue
 					donecol.append(color)
 					var val = int(paint[y][x] == color) + (int(paint[y][x+1] == color) << 1) + (int(paint[y+1][x+1] == color) << 2) + (int(paint[y+1][x] == color) << 3) 

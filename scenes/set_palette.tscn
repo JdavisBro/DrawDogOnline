@@ -1,0 +1,85 @@
+[gd_scene load_steps=5 format=3 uid="uid://tout8bwr3inw"]
+
+[ext_resource type="Script" path="res://scripts/set_palette.gd" id="1_p6qya"]
+[ext_resource type="Script" path="res://scripts/ColorPanel.gd" id="2_tmo2b"]
+
+[sub_resource type="Gradient" id="Gradient_wpij3"]
+offsets = PackedFloat32Array(0)
+colors = PackedColorArray(1, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_possd"]
+gradient = SubResource("Gradient_wpij3")
+width = 32
+height = 20
+
+[node name="set_palette" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+script = ExtResource("1_p6qya")
+
+[node name="Panel" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.435294, 0.435294, 0.435294, 1)
+
+[node name="ColorPanel" type="PanelContainer" parent="."]
+visible = false
+layout_mode = 2
+offset_left = 350.0
+offset_top = 34.0
+offset_right = 784.0
+offset_bottom = 602.0
+script = ExtResource("2_tmo2b")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ColorPanel"]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="ColorPanel/HBoxContainer"]
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="ColorPanel/HBoxContainer/ScrollContainer"]
+layout_mode = 2
+
+[node name="Button" type="Button" parent="ColorPanel/HBoxContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+text = "Luncheon 0"
+icon = SubResource("GradientTexture2D_possd")
+
+[node name="ColorPicker" type="ColorPicker" parent="ColorPanel/HBoxContainer"]
+layout_mode = 2
+
+[node name="Container" type="TabContainer" parent="."]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 14.0
+offset_right = 1882.0
+offset_bottom = 956.0
+
+[node name="PlusButton" type="Button" parent="."]
+layout_mode = 2
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 19.0
+offset_top = 965.0
+offset_right = -1713.0
+offset_bottom = -8.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+text = "+"
+
+[node name="ConfirmButton" type="Button" parent="."]
+layout_mode = 2
+offset_left = 1591.0
+offset_top = 961.0
+offset_right = 1881.0
+offset_bottom = 1068.0
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+text = "Confirm"
+
+[connection signal="pressed" from="PlusButton" to="." method="_on_plus_button_pressed"]
+[connection signal="pressed" from="ConfirmButton" to="." method="_on_confirm_button_pressed"]
