@@ -84,21 +84,21 @@ func decode_diff(diff, size):
 
 var hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
 
-func paint_to_str(inpaint):
+func compress_paint(inpaint):
 	var out = ""
 	for y in inpaint:
 		for i in y:
 			out += hex[i]
-	var buffer = out.to_ascii_buffer()
+	var buffer = out.hex_decode()
 	return [buffer.size(), buffer.compress()]
 
-func paint_from_str(instr, size):
-	instr = instr.decompress(size).get_string_from_ascii()
+func decompress_paint(inb, size):
+	inb = inb.decompress(size).hex_encode()
 	var newpaint = []
 	for i in range(Global.paint_total):
 		if i % int(Global.paint_size.x) == 0:
 			newpaint.append([])
-		newpaint[-1].append(instr[i].hex_to_int())
+		newpaint[-1].append(inb[i].hex_to_int())
 	return newpaint
 
 # RPC

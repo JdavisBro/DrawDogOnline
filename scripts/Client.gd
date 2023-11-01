@@ -80,7 +80,7 @@ func draw_diff(_pid, size, diff, rect, level):
 
 func recieve_level_paint(_pid, newpaint, size):
 	Global.paint_target.clear_paint()
-	Global.paint_target.paint = MultiplayerManager.paint_from_str(newpaint, size)
+	Global.paint_target.paint = MultiplayerManager.decompress_paint(newpaint, size)
 
 func kill_puppets(_pid):
 	for puppet in level_puppets:
