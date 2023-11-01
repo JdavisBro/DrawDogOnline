@@ -1,4 +1,6 @@
-[gd_scene load_steps=2 format=3 uid="uid://mgqf0hweh5h8"]
+[gd_scene load_steps=3 format=3 uid="uid://mgqf0hweh5h8"]
+
+[ext_resource type="Script" path="res://scripts/textedit_title.gd" id="1_qyn2g"]
 
 [sub_resource type="GDScript" id="GDScript_v2flf"]
 script/source = "extends Control
@@ -21,13 +23,21 @@ func _on_join_button_pressed():
 
 [node name="title" type="Control"]
 layout_mode = 3
-anchors_preset = 0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1920.0
+offset_bottom = -1080.0
 script = SubResource("GDScript_v2flf")
 
 [node name="TitleText" type="Label" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
+layout_mode = 1
+anchors_preset = -1
+offset_left = 3.0
+offset_top = 122.0
+offset_right = 1925.0
+offset_bottom = 224.0
+grow_horizontal = 2
+grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "DrawDog Online"
@@ -35,9 +45,10 @@ horizontal_alignment = 1
 
 [node name="IPTitle" type="Label" parent="."]
 layout_mode = 0
-offset_top = 102.0
-offset_right = 86.0
-offset_bottom = 204.0
+offset_left = 234.0
+offset_top = 328.0
+offset_right = 830.0
+offset_bottom = 430.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "IP:"
@@ -45,10 +56,13 @@ horizontal_alignment = 1
 
 [node name="IPEnter" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 38.0
-offset_top = 204.0
-offset_right = 982.0
-offset_bottom = 364.0
+offset_left = 232.0
+offset_top = 416.0
+offset_right = 832.0
+offset_bottom = 576.0
+focus_neighbor_right = NodePath("../UsernameEnter")
+focus_next = NodePath("../UsernameEnter")
+focus_previous = NodePath("../JoinButton")
 theme_override_colors/background_color = Color(0.870588, 0.870588, 0.870588, 1)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_colors/font_placeholder_color = Color(0.458824, 0.458824, 0.458824, 1)
@@ -56,12 +70,14 @@ theme_override_colors/caret_color = Color(0.12549, 0.12549, 0, 1)
 theme_override_colors/caret_background_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
 caret_blink = true
+script = ExtResource("1_qyn2g")
 
 [node name="UsernameTitle" type="Label" parent="."]
 layout_mode = 0
-offset_top = 356.0
-offset_right = 86.0
-offset_bottom = 458.0
+offset_left = 1091.0
+offset_top = 328.0
+offset_right = 1689.0
+offset_bottom = 430.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Username:"
@@ -69,19 +85,27 @@ horizontal_alignment = 1
 
 [node name="UsernameEnter" type="TextEdit" parent="."]
 layout_mode = 0
-offset_left = 43.0
-offset_top = 458.0
-offset_right = 987.0
-offset_bottom = 618.0
+offset_left = 1088.0
+offset_top = 416.0
+offset_right = 1688.0
+offset_bottom = 576.0
+focus_neighbor_left = NodePath("../IPEnter")
+focus_next = NodePath("../JoinButton")
+focus_previous = NodePath("../IPEnter")
 theme_override_colors/background_color = Color(0.870588, 0.870588, 0.870588, 1)
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
+placeholder_text = "Default"
+script = ExtResource("1_qyn2g")
 
 [node name="JoinButton" type="Button" parent="."]
 layout_mode = 0
-offset_top = 659.0
-offset_right = 519.0
-offset_bottom = 845.0
+offset_left = 782.0
+offset_top = 630.0
+offset_right = 1120.0
+offset_bottom = 737.0
+focus_next = NodePath("../IPEnter")
+focus_previous = NodePath("../UsernameEnter")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Join"

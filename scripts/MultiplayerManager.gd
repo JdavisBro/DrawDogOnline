@@ -69,7 +69,10 @@ func get_ip_port(newip):
 		if not both[1].is_valid_int():
 			return false
 		port = int(both[1])
-	ip = newip
+	if not newip:
+		ip = DEFAULT_IP
+	else:
+		ip = newip
 	return true
 
 func level_in_bounds(level):
