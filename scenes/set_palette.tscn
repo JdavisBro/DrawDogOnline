@@ -1,16 +1,13 @@
-[gd_scene load_steps=5 format=3 uid="uid://tout8bwr3inw"]
+[gd_scene load_steps=4 format=3 uid="uid://tout8bwr3inw"]
 
 [ext_resource type="Script" path="res://scripts/set_palette.gd" id="1_p6qya"]
-[ext_resource type="Script" path="res://scripts/ColorPanel.gd" id="2_tmo2b"]
 
-[sub_resource type="Gradient" id="Gradient_wpij3"]
+[sub_resource type="Gradient" id="Gradient_puur2"]
 offsets = PackedFloat32Array(0)
 colors = PackedColorArray(1, 0, 0, 1)
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_possd"]
-gradient = SubResource("Gradient_wpij3")
-width = 32
-height = 20
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ys6nq"]
+gradient = SubResource("Gradient_puur2")
 
 [node name="set_palette" type="Control"]
 layout_mode = 3
@@ -25,61 +22,116 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.435294, 0.435294, 0.435294, 1)
 
-[node name="ColorPanel" type="PanelContainer" parent="."]
-visible = false
-layout_mode = 2
-offset_left = 350.0
-offset_top = 34.0
-offset_right = 784.0
-offset_bottom = 602.0
-script = ExtResource("2_tmo2b")
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 1891.0
+offset_bottom = 1064.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="ColorPanel"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="PaletteColumnContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
-[node name="ScrollContainer" type="ScrollContainer" parent="ColorPanel/HBoxContainer"]
+[node name="SetPaletteText" type="Label" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer"]
 layout_mode = 2
+text = "Set Palette"
+
+[node name="PaletteContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer"]
+layout_mode = 2
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ColorPanel/HBoxContainer/ScrollContainer"]
+[node name="PaletteItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+auto_height = true
+item_count = 1
+item_0/text = "Color 1"
+item_0/icon = SubResource("GradientTexture2D_ys6nq")
+
+[node name="PlusButton" type="Button" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer"]
+layout_mode = 2
+text = "Add Color"
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/CenterContainer"]
 layout_mode = 2
 
-[node name="Button" type="Button" parent="ColorPanel/HBoxContainer/ScrollContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
-text = "Luncheon 0"
-icon = SubResource("GradientTexture2D_possd")
+theme_override_constants/margin_top = 38
+theme_override_constants/margin_bottom = 38
 
-[node name="ColorPicker" type="ColorPicker" parent="ColorPanel/HBoxContainer"]
+[node name="ColorPicker" type="ColorPicker" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+edit_alpha = false
+
+[node name="ApplyColorButton" type="Button" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+text = "Apply Color"
+
+[node name="InGameColumnContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
-[node name="Container" type="TabContainer" parent="."]
-layout_mode = 0
-offset_left = 16.0
-offset_top = 14.0
-offset_right = 1882.0
-offset_bottom = 956.0
-
-[node name="PlusButton" type="Button" parent="."]
+[node name="SetPaletteText" type="Label" parent="VBoxContainer/HBoxContainer/InGameColumnContainer"]
 layout_mode = 2
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 19.0
-offset_top = 965.0
-offset_right = -1713.0
-offset_bottom = -8.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 72
-text = "+"
+text = "Set as Chicory Color"
 
-[node name="ConfirmButton" type="Button" parent="."]
+[node name="InGameContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer"]
 layout_mode = 2
-offset_left = 1591.0
-offset_top = 961.0
-offset_right = 1881.0
-offset_bottom = 1068.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 72
+size_flags_vertical = 3
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+horizontal_scroll_mode = 0
+
+[node name="InGameItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+auto_height = true
+item_count = 1
+item_0/text = "Luncheon Color 1"
+item_0/icon = SubResource("GradientTexture2D_ys6nq")
+
+[node name="InGameApplyButton" type="Button" parent="VBoxContainer/HBoxContainer/InGameColumnContainer"]
+layout_mode = 2
+text = "Apply Color"
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 8
+
+[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/ButtonContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/ButtonContainer"]
+layout_mode = 2
 text = "Confirm"
 
-[connection signal="pressed" from="PlusButton" to="." method="_on_plus_button_pressed"]
-[connection signal="pressed" from="ConfirmButton" to="." method="_on_confirm_button_pressed"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer/PaletteItemList" to="." method="_on_palette_item_list_item_selected"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/PaletteColumnContainer/PlusButton" to="." method="_on_plus_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/ApplyColorButton" to="." method="_on_apply_color_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameApplyButton" to="." method="_on_in_game_apply_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/ButtonContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/ButtonContainer/ConfirmButton" to="." method="_on_confirm_button_pressed"]
