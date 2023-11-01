@@ -6,7 +6,6 @@ var scene_changed = false
 
 func process_arg(key, value=""):
 	if key == "server-start":
-		MultiplayerManager.server = true
 		MultiplayerManager.port = MultiplayerManager.DEFAULT_PORT
 		if value != "default":
 			if value.is_valid_int():
@@ -15,12 +14,12 @@ func process_arg(key, value=""):
 				print("Port Invalid")
 				get_tree().quit()
 		get_tree().change_scene_to_file("res://scenes/server.tscn")
-		MultiplayerManager.start()
+		MultiplayerManager.start(true)
 		scene_changed = true
 	elif key == "join-server":
 		MultiplayerManager.get_ip_port(value)
 		get_tree().change_scene_to_file("res://scenes/level.tscn")
-		MultiplayerManager.start()
+		MultiplayerManager.start(false)
 		scene_changed = true
 
 func _ready():

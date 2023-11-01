@@ -108,7 +108,7 @@ func play(anim):
 		return
 	if not puppet and MultiplayerManager.connected:
 		MultiplayerManager.dog_update_animation.rpc(anim)
-		MultiplayerManager.me.animation = anim
+		MultiplayerManager.client.me.animation = anim
 	animation = ResourceLoader.load("res://data/animations/" + anim + ".tres")
 	animation_name = anim
 	frame = 0

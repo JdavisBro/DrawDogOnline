@@ -4,6 +4,7 @@
 script/source = "extends Control
 
 func _ready():
+	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	$IPEnter.placeholder_text = MultiplayerManager.DEFAULT_IP
 	$Status.text = MultiplayerManager.connection_status
 
@@ -11,7 +12,6 @@ func _on_join_button_pressed():
 	if not MultiplayerManager.get_ip_port($IPEnter.text):
 		$IPTitle.text = \"IP - Invalid:\"
 		return
-	print(MultiplayerManager.me)
 	Global.username = $UsernameEnter.text.strip_edges()
 	print(Global.username)
 	get_tree().change_scene_to_file(\"res://scenes/level.tscn\")

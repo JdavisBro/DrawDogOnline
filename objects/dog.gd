@@ -75,13 +75,13 @@ func _physics_process(delta):
 		Global.current_level.y += -1
 		position.y = 1079
 	if Global.current_level != old_level:
-		MultiplayerManager.me.position = position
-		MultiplayerManager.set_loading(true)
-		MultiplayerManager.move_to_level.rpc_id(1, MultiplayerManager.me, Global.current_level)
+		MultiplayerManager.client.me.position = position
+		MultiplayerManager.client.set_loading(true)
+		MultiplayerManager.request_move_to_level.rpc_id(1, MultiplayerManager.client.me, Global.current_level)
 		get_tree().paused = true
 		return
 		
-	MultiplayerManager.me.position = position
+	MultiplayerManager.client.me.position = position
 	
 	if Input.is_action_just_pressed("fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
