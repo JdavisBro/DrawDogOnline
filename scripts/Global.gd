@@ -26,5 +26,7 @@ var paint_res: int = 12
 var current_level = Vector3(0, 0, 0)
 
 func _ready():
+	loading_screen.visible = false
 	get_parent().add_child.call_deferred(loading_screen)
+	pause_screen.visible = false
 	get_parent().add_child.call_deferred(pause_screen)

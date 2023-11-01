@@ -2,7 +2,6 @@
 
 [node name="loading" type="Control"]
 process_mode = 3
-visible = false
 z_index = 2000
 layout_mode = 3
 anchors_preset = 15

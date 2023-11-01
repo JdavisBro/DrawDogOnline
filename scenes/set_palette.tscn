@@ -16,7 +16,7 @@ offset_right = 1920.0
 offset_bottom = 1080.0
 script = ExtResource("1_p6qya")
 
-[node name="Panel" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
