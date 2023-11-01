@@ -1,6 +1,5 @@
 extends MeshInstance2D
 
-var polygon = PackedVector2Array()
 var color = Color(255,0,0)
 var time_rot = 0
 
