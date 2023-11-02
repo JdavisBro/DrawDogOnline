@@ -1,13 +1,15 @@
-[gd_scene load_steps=5 format=3 uid="uid://c8n4gjq3v6y35"]
+[gd_scene load_steps=6 format=3 uid="uid://c8n4gjq3v6y35"]
 
 [ext_resource type="PackedScene" uid="uid://doo4hph7vj7lr" path="res://objects/paint.tscn" id="1_moyao"]
 [ext_resource type="PackedScene" uid="uid://bebdv4x8a47fm" path="res://objects/dog.tscn" id="2_q35ip"]
+[ext_resource type="Script" path="res://scripts/Camera.gd" id="3_xxubx"]
 
 [sub_resource type="GDScript" id="GDScript_shql5"]
 script/source = "extends Node2D
 
 func _ready():
 	MultiplayerManager.client.level_scene = self
+	MultiplayerManager.client.dog = get_node(\"Dog\")
 	Global.pause_enable = true
 "
 
@@ -35,3 +37,11 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "framerate"
 script = SubResource("GDScript_gfrtc")
+
+[node name="Camera2D" type="Camera2D" parent="."]
+anchor_mode = 0
+limit_left = 0
+limit_top = 0
+limit_right = 1920
+limit_bottom = 1080
+script = ExtResource("3_xxubx")
