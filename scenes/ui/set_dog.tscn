@@ -1,12 +1,12 @@
 [gd_scene load_steps=9 format=3 uid="uid://duymuwnvdmpi6"]
 
-[ext_resource type="Script" path="res://scripts/set_dog.gd" id="1_ul8g3"]
-[ext_resource type="Texture2D" uid="uid://cfacn8d5kbpll" path="res://assets/chicory/brush/1.png" id="2_5gspx"]
-[ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog_animation.tscn" id="2_fdxos"]
-[ext_resource type="Texture2D" uid="uid://d0xaan28amdkd" path="res://assets/chicory/brush/0.png" id="3_cvdhn"]
-[ext_resource type="Texture2D" uid="uid://dvq471tqpt82" path="res://assets/chicory/clothes/00.png" id="3_o4v1g"]
-[ext_resource type="Texture2D" uid="uid://be2fjv8q22m0" path="res://assets/chicory/hat/00.png" id="4_1ciae"]
-[ext_resource type="Texture2D" uid="uid://crd3w4fk6lddv" path="res://assets/chicory/hat/05.png" id="5_jo8rb"]
+[ext_resource type="Script" path="res://scripts/set_dog.gd" id="1_7gm8l"]
+[ext_resource type="Texture2D" uid="uid://cfacn8d5kbpll" path="res://assets/chicory/brush/1.png" id="2_vkivh"]
+[ext_resource type="Texture2D" uid="uid://d0xaan28amdkd" path="res://assets/chicory/brush/0.png" id="3_df4k7"]
+[ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog_animation.tscn" id="4_udqss"]
+[ext_resource type="Texture2D" uid="uid://dvq471tqpt82" path="res://assets/chicory/clothes/00.png" id="5_xqi5h"]
+[ext_resource type="Texture2D" uid="uid://be2fjv8q22m0" path="res://assets/chicory/hat/00.png" id="6_aacgv"]
+[ext_resource type="Texture2D" uid="uid://crd3w4fk6lddv" path="res://assets/chicory/hat/05.png" id="7_oeqq4"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_s2u77"]
 viewport_path = NodePath("SubViewport")
@@ -19,7 +19,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_ul8g3")
+script = ExtResource("1_7gm8l")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -34,14 +34,14 @@ size = Vector2i(750, 800)
 [node name="brush" type="Node2D" parent="SubViewport"]
 
 [node name="end" type="Sprite2D" parent="SubViewport/brush"]
-texture = ExtResource("2_5gspx")
+texture = ExtResource("2_vkivh")
 offset = Vector2(0, -26)
 
 [node name="handle" type="Sprite2D" parent="SubViewport/brush"]
-texture = ExtResource("3_cvdhn")
+texture = ExtResource("3_df4k7")
 offset = Vector2(0, -26)
 
-[node name="DogAnim" parent="SubViewport" instance=ExtResource("2_fdxos")]
+[node name="DogAnim" parent="SubViewport" instance=ExtResource("4_udqss")]
 position = Vector2(375, 675)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
@@ -91,7 +91,7 @@ size_flags_vertical = 3
 allow_search = false
 item_count = 1
 item_0/text = "Overalls"
-item_0/icon = ExtResource("3_o4v1g")
+item_0/icon = ExtResource("5_xqi5h")
 
 [node name="HatContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -114,7 +114,7 @@ size_flags_vertical = 3
 allow_search = false
 item_count = 1
 item_0/text = "Bandana"
-item_0/icon = ExtResource("4_1ciae")
+item_0/icon = ExtResource("6_aacgv")
 
 [node name="HairContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
@@ -137,7 +137,7 @@ size_flags_vertical = 3
 allow_search = false
 item_count = 1
 item_0/text = "Simple"
-item_0/icon = ExtResource("5_jo8rb")
+item_0/icon = ExtResource("7_oeqq4")
 
 [node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2

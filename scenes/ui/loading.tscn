@@ -1,4 +1,6 @@
-[gd_scene format=3 uid="uid://boxyydjrjw71j"]
+[gd_scene load_steps=2 format=3 uid="uid://boxyydjrjw71j"]
+
+[ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_cff24"]
 
 [node name="loading" type="Control"]
 process_mode = 3
@@ -14,6 +16,7 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
+theme = ExtResource("1_cff24")
 color = Color(0.886275, 0.886275, 0.886275, 1)
 
 [node name="TitleText" type="Label" parent="."]

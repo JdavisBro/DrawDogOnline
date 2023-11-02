@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://tout8bwr3inw"]
 
-[ext_resource type="Script" path="res://scripts/set_palette.gd" id="1_p6qya"]
+[ext_resource type="Script" path="res://scripts/set_palette.gd" id="1_p18gk"]
 
 [sub_resource type="Gradient" id="Gradient_puur2"]
 offsets = PackedFloat32Array(0)
@@ -14,7 +14,7 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
-script = ExtResource("1_p6qya")
+script = ExtResource("1_p18gk")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0

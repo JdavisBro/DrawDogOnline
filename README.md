@@ -34,6 +34,8 @@ Now you can open it (and export if you want) in Godot :D
 
 ## Credits
 
+Domigorgon Plus font by [Legendknight 3000](https://www.youtube.com/@Legendknight3000).
+
 Game assets distributed with releases are from Chicory: A Colorful Tale
 
 Game based on Chicory: A Colorful Tale

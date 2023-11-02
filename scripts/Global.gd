@@ -3,8 +3,8 @@ extends Node
 const paint_size := Vector2(162, 91)
 const paint_total := paint_size.x * paint_size.y
 
-@onready var loading_screen = preload("res://scenes/loading.tscn").instantiate()
-@onready var pause_screen = preload("res://scenes/pause.tscn").instantiate()
+@onready var loading_screen = preload("res://scenes/ui/loading.tscn").instantiate()
+@onready var pause_screen = preload("res://scenes/ui/pause.tscn").instantiate()
 
 var pause_enable = false
 

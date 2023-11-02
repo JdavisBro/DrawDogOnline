@@ -38,4 +38,4 @@ func _ready():
 			process_arg(key, value)
 			getting_value = false
 	if not scene_changed:
-		get_tree().change_scene_to_file("res://scenes/title.tscn")
+		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
