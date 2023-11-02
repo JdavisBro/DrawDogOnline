@@ -69,7 +69,7 @@ func start():
 	var peer = WebSocketMultiplayerPeer.new()
 	peer.supported_protocols = ["ludus"]
 	#var error = peer.create_client(ip, port)
-	var error = peer.create_client("ws://%s:%s" % [MultiplayerManager.ip, MultiplayerManager.port])
+	var error = peer.create_client("%s%s:%d" % [MultiplayerManager.protocol, MultiplayerManager.ip, MultiplayerManager.port])
 	if error:
 		print(error)
 	multiplayer.multiplayer_peer = peer
