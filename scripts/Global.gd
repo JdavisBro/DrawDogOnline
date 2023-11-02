@@ -55,6 +55,13 @@ func save_dog():
 		outdog.color[i] = "#" + outdog.color[i].to_html()
 	file.store_line(JSON.stringify(outdog))
 
+func _process(_delta):
+	if Input.is_action_just_pressed("fullscreen"):
+		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+		else:
+			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+
 func _ready():
 	loading_screen.visible = false
 	get_parent().add_child.call_deferred(loading_screen)
