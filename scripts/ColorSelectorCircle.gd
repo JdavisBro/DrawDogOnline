@@ -70,6 +70,7 @@ func create_mesh():
 func get_selected():
 	var diff = brush.pos - startpos
 	if diff.length() < MIN_DIST:
+		selected = null
 		return
 	var ang = Vector2.UP.angle_to(diff)
 	if ang < 0:
@@ -77,7 +78,7 @@ func get_selected():
 	selected = floor(ang / (TAU/15))
 
 func _process(_delta):
-	if Input.is_action_pressed("quick_color"):
+	if Input.is_action_pressed("quick_color") and not Input.is_action_pressed("draw"):
 		if not visible:
 			startpos = brush.pos
 		get_selected()

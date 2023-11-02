@@ -16,6 +16,7 @@ func _process(_delta):
 func _on_resume_pressed():
 	get_tree().paused = false
 	visible = false
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN	
 
 func _on_edit_palette_pressed():
 	add_child(preload("res://scenes/set_palette.tscn").instantiate())
