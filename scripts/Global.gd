@@ -20,7 +20,7 @@ const hair_shown_hats = ["Aviators","Beak","Beard","Big Shades","Bow","Clown","E
 const hats_over_ear = ["Ahoy","Big Fungus","Custom","Earmuffs","Headphones","Howdy","Rex Head","Spellcaster","Strawhat","Sunhat","Top Hat"]
 const body2_hats = ["Shawl","Spike","Studs","Kerchief","Scarf"]
 
-var dog_dict = {"clothes": "Overalls", "hat": "Bandana", "hair": "Simple", "color": {"body": Color.WHITE, "hat": Color.WHITE, "clothes": Color.WHITE, "brush_handle": Color.WHITE}}
+var dog_dict = {"clothes": "Overalls", "hat": "Bandana", "hair": "Simple", "color": {"body": Color(1,1,1), "hat": Color(1,1,1), "clothes": Color(1,1,1), "brush_handle": Color(1,1,1)}}
 
 var loaded_sprites_A := {}
 var loaded_sprites_B := {}
@@ -44,6 +44,7 @@ func load_dog():
 		return
 	var file = FileAccess.open("user://dog.json", FileAccess.READ)
 	var newdog = JSON.parse_string(file.get_line())
+	if not newdog: return
 	for i in newdog.color:
 		newdog.color[i] = Color(newdog.color[i])
 	dog_dict = newdog
@@ -52,7 +53,8 @@ func save_dog():
 	var file = FileAccess.open("user://dog.json", FileAccess.WRITE)
 	var outdog = dog_dict
 	for i in outdog.color:
-		outdog.color[i] = "#" + outdog.color[i].to_html()
+		if not typeof(outdog) == TYPE_STRING:
+			outdog.color[i] = "#" + outdog.color[i].to_html()
 	file.store_line(JSON.stringify(outdog))
 
 func _process(_delta):
@@ -63,6 +65,7 @@ func _process(_delta):
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 
 func _ready():
+	process_mode = PROCESS_MODE_ALWAYS
 	loading_screen.visible = false
 	get_parent().add_child.call_deferred(loading_screen)
 	pause_screen.visible = false

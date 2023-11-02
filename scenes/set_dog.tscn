@@ -70,41 +70,71 @@ layout_mode = 2
 layout_mode = 2
 texture = SubResource("ViewportTexture_s2u77")
 
-[node name="ClothesScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="ClothesContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="ClothesSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/ClothesContainer"]
+layout_mode = 2
+placeholder_text = "Search..."
+clear_button_enabled = true
+
+[node name="ClothesScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/ClothesContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="ClothesItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/ClothesScroll"]
+[node name="ClothesItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/ClothesContainer/ClothesScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+allow_search = false
 item_count = 1
 item_0/text = "Overalls"
 item_0/icon = ExtResource("3_o4v1g")
 
-[node name="HatScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="HatContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="HatSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/HatContainer"]
+layout_mode = 2
+placeholder_text = "Search..."
+clear_button_enabled = true
+
+[node name="HatScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/HatContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="HatItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HatScroll"]
+[node name="HatItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HatContainer/HatScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+allow_search = false
 item_count = 1
 item_0/text = "Bandana"
 item_0/icon = ExtResource("4_1ciae")
 
-[node name="HairScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="HairContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="HairSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/HairContainer"]
+layout_mode = 2
+placeholder_text = "Search..."
+clear_button_enabled = true
+
+[node name="HairScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/HairContainer"]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
+size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="HairItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HairScroll"]
+[node name="HairItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HairContainer/HairScroll"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+allow_search = false
 item_count = 1
 item_0/text = "Simple"
 item_0/icon = ExtResource("5_jo8rb")
@@ -176,9 +206,12 @@ text = "Cancel"
 layout_mode = 2
 text = "Confirm"
 
-[connection signal="item_selected" from="VBoxContainer/HBoxContainer/ClothesScroll/ClothesItemList" to="." method="_on_clothes_item_list_item_selected"]
-[connection signal="item_selected" from="VBoxContainer/HBoxContainer/HatScroll/HatItemList" to="." method="_on_hat_item_list_item_selected"]
-[connection signal="item_selected" from="VBoxContainer/HBoxContainer/HairScroll/HairItemList" to="." method="_on_hair_item_list_item_selected"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/ClothesContainer/ClothesSearch" to="." method="_on_clothes_search_text_changed"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/ClothesContainer/ClothesScroll/ClothesItemList" to="." method="_on_clothes_item_list_item_selected"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/HatContainer/HatSearch" to="." method="_on_hat_search_text_changed"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/HatContainer/HatScroll/HatItemList" to="." method="_on_hat_item_list_item_selected"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/HairContainer/HairSearch" to="." method="_on_hair_search_text_changed"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/HairContainer/HairScroll/HairItemList" to="." method="_on_hair_item_list_item_selected"]
 [connection signal="color_changed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/BodyPickerButton" to="." method="_on_body_picker_button_color_changed"]
 [connection signal="color_changed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/ClothesPickerButton" to="." method="_on_clothes_picker_button_color_changed"]
 [connection signal="color_changed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/HatPickerButton" to="." method="_on_hat_picker_button_color_changed"]
