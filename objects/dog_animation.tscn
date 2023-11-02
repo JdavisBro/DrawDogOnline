@@ -15,12 +15,12 @@ script = ExtResource("1_0tcq3")
 texture = ExtResource("2_0edie")
 centered = false
 
-[node name="body_0" type="Sprite2D" parent="."]
+[node name="body" type="Sprite2D" parent="."]
+texture = ExtResource("3_jfnic")
 centered = false
 offset = Vector2(-75, -119)
 
-[node name="body" type="Sprite2D" parent="."]
-texture = ExtResource("3_jfnic")
+[node name="body_0" type="Sprite2D" parent="."]
 centered = false
 offset = Vector2(-75, -119)
 
