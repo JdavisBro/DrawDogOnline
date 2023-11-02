@@ -20,11 +20,21 @@ func get_gradient_texture(color):
 	return gradtex
 
 func add_palette(color, i):
-	palette_item.add_item("Color %s" % i, get_gradient_texture(color))
+	palette_item.add_item("Color %s" % (i+1), get_gradient_texture(color))
 
 func set_color(color):
 	newpalette[selected_index] = color
 	palette_item.get_item_icon(selected_index).gradient.set_color(0, color)
+
+func get_ingame_colors(search=""):
+	while ingame_item.item_count > 0:
+		ingame_item.remove_item(0)
+	for pname in palette_aliases:
+		if search != "" and search.to_lower() not in pname.to_lower():
+			continue
+		var pal = palettes[palette_aliases[pname]]
+		for ii in range(len(pal)):
+			ingame_item.add_item("%s Color %s" % [pname, (ii+1)], get_gradient_texture(pal[ii]))
 
 func _ready():
 	var i = 0
@@ -35,11 +45,7 @@ func _ready():
 	if len(newpalette) == 15:
 		$VBoxContainer/HBoxContainer/PaletteColumnContainer/PlusButton.disabled = true
 	
-	ingame_item.remove_item(0)
-	for pname in palette_aliases:
-		var pal = palettes[palette_aliases[pname]]
-		for ii in range(len(pal)):
-			ingame_item.add_item("%s Color %s" % [pname, ii], get_gradient_texture(pal[ii]))
+	get_ingame_colors()
 	
 	palette_item.select(0)
 	ingame_item.select(0)
@@ -71,3 +77,6 @@ func _on_in_game_apply_button_pressed():
 
 func _on_in_game_item_list_item_activated(index):
 	set_color(ingame_item.get_item_icon(index).gradient.colors[0])
+
+func _on_in_game_search_text_changed(new_text):
+	get_ingame_colors(new_text)

@@ -91,9 +91,14 @@ layout_mode = 2
 layout_mode = 2
 text = "Set as Chicory Color"
 
-[node name="InGameContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer"]
+[node name="InGameContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer"]
 layout_mode = 2
 size_flags_vertical = 3
+
+[node name="InGameSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer"]
+layout_mode = 2
+placeholder_text = "Search..."
+clear_button_enabled = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer"]
 layout_mode = 2
@@ -132,6 +137,7 @@ text = "Confirm"
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer/PaletteItemList" to="." method="_on_palette_item_list_item_selected"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PaletteColumnContainer/PlusButton" to="." method="_on_plus_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/ApplyColorButton" to="." method="_on_apply_color_button_pressed"]
+[connection signal="text_changed" from="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/InGameSearch" to="." method="_on_in_game_search_text_changed"]
 [connection signal="item_activated" from="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer/InGameItemList" to="." method="_on_in_game_item_list_item_activated"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameApplyButton" to="." method="_on_in_game_apply_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/ButtonContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
