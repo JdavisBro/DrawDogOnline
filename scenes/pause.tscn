@@ -13,6 +13,7 @@ theme = SubResource("Theme_ds51s")
 script = ExtResource("1_1ed7k")
 
 [node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.435294, 0.435294, 0.435294, 1)
@@ -52,6 +53,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 72
 text = "Edit Palette"
 
+[node name="EditDog" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 72
+text = "Edit Dog"
+
 [node name="LeaveServer" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 72
@@ -59,4 +65,5 @@ text = "Leave Server"
 
 [connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/EditPalette" to="." method="_on_edit_palette_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/EditDog" to="." method="_on_edit_dog_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/LeaveServer" to="." method="_on_leave_server_pressed"]

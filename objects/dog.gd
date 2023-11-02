@@ -18,13 +18,6 @@ func _set_facing(new):
 	animation.flip = new
 
 func do_movement(delta):
-	if Input.is_action_just_pressed("ui_accept"):
-		Global.dog_dict = {"hat": "Stache", "hair": "Pixie", "clothes": "Spike", "color": {"body": Color("#ff9057"), "clothes": Color("#baec34"), "hat": Color("#00ffe0")}}
-		MultiplayerManager.client.me.dog = Global.dog_dict
-		animation.set_dog_dict(Global.dog_dict)
-		MultiplayerManager.dog_update_dog.rpc(Global.dog_dict)
-		Global.save_dog()
-
 	prev_position = position
 	
 	var move = Input.get_vector("left", "right", "up", "down").limit_length() # this is weird compared to usual but idk how to fix it maybe later?

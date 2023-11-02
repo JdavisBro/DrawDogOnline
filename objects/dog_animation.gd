@@ -13,6 +13,8 @@ var frame = 0.0
 var previous_f = -1
 var flip = false : set = _set_flip
 
+var big = false : set = _set_big
+
 var speed_scale = 1.0
 
 var tween
@@ -51,6 +53,22 @@ func _set_flip(value):
 		elif scale.x != 1:
 			flip_tween(1)
 
+func _set_big(value):
+	big = value
+	set_dog_dict(Global.dog_dict)
+	play("idle")
+	if big:
+		head.texture = load("res://assets/chicory/expression/0_big.png")
+		head.offset *= 5
+	else:
+		head.texture = load("res://assets/chicory/expression/0.png")
+		head.offset /= 5
+	for i in [body_0, body, body_1, hat_1, hair, body_2, body_2_hat, hat]:
+		if big:
+			i.offset *= 5
+		else:
+			i.offset /= 5
+
 func _ready():
 	play("idle")
 	for anim in ["run", "runup"]:
@@ -73,15 +91,17 @@ func _process(delta):
 		else:
 			play(animation.loop)
 			f = 0
+	var pos_scale = 1
+	if big: pos_scale = 5
 	if animation.body:
 		var f_body: DogAnimationFrame = animation.body[f % len(animation.body)]
-		for i in [body, body_0, body_1]:
-			i.position = f_body.position
+		for i in [body, body_0, body_1, body_2_hat]:
+			i.position = f_body.position*pos_scale
 			i.rotation_degrees = -f_body.rotation
 	if animation.head:
 		var f_head: DogAnimationFrame = animation.head[f % len(animation.head)]
-		for i in [head, hair, hat, hat_1, body_2, body_2_hat]:
-			i.position = f_head.position
+		for i in [head, hair, hat, hat_1, body_2]:
+			i.position = f_head.position*pos_scale
 			i.rotation_degrees = f_head.rotation
 	for layer in ["B", "A", "ear"]:
 		match layer:
@@ -100,6 +120,7 @@ func reset_fit_textures():
 	body_0.texture = null
 	body.texture = null
 	body_1.texture = null
+	body_2_hat.texture = null
 	hair.texture = null
 	hat_1.texture = null
 	body_2.texture = null
@@ -107,26 +128,29 @@ func reset_fit_textures():
 	ear.move_to_front()
 
 func set_dog_dict(dog_dict):
-	print(dog_dict)
-	body.texture = load("res://assets/chicory/clothes/%02d.png" % Global.body_ims[dog_dict.clothes])
+	reset_fit_textures()
+	var suffix = ""
+	if big:
+		suffix = "_big"
+	body.texture = load("res://assets/chicory/clothes%s/%02d.png" % [suffix, Global.body_ims[dog_dict.clothes]])
 	if dog_dict.clothes in Global.body2_ims:
-		body_2.texture = load("res://assets/chicory/clothes2/%02d.png" % Global.body2_ims[dog_dict.clothes])
+		body_2.texture = load("res://assets/chicory/clothes2%s/%02d.png" % [suffix, Global.body2_ims[dog_dict.clothes]])
 	if dog_dict.clothes in Global.body1_ims:
-		body_1.texture = load("res://assets/chicory/clothes2/%02d.png" % Global.body1_ims[dog_dict.clothes])
+		body_1.texture = load("res://assets/chicory/clothes2%s/%02d.png" % [suffix, Global.body1_ims[dog_dict.clothes]])
 	if dog_dict.clothes in Global.body0_ims:
-		body_0.texture = load("res://assets/chicory/clothes2/%02d.png" % Global.body0_ims[dog_dict.clothes])
+		body_0.texture = load("res://assets/chicory/clothes2%s/%02d.png" % [suffix, Global.body0_ims[dog_dict.clothes]])
 	if dog_dict.hat in Global.body2_hats:
-		body_2_hat.texture = load("res://assets/chicory/clothes2/%02d.png" % Global.body2_ims[dog_dict.hat])
+		body_2_hat.texture = load("res://assets/chicory/clothes2%s/%02d.png" % [suffix, Global.body1_ims[dog_dict.hat]])
 	else:
 		if dog_dict.hat in Global.hat_ims:
-			hat.texture = load("res://assets/chicory/hat/%02d.png" % Global.hat_ims[dog_dict.hat])
+			hat.texture = load("res://assets/chicory/hat%s/%02d.png" % [suffix, Global.hat_ims[dog_dict.hat]])
 	if dog_dict.hat in Global.hair_shown_hats:
-		hair.texture = load("res://assets/chicory/hat/%02d.png" % Global.hair_ims[dog_dict.hair])
+		hair.texture = load("res://assets/chicory/hat%s/%02d.png" % [suffix, Global.hair_ims[dog_dict.hair]])
 	if dog_dict.hat in Global.hats_over_ear:
 		hat.move_to_front()
 	if dog_dict.hat == "Horns":
-		hat_1.texture = load("res://assets/chicory/hat/%02d.png" % Global.hat_ims["Horns_1"])
-	prints(body.texture, body_0.texture)
+		hat_1.texture = load("res://assets/chicory/hat%s/%02d.png" % [suffix, 89])
+	
 	B.modulate = dog_dict.color.body
 	A.modulate = dog_dict.color.body
 	ear.modulate = dog_dict.color.body
@@ -137,12 +161,14 @@ func set_dog_dict(dog_dict):
 	hat_1.modulate = dog_dict.color.hat
 	body_1.modulate = dog_dict.color.hat
 	body_0.modulate = dog_dict.color.hat
+	body_2_hat.modulate = dog_dict.color.hat
 	
 	body.modulate = dog_dict.color.clothes
 	body_2.modulate = dog_dict.color.clothes
-	body_2_hat.modulate = dog_dict.color.clothes
 
 func load_frames(anim, layer, loaded):
+	if big:
+		anim = anim + "_big"
 	if anim in loaded:
 		return loaded[anim]
 	var frames = []
@@ -162,12 +188,14 @@ func play(anim):
 	if not puppet and MultiplayerManager.connected:
 		MultiplayerManager.dog_update_animation.rpc(anim)
 		MultiplayerManager.client.me.animation = anim
+	if anim != "idle" and big:
+		return
 	animation = ResourceLoader.load("res://data/animations/" + anim + ".tres")
 	animation_name = anim
 	frame = 0
 	previous_f = -1
 	for i in [B, A, ear]:
-		if anim == "idle":
+		if anim == "idle" and not big:
 			i.offset = Vector2(-animation.origin.x / 5, -animation.origin.y / 5)
 		else:
 			i.offset = Vector2(-animation.origin.x, -animation.origin.y)

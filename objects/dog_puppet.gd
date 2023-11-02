@@ -34,6 +34,6 @@ func _process(delta):
 		brush.end_color = Color.WHITE
 	else:
 		if brush_color:
-			brush.end_color = Global.palette[brush_color-1]
+			brush.end_color = Global.palette[(brush_color-1) % len(Global.palette)]
 	
 	brush_prev_position = brush_position

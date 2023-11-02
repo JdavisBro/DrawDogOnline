@@ -1,0 +1,184 @@
+[gd_scene load_steps=9 format=3 uid="uid://duymuwnvdmpi6"]
+
+[ext_resource type="Script" path="res://scripts/set_dog.gd" id="1_ul8g3"]
+[ext_resource type="Texture2D" uid="uid://cfacn8d5kbpll" path="res://assets/chicory/brush/1.png" id="2_5gspx"]
+[ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog_animation.tscn" id="2_fdxos"]
+[ext_resource type="Texture2D" uid="uid://d0xaan28amdkd" path="res://assets/chicory/brush/0.png" id="3_cvdhn"]
+[ext_resource type="Texture2D" uid="uid://dvq471tqpt82" path="res://assets/chicory/clothes/00.png" id="3_o4v1g"]
+[ext_resource type="Texture2D" uid="uid://be2fjv8q22m0" path="res://assets/chicory/hat/00.png" id="4_1ciae"]
+[ext_resource type="Texture2D" uid="uid://crd3w4fk6lddv" path="res://assets/chicory/hat/05.png" id="5_jo8rb"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_s2u77"]
+viewport_path = NodePath("SubViewport")
+
+[node name="set_dog" type="Control"]
+z_index = 3000
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_ul8g3")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.435294, 0.435294, 0.435294, 1)
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(750, 800)
+
+[node name="brush" type="Node2D" parent="SubViewport"]
+
+[node name="end" type="Sprite2D" parent="SubViewport/brush"]
+texture = ExtResource("2_5gspx")
+offset = Vector2(0, -26)
+
+[node name="handle" type="Sprite2D" parent="SubViewport/brush"]
+texture = ExtResource("3_cvdhn")
+offset = Vector2(0, -26)
+
+[node name="DogAnim" parent="SubViewport" instance=ExtResource("2_fdxos")]
+position = Vector2(375, 675)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 1891.0
+offset_bottom = 1064.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="DogPanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/DogPanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 12
+theme_override_constants/margin_bottom = 12
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/DogPanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="SubViewportContainer" type="TextureRect" parent="VBoxContainer/HBoxContainer/DogPanelContainer/MarginContainer/CenterContainer"]
+layout_mode = 2
+texture = SubResource("ViewportTexture_s2u77")
+
+[node name="ClothesScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="ClothesItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/ClothesScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 1
+item_0/text = "Overalls"
+item_0/icon = ExtResource("3_o4v1g")
+
+[node name="HatScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="HatItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HatScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 1
+item_0/text = "Bandana"
+item_0/icon = ExtResource("4_1ciae")
+
+[node name="HairScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+horizontal_scroll_mode = 0
+
+[node name="HairItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HairScroll"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+item_count = 1
+item_0/text = "Simple"
+item_0/icon = ExtResource("5_jo8rb")
+
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/CenterContainer"]
+layout_mode = 2
+
+[node name="BodyLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Body Color"
+
+[node name="BodyPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+edit_alpha = false
+
+[node name="ClothesLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Clothes Color"
+
+[node name="ClothesPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+edit_alpha = false
+
+[node name="HatLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Hat Color"
+
+[node name="HatPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+edit_alpha = false
+
+[node name="BrushLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+text = "Brush Handle Color"
+
+[node name="BrushPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 40)
+layout_mode = 2
+edit_alpha = false
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Confirm"
+
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/ClothesScroll/ClothesItemList" to="." method="_on_clothes_item_list_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/HatScroll/HatItemList" to="." method="_on_hat_item_list_item_selected"]
+[connection signal="item_selected" from="VBoxContainer/HBoxContainer/HairScroll/HairItemList" to="." method="_on_hair_item_list_item_selected"]
+[connection signal="color_changed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/BodyPickerButton" to="." method="_on_body_picker_button_color_changed"]
+[connection signal="color_changed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/ClothesPickerButton" to="." method="_on_clothes_picker_button_color_changed"]
+[connection signal="color_changed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/HatPickerButton" to="." method="_on_hat_picker_button_color_changed"]
+[connection signal="color_changed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/BrushPickerButton" to="." method="_on_brush_picker_button_color_changed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/ConfirmButton" to="." method="_on_confirm_button_pressed"]

@@ -27,6 +27,10 @@ func _on_edit_palette_pressed():
 	submenu = preload("res://scenes/set_palette.tscn").instantiate()
 	add_child(submenu)
 
+func _on_edit_dog_pressed():
+	submenu = preload("res://scenes/set_dog.tscn").instantiate()
+	add_child(submenu)
+
 func _on_leave_server_pressed():
 	get_tree().paused = false
 	visible = false

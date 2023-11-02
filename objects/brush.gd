@@ -99,6 +99,7 @@ func _physics_process(delta):
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	prop.dog = dog
+	prop.handle.modulate = Global.dog_dict.color.brush_handle
 	if not Global.loaded_brush:
 		for i in range(3):
 			Global.loaded_brush.append(load("res://assets/chicory/brush/%s.png" % (i+1)))

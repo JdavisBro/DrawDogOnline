@@ -32,11 +32,11 @@ centered = false
 centered = false
 offset = Vector2(-75, -119)
 
-[node name="hat_1" type="Sprite2D" parent="."]
+[node name="body_2_hat" type="Sprite2D" parent="."]
 centered = false
-offset = Vector2(-77, -84)
+offset = Vector2(-75, -119)
 
-[node name="hair" type="Sprite2D" parent="."]
+[node name="hat_1" type="Sprite2D" parent="."]
 centered = false
 offset = Vector2(-77, -84)
 
@@ -45,11 +45,11 @@ texture = ExtResource("5_x346j")
 centered = false
 offset = Vector2(-77, -84)
 
-[node name="body_2" type="Sprite2D" parent="."]
+[node name="hair" type="Sprite2D" parent="."]
 centered = false
-offset = Vector2(-75, -119)
+offset = Vector2(-77, -84)
 
-[node name="body_2_hat" type="Sprite2D" parent="."]
+[node name="body_2" type="Sprite2D" parent="."]
 centered = false
 offset = Vector2(-75, -119)
 

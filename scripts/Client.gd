@@ -59,6 +59,7 @@ func add_puppet(pid, userinfo):
 	puppet.animation.flip = userinfo.facing
 	puppet.facing = userinfo.facing
 	puppet.animation.set_dog_dict(userinfo.dog)
+	puppet.brush.handle.modulate = userinfo.dog.color.brush_handle
 
 # Start
 
@@ -132,5 +133,11 @@ func dog_update_animation(pid, animation):
 		level_puppets[pid].animation.play(animation)
 
 func dog_update_dog(pid, dog):
+	if pid == MultiplayerManager.uid:
+		MultiplayerManager.client.me.dog = Global.dog_dict
+		level_scene.get_node("Dog").animation.set_dog_dict(Global.dog_dict)
+		level_scene.get_node("Dog").brush.prop.handle.modulate = dog.color.brush_handle
+		Global.save_dog()
 	if pid in level_puppets:
 		level_puppets[pid].animation.set_dog_dict(dog)
+		level_puppets[pid].brush.handle.modulate = dog.color.brush_handle
