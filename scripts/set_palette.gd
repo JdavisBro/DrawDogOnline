@@ -1,8 +1,10 @@
 extends Control
 
 @onready var palette_item = $VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer/PaletteItemList
-@onready var ingame_item = $VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer/InGameItemList
+@onready var ingame_tree = $VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer/InGameTree
 @onready var colorpicker = $VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/MarginContainer/ColorPicker
+
+var ingame_tree_root
 
 var selected_index = 0
 
@@ -27,14 +29,21 @@ func set_color(color):
 	palette_item.get_item_icon(selected_index).gradient.set_color(0, color)
 
 func get_ingame_colors(search=""):
-	while ingame_item.item_count > 0:
-		ingame_item.remove_item(0)
+	for i in ingame_tree_root.get_children():
+		ingame_tree_root.remove_child(i)
 	for pname in palette_aliases:
 		if search != "" and search.to_lower() not in pname.to_lower():
 			continue
+		var paltree = ingame_tree_root.create_child()
+		paltree.set_selectable(0, false)
+		paltree.set_text(0, pname)
 		var pal = palettes[palette_aliases[pname]]
 		for ii in range(len(pal)):
-			ingame_item.add_item("%s Color %s" % [pname, (ii+1)], get_gradient_texture(pal[ii]))
+			var palcoltree = paltree.create_child()
+			palcoltree.set_icon(0, get_gradient_texture(pal[ii]))
+			palcoltree.set_text(0, "Color %s" % (ii+1))
+			
+			#ingame_item.add_item("%s Color %s" % [pname, (ii+1)], get_gradient_texture(pal[ii]))
 
 func _ready():
 	var i = 0
@@ -45,10 +54,11 @@ func _ready():
 	if len(newpalette) == 15:
 		$VBoxContainer/HBoxContainer/PaletteColumnContainer/PlusButton.disabled = true
 	
+	ingame_tree_root = ingame_tree.create_item()
 	get_ingame_colors()
 	
 	palette_item.select(0)
-	ingame_item.select(0)
+	ingame_tree.set_selected(ingame_tree_root.get_child(0), 0)
 
 func _on_plus_button_pressed():
 	if len(newpalette) < 15:
@@ -73,10 +83,12 @@ func _on_apply_color_button_pressed():
 	set_color(colorpicker.color)
 
 func _on_in_game_apply_button_pressed():
-	set_color(ingame_item.get_item_icon(ingame_item.get_selected_items()[0]).gradient.colors[0])
+	if ingame_tree.get_selected().get_icon(0):
+		set_color(ingame_tree.get_selected().get_icon(0).gradient.colors[0])
 
-func _on_in_game_item_list_item_activated(index):
-	set_color(ingame_item.get_item_icon(index).gradient.colors[0])
+func _on_in_game_tree_item_activated():
+	if ingame_tree.get_selected().get_icon(0):
+		set_color(ingame_tree.get_selected().get_icon(0).gradient.colors[0])
 
 func _on_in_game_search_text_changed(new_text):
 	get_ingame_colors(new_text)

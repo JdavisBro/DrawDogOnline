@@ -54,7 +54,7 @@ func save_dog():
 	var outdog = dog_dict
 	for i in outdog.color:
 		if not typeof(outdog) == TYPE_STRING:
-			outdog.color[i] = "#" + outdog.color[i].to_html()
+			outdog.color[i] = "#" + outdog.color[i].to_html(false)
 	file.store_line(JSON.stringify(outdog))
 
 func _process(_delta):
