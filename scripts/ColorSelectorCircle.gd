@@ -1,7 +1,6 @@
 extends MeshInstance2D
 
 const ROT_SPEED = 64
-const QUAL = 15
 const RAD = 36
 const MIN_DIST = 26
 
@@ -12,12 +11,13 @@ var size = 100
 @onready var brush = get_node("..")
 
 func create_mesh():
+	var qual = len(Global.palette)
 
 	mesh = ImmediateMesh.new()
 	mesh.surface_begin(Mesh.PRIMITIVE_TRIANGLE_STRIP)
 	
 	mesh.surface_set_color(Color.BLACK)
-	for i in range(QUAL): # black border
+	for i in range(qual): # black border
 		var radius = size*1.05
 		var inner_rad = size*0.7
 		
@@ -25,10 +25,10 @@ func create_mesh():
 			radius += 25 
 			inner_rad += 25
 		
-		var a = (TAU / QUAL) * i
+		var a = (TAU / qual) * i
 		var lx = Vector2(0,-1).rotated(a).x
 		var ly = Vector2(0,-1).rotated(a).y
-		a = (TAU / QUAL) * (i+1)
+		a = (TAU / qual) * (i+1)
 		var lx2 = Vector2(0,-1).rotated(a).x
 		var ly2 = Vector2(0,-1).rotated(a).y
 		
@@ -39,7 +39,7 @@ func create_mesh():
 		mesh.surface_add_vertex_2d(Vector2(lx2 * radius, ly2 * radius))
 		mesh.surface_add_vertex_2d(Vector2(lx2 * inner_rad, ly2 * inner_rad))
 
-	for i in range(QUAL):
+	for i in range(qual):
 		var radius = size
 		var inner_rad = size*0.75
 		
@@ -51,10 +51,10 @@ func create_mesh():
 			mesh.surface_set_color(Global.palette[i])
 		else:
 			mesh.surface_set_color(Color.SLATE_GRAY)
-		var a = (TAU / QUAL) * i
+		var a = (TAU / qual) * i
 		var lx = Vector2(0,-1).rotated(a).x
 		var ly = Vector2(0,-1).rotated(a).y
-		a = (TAU / QUAL) * (i+1)
+		a = (TAU / qual) * (i+1)
 		var lx2 = Vector2(0,-1).rotated(a).x
 		var ly2 = Vector2(0,-1).rotated(a).y
 		
@@ -75,7 +75,7 @@ func get_selected():
 	var ang = Vector2.UP.angle_to(diff)
 	if ang < 0:
 		ang = TAU+ang
-	selected = floor(ang / (TAU/15))
+	selected = floori(ang / (TAU/len(Global.palette)))
 
 func _process(_delta):
 	if Input.is_action_pressed("quick_color") and not Input.is_action_pressed("draw"):

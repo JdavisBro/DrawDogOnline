@@ -10,6 +10,7 @@ var USER_INFO = {
 var level_puppets = {} # pid: dogpuppet
 var dogpuppet = preload("res://objects/dog_puppet.tscn")
 var level_scene
+var dog
 var me = USER_INFO
 
 # Signal
@@ -21,7 +22,7 @@ func on_player_disconnected(id):
 		level_puppets.erase(id)
 
 func on_connected_ok():
-	me.position = level_scene.get_node("Dog").position
+	me.position = dog.position
 	me.username = Global.username
 	set_loading(true)
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
@@ -113,6 +114,7 @@ func set_palette(_pid, palette, level):
 		Global.palette = palette
 		Global.paint_target.palette = palette
 		Global.paint_target.setup_tilemap_layers()
+		dog.brush.color_index = min(dog.brush.color_index, len(Global.palette)-1)
 
 func brush_update(pid, position, drawing, color, size):
 	if pid in level_puppets:
@@ -132,12 +134,13 @@ func dog_update_animation(pid, animation):
 	if pid in level_puppets:
 		level_puppets[pid].animation.play(animation)
 
-func dog_update_dog(pid, dog):
+func dog_update_dog(pid, newdog):
 	if pid == MultiplayerManager.uid:
-		MultiplayerManager.client.me.dog = Global.dog_dict
-		level_scene.get_node("Dog").animation.set_dog_dict(Global.dog_dict)
-		level_scene.get_node("Dog").brush.prop.handle.modulate = dog.color.brush_handle
+		Global.dog_dict = newdog
+		me.dog = newdog
+		dog.animation.set_dog_dict(newdog)
+		dog.brush.prop.handle.modulate = newdog.color.brush_handle
 		Global.save_dog()
 	if pid in level_puppets:
-		level_puppets[pid].animation.set_dog_dict(dog)
-		level_puppets[pid].brush.handle.modulate = dog.color.brush_handle
+		level_puppets[pid].animation.set_dog_dict(newdog)
+		level_puppets[pid].brush.handle.modulate = newdog.color.brush_handle

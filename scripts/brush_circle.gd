@@ -10,7 +10,7 @@ const RAD = 36
 @onready var brush = get_node("..")
 
 func create_mesh():
-	color = Global.palette[brush.color_index]
+	color = Global.palette[brush.color_index % len(Global.palette)]
 	
 	if color == Color.BLACK:
 		color = Color(64/255.0, 64/255.0, 64/255.0).lerp(Color.BLACK, 0.33)

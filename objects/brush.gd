@@ -85,7 +85,7 @@ func _physics_process(delta):
 	if drawing and draw_col == 0:
 		prop.end_color = Color.WHITE
 	else:
-		prop.end_color = Global.palette[color_index]
+		prop.end_color = Global.palette[color_index % len(Global.palette)]
 	
 	if draw_col == null:
 		draw_col = color_index + 1
