@@ -53,7 +53,7 @@ horizontal_scroll_mode = 0
 [node name="PaletteItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-auto_height = true
+size_flags_vertical = 3
 item_count = 1
 item_0/text = "Color 1"
 item_0/icon = SubResource("GradientTexture2D_ys6nq")
@@ -103,7 +103,7 @@ horizontal_scroll_mode = 0
 [node name="InGameItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-auto_height = true
+size_flags_vertical = 3
 item_count = 1
 item_0/text = "Luncheon Color 1"
 item_0/icon = SubResource("GradientTexture2D_ys6nq")
@@ -132,6 +132,7 @@ text = "Confirm"
 [connection signal="item_selected" from="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer/PaletteItemList" to="." method="_on_palette_item_list_item_selected"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/PaletteColumnContainer/PlusButton" to="." method="_on_plus_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/ApplyColorButton" to="." method="_on_apply_color_button_pressed"]
+[connection signal="item_activated" from="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer/InGameItemList" to="." method="_on_in_game_item_list_item_activated"]
 [connection signal="pressed" from="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameApplyButton" to="." method="_on_in_game_apply_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/ButtonContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/ButtonContainer/ConfirmButton" to="." method="_on_confirm_button_pressed"]

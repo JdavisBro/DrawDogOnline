@@ -68,3 +68,6 @@ func _on_apply_color_button_pressed():
 
 func _on_in_game_apply_button_pressed():
 	set_color(ingame_item.get_item_icon(ingame_item.get_selected_items()[0]).gradient.colors[0])
+
+func _on_in_game_item_list_item_activated(index):
+	set_color(ingame_item.get_item_icon(index).gradient.colors[0])
