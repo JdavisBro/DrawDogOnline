@@ -88,7 +88,7 @@ func load_paint():
 			paint[level] = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(leveldata.paint), leveldata.paintsize)
 			palettes[level] = []
 			for col in leveldata.palette:
-				palettes[level].append(Color(col	))
+				palettes[level].append(Color(col))
 
 # Start
 
@@ -151,3 +151,7 @@ func dog_update_position(pid, position):
 func dog_update_animation(pid, animation):
 	if pid in player_location:
 		players[player_location[pid]][pid].animation = animation
+
+func dog_update_dog(pid, dog):
+	if pid in player_location:
+		players[player_location[pid]][pid].dog = dog

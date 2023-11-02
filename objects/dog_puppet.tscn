@@ -1,47 +1,13 @@
-[gd_scene load_steps=10 format=3 uid="uid://c06eh5ixn3h81"]
+[gd_scene load_steps=4 format=3 uid="uid://c06eh5ixn3h81"]
 
 [ext_resource type="Script" path="res://objects/dog_puppet.gd" id="1_cqfht"]
-[ext_resource type="Script" path="res://objects/dog_animation.gd" id="2_fnchd"]
-[ext_resource type="Texture2D" uid="uid://cgsyq3u2fnjj5" path="res://assets/chicory/dog/idle/B/00.png" id="3_5pv4f"]
-[ext_resource type="Texture2D" uid="uid://dvq471tqpt82" path="res://assets/chicory/clothes/00.png" id="4_5bmhw"]
-[ext_resource type="Texture2D" uid="uid://bky6r7w31c4yc" path="res://assets/chicory/dog/idle/A/00.png" id="5_pva1v"]
-[ext_resource type="Texture2D" uid="uid://jwr6p4602ecr" path="res://assets/chicory/expression/0.png" id="6_nn8rm"]
-[ext_resource type="Texture2D" uid="uid://be2fjv8q22m0" path="res://assets/chicory/hat/00.png" id="7_s6lqm"]
-[ext_resource type="Texture2D" uid="uid://bf5dgidotmx4e" path="res://assets/chicory/dog/idle/ear/00.png" id="8_tugl6"]
+[ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog_animation.tscn" id="2_k5r5l"]
 [ext_resource type="PackedScene" uid="uid://wvf60gr2lk61" path="res://objects/brush_prop.tscn" id="9_opc51"]
 
 [node name="DogPuppet" type="Node2D" groups=["dogpuppets"]]
 script = ExtResource("1_cqfht")
 
-[node name="AnimationManager" type="Node2D" parent="."]
-script = ExtResource("2_fnchd")
-
-[node name="B" type="Sprite2D" parent="AnimationManager"]
-texture = ExtResource("3_5pv4f")
-centered = false
-
-[node name="body" type="Sprite2D" parent="AnimationManager"]
-texture = ExtResource("4_5bmhw")
-centered = false
-offset = Vector2(-75, -119)
-
-[node name="A" type="Sprite2D" parent="AnimationManager"]
-texture = ExtResource("5_pva1v")
-centered = false
-
-[node name="head" type="Sprite2D" parent="AnimationManager"]
-texture = ExtResource("6_nn8rm")
-centered = false
-offset = Vector2(-77, -84)
-
-[node name="hat" type="Sprite2D" parent="AnimationManager"]
-texture = ExtResource("7_s6lqm")
-centered = false
-offset = Vector2(-77, -84)
-
-[node name="ear" type="Sprite2D" parent="AnimationManager"]
-texture = ExtResource("8_tugl6")
-centered = false
+[node name="AnimationManager" parent="." instance=ExtResource("2_k5r5l")]
 
 [node name="prop" parent="." instance=ExtResource("9_opc51")]
 z_as_relative = false

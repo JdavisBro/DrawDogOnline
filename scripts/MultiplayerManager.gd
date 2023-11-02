@@ -178,6 +178,11 @@ func dog_update_animation(animation):
 	var pid = multiplayer.get_remote_sender_id()
 	client.dog_update_animation(pid, animation)
 
+@rpc("any_peer", "call_local", "reliable")
+func dog_update_dog(dog):
+	var pid = multiplayer.get_remote_sender_id()
+	client.dog_update_dog(pid, dog)
+
 func start(nserver=false):
 	server = nserver
 	if server:

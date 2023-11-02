@@ -90,6 +90,16 @@ for fp in export.glob("sprDog_body_*"):
     new.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(fp, new)
 
+for fp in export.glob("sprDog_body2_*"):
+    split = fp.stem.split("_")
+    frame = int(split[-1])
+    new_small = out / "clothes2" / f"{frame:02}.png"
+    new_small.parent.mkdir(parents=True, exist_ok=True)
+    Image.open(fp).resize((150, 150)).save(new_small)
+    new = out / "clothes2_big" / f"{frame:02}.png"
+    new.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(fp, new)
+
 for fp in export.glob("sprDog_body2_*"): # fix this ALSO add small
     continue
     split = fp.stem.split("_")

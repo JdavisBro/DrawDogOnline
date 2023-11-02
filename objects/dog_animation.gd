@@ -22,9 +22,15 @@ var sprites_B := []
 var sprites_ear := []
 
 @onready var B = $B
+@onready var body_0 = $body_0
 @onready var body = $body
 @onready var A = $A
+@onready var body_1 = $body_1
+@onready var hat_1 = $hat_1
+@onready var hair = $hair
 @onready var head = $head
+@onready var body_2 = $body_2
+@onready var body_2_hat = $body_2_hat
 @onready var ear = $ear
 @onready var hat = $hat
 
@@ -69,11 +75,12 @@ func _process(delta):
 			f = 0
 	if animation.body:
 		var f_body: DogAnimationFrame = animation.body[f % len(animation.body)]
-		body.position = f_body.position
-		body.rotation_degrees = -f_body.rotation
+		for i in [body, body_0, body_1]:
+			i.position = f_body.position
+			i.rotation_degrees = -f_body.rotation
 	if animation.head:
 		var f_head: DogAnimationFrame = animation.head[f % len(animation.head)]
-		for i in [head, hat]: # Update for horns AND hat clothes
+		for i in [head, hair, hat, hat_1, body_2, body_2_hat]:
 			i.position = f_head.position
 			i.rotation_degrees = f_head.rotation
 	for layer in ["B", "A", "ear"]:
@@ -88,6 +95,52 @@ func _process(delta):
 				if sprites_ear:
 					ear.texture = sprites_ear[f]
 	frame += 60 * delta * animation.speed_scale * speed_scale
+
+func reset_fit_textures():
+	body_0.texture = null
+	body.texture = null
+	body_1.texture = null
+	hair.texture = null
+	hat_1.texture = null
+	body_2.texture = null
+	hat.texture = null
+	ear.move_to_front()
+
+func set_dog_dict(dog_dict):
+	print(dog_dict)
+	body.texture = load("res://assets/chicory/clothes/%02d.png" % Global.body_ims[dog_dict.clothes])
+	if dog_dict.clothes in Global.body2_ims:
+		body_2.texture = load("res://assets/chicory/clothes2/%02d.png" % Global.body2_ims[dog_dict.clothes])
+	if dog_dict.clothes in Global.body1_ims:
+		body_1.texture = load("res://assets/chicory/clothes2/%02d.png" % Global.body1_ims[dog_dict.clothes])
+	if dog_dict.clothes in Global.body0_ims:
+		body_0.texture = load("res://assets/chicory/clothes2/%02d.png" % Global.body0_ims[dog_dict.clothes])
+	if dog_dict.hat in Global.body2_hats:
+		body_2_hat.texture = load("res://assets/chicory/clothes2/%02d.png" % Global.body2_ims[dog_dict.hat])
+	else:
+		if dog_dict.hat in Global.hat_ims:
+			hat.texture = load("res://assets/chicory/hat/%02d.png" % Global.hat_ims[dog_dict.hat])
+	if dog_dict.hat in Global.hair_shown_hats:
+		hair.texture = load("res://assets/chicory/hat/%02d.png" % Global.hair_ims[dog_dict.hair])
+	if dog_dict.hat in Global.hats_over_ear:
+		hat.move_to_front()
+	if dog_dict.hat == "Horns":
+		hat_1.texture = load("res://assets/chicory/hat/%02d.png" % Global.hat_ims["Horns_1"])
+	prints(body.texture, body_0.texture)
+	B.modulate = dog_dict.color.body
+	A.modulate = dog_dict.color.body
+	ear.modulate = dog_dict.color.body
+	head.modulate = dog_dict.color.body
+	hair.modulate = dog_dict.color.body
+	
+	hat.modulate = dog_dict.color.hat
+	hat_1.modulate = dog_dict.color.hat
+	body_1.modulate = dog_dict.color.hat
+	body_0.modulate = dog_dict.color.hat
+	
+	body.modulate = dog_dict.color.clothes
+	body_2.modulate = dog_dict.color.clothes
+	body_2_hat.modulate = dog_dict.color.clothes
 
 func load_frames(anim, layer, loaded):
 	if anim in loaded:

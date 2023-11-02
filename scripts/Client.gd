@@ -4,7 +4,8 @@ var USER_INFO = {
 	"username": "Default", "position": Vector2.ZERO, "animation": "idle", "facing": false,
 	"brush": {
 		"position": Vector2.ZERO, "drawing": false, "color": 1, "size": 24
-	}
+	},
+	"dog": Global.dog_dict
 }
 var level_puppets = {} # pid: dogpuppet
 var dogpuppet = preload("res://objects/dog_puppet.tscn")
@@ -57,6 +58,7 @@ func add_puppet(pid, userinfo):
 	puppet.animation.play(userinfo.animation)
 	puppet.animation.flip = userinfo.facing
 	puppet.facing = userinfo.facing
+	puppet.animation.set_dog_dict(userinfo.dog)
 
 # Start
 
@@ -128,3 +130,7 @@ func dog_update_position(pid, position):
 func dog_update_animation(pid, animation):
 	if pid in level_puppets:
 		level_puppets[pid].animation.play(animation)
+
+func dog_update_dog(pid, dog):
+	if pid in level_puppets:
+		level_puppets[pid].animation.set_dog_dict(dog)
