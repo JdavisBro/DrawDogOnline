@@ -95,12 +95,12 @@ func _process(delta):
 	if big: pos_scale = 5
 	if animation.body:
 		var f_body: DogAnimationFrame = animation.body[f % len(animation.body)]
-		for i in [body, body_0, body_1, body_2_hat]:
+		for i in [body, body_0, body_1, body_2, body_2_hat]:
 			i.position = f_body.position*pos_scale
 			i.rotation_degrees = -f_body.rotation
 	if animation.head:
 		var f_head: DogAnimationFrame = animation.head[f % len(animation.head)]
-		for i in [head, hair, hat, hat_1, body_2]:
+		for i in [head, hair, hat, hat_1]:
 			i.position = f_head.position*pos_scale
 			i.rotation_degrees = f_head.rotation
 	for layer in ["B", "A", "ear"]:

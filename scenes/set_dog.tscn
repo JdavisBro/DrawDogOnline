@@ -130,7 +130,8 @@ edit_alpha = false
 [node name="ClothesLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Clothes Color"
+text = "
+Clothes Color"
 
 [node name="ClothesPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
@@ -140,7 +141,8 @@ edit_alpha = false
 [node name="HatLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Hat Color"
+text = "
+Hat Color"
 
 [node name="HatPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
@@ -150,7 +152,8 @@ edit_alpha = false
 [node name="BrushLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 4
-text = "Brush Handle Color"
+text = "
+Brush Handle Color"
 
 [node name="BrushPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(0, 40)
