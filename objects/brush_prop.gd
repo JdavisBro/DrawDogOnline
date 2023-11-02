@@ -39,10 +39,10 @@ func update_drawing(delta, pos, prev_position):
 func update_not_drawing(delta, pos, return_timer):
 	return_timer += delta
 	if return_timer > 0.5:
-		global_position = dog.global_position + Vector2(0, -25)
+		global_position = dog.animation.body.global_position + Vector2(0, -15)
 		z_index = dog.z_index - 1
 		rotation_degrees = 135 + 90 * ( ( ( -dog.animation.scale.x )+1 ) / 2.0 )
-		position += Vector2(0, 60).rotated(rotation)
+		position += Vector2(0, 50*scale.y).rotated(rotation)
 	else:
 		global_position = pos
 		position.y += -50 * scale.y
