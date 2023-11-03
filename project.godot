@@ -17,6 +17,7 @@ config/icon="res://icon.svg"
 
 [autoload]
 
+Settings="*res://scripts/Settings.gd"
 Global="*res://scripts/Global.gd"
 PaintUtil="*res://scripts/PaintUtil.gd"
 MultiplayerManager="*res://scripts/MultiplayerManager.gd"
@@ -142,6 +143,11 @@ style_3={
 style_4={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":52,"key_label":0,"unicode":52,"echo":false,"script":null)
+]
+}
+screenshot={
+"deadzone": 0.5,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194343,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
 

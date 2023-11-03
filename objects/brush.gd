@@ -77,6 +77,8 @@ func process_style_inputs():
 
 func _physics_process(delta):
 	prev_position = pos
+	if not Global.paintable:
+		return
 	if DisplayServer.window_is_focused():
 		pos = get_global_mouse_position()
 	

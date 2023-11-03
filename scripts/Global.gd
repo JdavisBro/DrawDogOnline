@@ -39,6 +39,10 @@ var paint_res: int = 12
 
 var current_level = Vector3(0, 0, 0)
 
+var paintable = true
+var screenshot = null
+var filedialog = null
+
 func load_username():
 	var file = FileAccess.open("user://username.txt", FileAccess.READ)
 	Global.username = file.get_line().strip_edges()
@@ -67,12 +71,53 @@ func save_dog():
 			outdog.color[i] = "#" + outdog.color[i].to_html(false)
 	file.store_line(JSON.stringify(outdog))
 
+func cancel_screenshotting():
+	filedialog.queue_free()
+	screenshot = null
+	paintable = true
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+
+func save_screenshot(path):
+	screenshot.save_png(path)
+	Settings.last_save_location = "/".join(path.split("/").slice(0, -1)) + "/"
+	Settings.save()
+	filedialog.queue_free()
+	screenshot = null
+	paintable = true
+	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+
 func _process(_delta):
 	if Input.is_action_just_pressed("fullscreen"):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	
+	if Input.is_action_just_pressed("screenshot") and not get_tree().paused:
+		if Global.paint_target and not screenshot:
+			screenshot = await Global.paint_target.get_texture()
+			if OS.has_feature("web"):
+				JavaScriptBridge.download_buffer(screenshot.save_png_to_buffer(), "paint.png", "image/png")
+			else:
+				paintable = false
+				filedialog = FileDialog.new()
+				
+				filedialog.exclusive = true
+				var cornerdist = Vector2i(1920, 1080)/10
+				filedialog.position = cornerdist
+				filedialog.size = Vector2i(1920, 1080)-cornerdist*2
+				
+				filedialog.access = FileDialog.ACCESS_FILESYSTEM
+				filedialog.current_dir = Settings.last_save_location
+				
+				filedialog.add_filter("*.png", "PNG File")
+				filedialog.title = "Save Paint Screenshot"
+				
+				add_child(filedialog)
+				filedialog.visible = true
+				filedialog.connect("canceled", cancel_screenshotting)
+				filedialog.connect("file_selected", save_screenshot)
+				Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
 func _ready():
 	process_mode = PROCESS_MODE_ALWAYS

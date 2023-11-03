@@ -17,6 +17,19 @@ var paint_diff_changed = false
 
 @onready var map = $TileMap
 
+func get_texture():
+	_process(0.0)
+	var viewport = SubViewport.new()
+	viewport.size = Vector2(1920, 1080)
+	add_child(viewport)
+	map.reparent(viewport)
+	viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	await get_tree().process_frame
+	var texture = viewport.get_texture().get_image()
+	map.reparent(self)
+	viewport.queue_free()
+	return texture
+
 func clear_paint(random=false):
 	randomize()
 	paint = []
