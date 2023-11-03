@@ -45,12 +45,11 @@ transparent_bg = true
 size = Vector2i(1920, 1080)
 
 [node name="TileMap" type="TileMap" parent="MapViewport"]
-texture_filter = 1
 texture_repeat = 2
 tile_set = SubResource("TileSet_whygt")
 format = 2
 layer_0/modulate = Color(1, 0, 0, 1)
-layer_0/tile_data = PackedInt32Array(65537, 65536, 1, 131074, 65536, 0, 131073, 131072, 0, 65538, 65536, 1, 0, 65536, 1, 131075, 65536, 1, 2, 65536, 1, 65536, 65536, 1, 65535, 65536, 1, 65534, 65536, 1, -2, 65536, 1, -1, 65536, 1, -65536, 65536, 1, -65535, 65536, 1, 1, 65536, 1)
+layer_0/tile_data = PackedInt32Array(65534, 65536, 1, -2, 65536, 1, -1, 65536, 1, -65536, 65536, 1, -65535, 65536, 1)
 
 [node name="DisplaySprite" type="Sprite2D" parent="."]
 texture_repeat = 2
