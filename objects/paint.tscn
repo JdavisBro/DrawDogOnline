@@ -1,14 +1,7 @@
-[gd_scene load_steps=8 format=3 uid="uid://doo4hph7vj7lr"]
+[gd_scene load_steps=7 format=3 uid="uid://doo4hph7vj7lr"]
 
 [ext_resource type="Script" path="res://objects/paint.gd" id="1_km0p0"]
-[ext_resource type="Shader" path="res://shaders/paint.gdshader" id="2_8h433"]
-[ext_resource type="Texture2D" uid="uid://cy2mp4tsignj8" path="res://assets/chicory/paintnoise.png" id="3_aagr5"]
 [ext_resource type="Texture2D" uid="uid://dab2v1yhwocs5" path="res://assets/paint.png" id="4_xjx2b"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_l72bf"]
-shader = ExtResource("2_8h433")
-shader_parameter/boil = 0.0
-shader_parameter/noise = ExtResource("3_aagr5")
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_odaiu"]
 texture = ExtResource("4_xjx2b")
@@ -33,14 +26,29 @@ texture_region_size = Vector2i(12, 12)
 tile_size = Vector2i(12, 12)
 sources/0 = SubResource("TileSetAtlasSource_odaiu")
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g8fcy"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_bj0di"]
+viewport_path = NodePath("SubViewport")
+
 [node name="paint" type="Node2D"]
 z_index = -100
 script = ExtResource("1_km0p0")
 
-[node name="TileMap" type="TileMap" parent="."]
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(1920, 1080)
+
+[node name="TileMap" type="TileMap" parent="SubViewport"]
 texture_filter = 1
 texture_repeat = 2
-material = SubResource("ShaderMaterial_l72bf")
 tile_set = SubResource("TileSet_whygt")
 format = 2
-layer_0/tile_data = PackedInt32Array(65537, 65536, 1, 131074, 65536, 0, 131073, 131072, 0, 65538, 0, 2)
+layer_0/modulate = Color(1, 0, 0, 1)
+layer_0/tile_data = PackedInt32Array(65537, 65536, 1, 131074, 65536, 0, 131073, 131072, 0, 65538, 65536, 1, 0, 65536, 1, 131075, 65536, 1, 2, 65536, 1, 65536, 65536, 1, 65535, 65536, 1, 65534, 65536, 1, -2, 65536, 1, -1, 65536, 1, -65536, 65536, 1, -65535, 65536, 1, 1, 65536, 1)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_g8fcy")
+texture = SubResource("ViewportTexture_bj0di")
+centered = false

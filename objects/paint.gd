@@ -15,20 +15,10 @@ var drawing_paint_diff = false
 var paint_diff_rect = Rect2(Vector2.ZERO, Vector2.ZERO)
 var paint_diff_changed = false
 
-@onready var map = $TileMap
+@onready var map = $SubViewport/TileMap
 
 func get_texture():
-	_process(0.0)
-	var viewport = SubViewport.new()
-	viewport.size = Vector2(1920, 1080)
-	add_child(viewport)
-	map.reparent(viewport)
-	viewport.render_target_update_mode = SubViewport.UPDATE_ONCE
-	await get_tree().process_frame
-	var texture = viewport.get_texture().get_image()
-	map.reparent(self)
-	viewport.queue_free()
-	return texture
+	return $SubViewport.get_texture().get_image()
 
 func clear_paint(random=false):
 	randomize()
@@ -90,14 +80,12 @@ func connected():
 		clear_paint_diff()
 
 func _process(delta):
-#	if Input.is_action_just_pressed("ui_accept"):
-#		clear_paint(true)
 	if MultiplayerManager.connected:
 		connected()
 	boil_timer += delta
 	randomize()
 	if boil_timer > 0.25:
-		map.material.set_shader_parameter("boil", randf())
+		$Sprite2D.material.set_shader_parameter("boil", randf())
 		boil_timer = fmod(boil_timer, 0.25)
 	if update_needed:
 		var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
