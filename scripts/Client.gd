@@ -24,12 +24,11 @@ func on_player_disconnected(id):
 func on_connected_ok():
 	me.position = dog.position
 	me.username = Global.username
-	set_loading(true)
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 
 func on_connected_fail():
 	set_loading(false)
-	get_tree().change_scene_to_file("res://scenes/title.tscn")
+	get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
 func on_server_disconnected():
 	set_loading(false)
@@ -65,6 +64,7 @@ func add_puppet(pid, userinfo):
 # Start
 
 func start():
+	set_loading(true)	
 	get_tree().paused = true
 	var peer = WebSocketMultiplayerPeer.new()
 	peer.supported_protocols = ["ludus"]

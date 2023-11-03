@@ -8,7 +8,7 @@ var flood_node
 func _init(nbrush):
 	brush = nbrush
 
-func paint(position: Vector2, prev_position: Vector2, color: int, just: bool):
+func paint(position: Vector2, _prev_position: Vector2, color: int, just: bool):
 	position = position.round()
 	if not just or Global.paint_target.paint[position.y][position.x] == color:
 		return
