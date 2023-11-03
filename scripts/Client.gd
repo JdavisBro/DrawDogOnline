@@ -64,7 +64,7 @@ func add_puppet(pid, userinfo):
 # Start
 
 func start():
-	set_loading(true)	
+	set_loading(true)
 	get_tree().paused = true
 	var peer = WebSocketMultiplayerPeer.new()
 	peer.supported_protocols = ["ludus"]

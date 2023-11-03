@@ -2,6 +2,7 @@ extends Node
 
 const DEFAULT_IP = "127.0.0.1"
 const DEFAULT_PORT = 33363
+const DEFAULT_WSS_PORT = 443
 
 const LEVEL_RANGE = Vector2(20, 20)
 
@@ -72,6 +73,10 @@ func get_ip_port(newip):
 		port = int(both[1])
 	else:
 		ip = newip
+		if protocol == "wss://":
+			port = DEFAULT_WSS_PORT
+		else:
+			port = DEFAULT_PORT
 	return true
 
 func level_in_bounds(level):
