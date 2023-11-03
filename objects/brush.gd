@@ -61,12 +61,12 @@ func process_style_inputs():
 			selected_style = 0
 		else:
 			selected_style = 4
+	if selected_style > len(styles):
+		selected_style = 0
 	if oldsel != selected_style:
 		if styles[oldsel-1].has_method("swapped_out"):
 			styles[oldsel-1].swapped_out()
 		reset_flood()
-	if selected_style > len(styles):
-		selected_style = len(styles)
 	if selected_style:
 		styletip.visible = true
 		styletip.get_node("Label").text = str(selected_style)

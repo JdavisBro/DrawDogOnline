@@ -22,7 +22,7 @@ func _init(n_paint, n_color, n_color_collide=-1):
 
 func _ready():
 	add_to_group("paintbursts")
-	queue.append(position)
+	queue.append(position.round())
 	for y in range(paint.size.y):
 		for x in range(paint.size.x):
 			if x == 0:
