@@ -39,6 +39,16 @@ var paint_res: int = 12
 
 var current_level = Vector3(0, 0, 0)
 
+func load_username():
+	var file = FileAccess.open("user://username.txt", FileAccess.READ)
+	Global.username = file.get_line().strip_edges()
+	file.close()
+
+func save_username():
+	var file = FileAccess.open("user://username.txt", FileAccess.WRITE)
+	file.store_line(Global.username)
+	file.close()
+
 func load_dog():
 	if not FileAccess.file_exists("user://dog.json"):
 		return
@@ -70,4 +80,5 @@ func _ready():
 	get_parent().add_child.call_deferred(loading_screen)
 	pause_screen.visible = false
 	get_parent().add_child.call_deferred(pause_screen)
+	load_username()
 	load_dog()

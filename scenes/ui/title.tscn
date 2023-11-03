@@ -10,17 +10,14 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	$IPEnter.text = \"%s:%d\" % [MultiplayerManager.DEFAULT_IP, MultiplayerManager.DEFAULT_PORT]
 	$Status.text = MultiplayerManager.connection_status
+	$UsernameEnter.text = Global.username
 	if OS.has_feature(\"web\"):
 		var search = JavaScriptBridge.eval(\"window.location.search\")
 		search = search.lstrip(\"?\").split(\"&\")
 		for i in search:
 			i = i.to_lower().split(\"=\")
 			if i[0] == \"ip\":
-				MultiplayerManager.get_ip_port(i[1])
-				if \":\" in i[1]:
-					$IPEnter.text = \"%s:%d\" % [MultiplayerManager.ip, MultiplayerManager.port]
-				else:
-					$IPEnter.text = \"%s\" % MultiplayerManager.ip
+				$IPEnter.text = i[1]
 			elif i[0] == \"secure\":
 				if i[1] == \"true\":
 					$ProtocolSelect.select(1)
@@ -30,10 +27,10 @@ func _on_join_button_pressed():
 	if not MultiplayerManager.get_ip_port($IPEnter.text):
 		$IPTitle.text = \"IP - Invalid:\"
 		return
-	Global.username = $UsernameEnter.text.strip_edges()
-	print(Global.username)
+	if Global.username != $UsernameEnter.text.strip_edges():
+		Global.username = $UsernameEnter.text.strip_edges()
+		Global.save_username()
 	get_tree().change_scene_to_file(\"res://scenes/level.tscn\")
-	queue_free()
 	MultiplayerManager.start()
 "
 
