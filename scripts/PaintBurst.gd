@@ -36,12 +36,12 @@ func _process(delta):
 		accel = 0.02*60 # values from original game times framerate for delta
 	var checked = 0
 	var end_time = Time.get_ticks_msec() + 1 # this is in the base game. time cap of 2ms
-	if len(get_tree().get_nodes_in_group("paintburts")) >= 5:
-		end_time += 1
+	if len(get_tree().get_nodes_in_group("paintbursts")) <= 5:
+		end_time += 3
 	while queue and checked < CHECKED_CAP and Time.get_ticks_msec() < end_time:
 		var pos = queue.pop_front()
 		if color_collide > -1:
-			if paint[pos.y][pos.x] != color_collide:
+			if paint.paint[pos.y][pos.x] != color_collide:
 				continue
 		var cur_dist = position.distance_to(pos)
 		farthest_dist = max(cur_dist, farthest_dist)

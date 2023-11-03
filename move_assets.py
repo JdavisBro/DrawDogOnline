@@ -115,6 +115,13 @@ for fp in export.glob("sprDog_expression_*.png"):
     new.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(fp, new)
 
+for fp in export.glob("sprStamp_*.png"):
+    split = fp.stem.split("_")
+    frame = int(split[-1])
+    new = out / "stamp" / f"{frame:02}.png"
+    new.parent.mkdir(parents=True, exist_ok=True)
+    shutil.copy(fp, new)
+
 # im = Image.new("RGBA", (12*4, 12*4), color=(0,0,0,0))
 # for i, fp in enumerate(sorted(export.glob("sprMsquare_*.png"), key=lambda a: int(a.stem.split("_")[-1]))):
 #     frame = int(fp.stem.split("_")[-1])

@@ -17,8 +17,14 @@ var texture_movement = 0.0
 
 var flood_start_timer = 0.0
 var flood_node
+var was_flooding = false
 
 var brush_return_timer = 5.0
+
+var styles = []
+var selected_style = 0
+
+@onready var styletip = $styletip
 
 @onready var circle = $circle
 @onready var prop = $prop
@@ -30,6 +36,44 @@ const BRUSH_RETURN_TIME = 0.5
 func reset_flood():
 	flood_start_timer = 0.0
 	if is_instance_valid(flood_node): flood_node.queue_free()
+	if styles[selected_style-1].has_method("flood_stop"):
+		styles[selected_style-1].flood_stop()
+
+func process_style_inputs():
+	var oldsel = selected_style
+	if Input.is_action_just_pressed("style_1"):
+		if selected_style == 1:
+			selected_style = 0
+		else:
+			selected_style = 1
+	elif Input.is_action_just_pressed("style_2"):
+		if selected_style == 2:
+			selected_style = 0
+		else:
+			selected_style = 2
+	elif Input.is_action_just_pressed("style_3"):
+		if selected_style == 3:
+			selected_style = 0
+		else:
+			selected_style = 3
+	elif Input.is_action_just_pressed("style_4"):
+		if selected_style == 4:
+			selected_style = 0
+		else:
+			selected_style = 4
+	if oldsel != selected_style:
+		if styles[oldsel-1].has_method("swapped_out"):
+			styles[oldsel-1].swapped_out()
+		reset_flood()
+	if selected_style > len(styles):
+		selected_style = len(styles)
+	if selected_style:
+		styletip.visible = true
+		styletip.get_node("Label").text = str(selected_style)
+		styletip.get_node("Icon").texture = styles[selected_style-1].icon
+		styletip.position = pos + Vector2(23, -74)
+	else:
+		styletip.visible = false
 
 func _physics_process(delta):
 	prev_position = pos
@@ -37,7 +81,7 @@ func _physics_process(delta):
 		pos = get_global_mouse_position()
 	
 	prev_paint_pos = paint_pos
-	paint_pos = (pos / Global.paint_res).round()
+	paint_pos = pos / Global.paint_res
 	
 	if Input.is_action_just_pressed("brush_size_next"):
 		size = BRUSH_SIZES[(BRUSH_SIZES.find(size)+1) % len(BRUSH_SIZES)]
@@ -49,6 +93,8 @@ func _physics_process(delta):
 	elif Input.is_action_just_pressed("brush_color_prev"):
 		color_index = posmod(color_index-1, len(Global.palette))
 		reset_flood()
+	
+	process_style_inputs()
 	
 	var drawing = false
 	var draw_col
@@ -62,19 +108,29 @@ func _physics_process(delta):
 		drawing = true
 		if not Input.is_action_pressed("draw") and Input.is_action_just_pressed("erase"): # If button just pressed change prev_pos to not use that
 			prev_position = pos
+	
 	if drawing:
-
 		if prev_position.distance_to(pos) <= 1:
 			flood_start_timer += delta
 		else:
 			reset_flood()
+		
 		if flood_start_timer > 1.0:
-			if not flood_node:
-				flood_node = PaintBurst.new(Global.paint_target, draw_col)
-				flood_node.position = paint_pos
-				add_child(flood_node)
+			if selected_style:
+				if styles[selected_style-1].has_method("flood"):
+					styles[selected_style-1].flood(paint_pos, draw_col, !was_flooding)
+				was_flooding = true
+			else:
+				if not flood_node:
+					flood_node = PaintBurst.new(Global.paint_target, draw_col)
+					flood_node.position = paint_pos
+					add_child(flood_node)
 		else:
-			PaintUtil.draw_line(Global.paint_target, draw_col, prev_position/Global.paint_res, pos/Global.paint_res, ceil(size / 12))
+			if selected_style:
+				if styles[selected_style-1].has_method("paint"):
+					styles[selected_style-1].paint(paint_pos, prev_paint_pos, draw_col, prev_drawing != drawing)
+			else:
+				PaintUtil.draw_line(Global.paint_target, draw_col, prev_position/Global.paint_res, pos/Global.paint_res, ceil(size / 12))
 	else:
 		reset_flood()
 
@@ -96,10 +152,15 @@ func _physics_process(delta):
 	prev_drawing = drawing
 	prev_size = size
 
+func setup_styles():
+	# add a ui and loading and stuff when there are more than 4 brush styles. or before, whatever.
+	styles.append(preload("res://scripts/styles/Fill.gd").new(self))
+
 func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	prop.dog = dog
 	prop.handle.modulate = Global.dog_dict.color.brush_handle
+	setup_styles()
 	if not Global.loaded_brush:
 		for i in range(3):
 			Global.loaded_brush.append(load("res://assets/chicory/brush/%s.png" % (i+1)))
