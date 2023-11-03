@@ -75,6 +75,8 @@ func _physics_process(delta):
 		Global.current_level.y += -1
 		position.y = 1079
 	if Global.current_level != old_level:
+		get_tree().call_group("paintbursts", "queue_free")
+		Global.paint_target.clear_paint_diff()
 		MultiplayerManager.client.me.position = position
 		MultiplayerManager.client.set_loading(true)
 		MultiplayerManager.request_move_to_level.rpc_id(1, MultiplayerManager.client.me, Global.current_level)
