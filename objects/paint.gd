@@ -15,10 +15,12 @@ var drawing_paint_diff = false
 var paint_diff_rect = Rect2(Vector2.ZERO, Vector2.ZERO)
 var paint_diff_changed = false
 
-@onready var map = $SubViewport/TileMap
+@onready var map = $MapViewport/TileMap
 
 func get_texture():
-	return $SubViewport.get_texture().get_image()
+	$ScreenshotViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	await get_tree().process_frame
+	return $ScreenshotViewport.get_texture().get_image()
 
 func clear_paint(random=false):
 	randomize()
@@ -85,7 +87,9 @@ func _process(delta):
 	boil_timer += delta
 	randomize()
 	if boil_timer > 0.25:
-		$Sprite2D.material.set_shader_parameter("boil", randf())
+		var boil = randf()
+		$DisplaySprite.material.set_shader_parameter("boil", boil)
+		$ScreenshotViewport/ScreenshotSprite.material.set_shader_parameter("bodsil", boil)
 		boil_timer = fmod(boil_timer, 0.25)
 	if update_needed:
 		var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
