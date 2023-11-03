@@ -189,6 +189,8 @@ func dog_update_dog(dog):
 
 func start(nserver=false):
 	server = nserver
+	if client:
+		client.queue_free()
 	if server:
 		client = preload("res://scripts/Server.gd").new()
 	else:

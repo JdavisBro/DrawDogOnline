@@ -35,4 +35,5 @@ func _on_edit_dog_pressed():
 func _on_leave_server_pressed():
 	get_tree().paused = false
 	visible = false
+	MultiplayerManager.client.reconnect = false
 	multiplayer.multiplayer_peer.close()

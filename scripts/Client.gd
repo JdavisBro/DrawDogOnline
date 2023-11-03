@@ -13,6 +13,8 @@ var level_scene
 var dog
 var me = USER_INFO
 
+var reconnect = true
+
 # Signal
 
 func on_player_disconnected(id):
@@ -31,8 +33,11 @@ func on_connected_fail():
 	get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
 func on_server_disconnected():
-	set_loading(false)
-	get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
+	if reconnect:
+		start()
+	else:
+		set_loading(false)
+		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
 # Util
 
@@ -46,6 +51,8 @@ func set_loading(loading):
 	Global.loading_screen.visible = loading
 
 func add_puppet(pid, userinfo):
+	if pid in level_puppets:
+		return
 	var puppet = dogpuppet.instantiate()
 	puppet.position = userinfo.position
 	level_puppets[pid] = puppet
