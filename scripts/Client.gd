@@ -33,7 +33,7 @@ func on_connected_fail():
 
 func on_server_disconnected():
 	set_loading(false)
-	get_tree().change_scene_to_file("res://scenes/title.tscn")
+	get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
 # Util
 
