@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://mgqf0hweh5h8"]
+[gd_scene load_steps=3 format=3 uid="uid://mgqf0hweh5h8"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_hy0qq"]
-[ext_resource type="Script" path="res://scripts/textedit_title.gd" id="2_sy5gx"]
 
 [sub_resource type="GDScript" id="GDScript_v2flf"]
 script/source = "extends Control
@@ -9,13 +8,14 @@ script/source = "extends Control
 func _ready():
 	Global.pause_enable = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	$IPEnter.placeholder_text = MultiplayerManager.DEFAULT_IP
+	$IPEnter.text = \"%s:%d\" % [MultiplayerManager.DEFAULT_IP, MultiplayerManager.DEFAULT_PORT]
 	$Status.text = MultiplayerManager.connection_status
 
 func _on_join_button_pressed():
 	if not MultiplayerManager.get_ip_port($IPEnter.text):
 		$IPTitle.text = \"IP - Invalid:\"
 		return
+	MultiplayerManager.protocol = $ProtocolSelect.text
 	Global.username = $UsernameEnter.text.strip_edges()
 	print(Global.username)
 	get_tree().change_scene_to_file(\"res://scenes/level.tscn\")
@@ -50,6 +50,23 @@ theme_override_font_sizes/font_size = 72
 text = "DrawDog Online"
 horizontal_alignment = 1
 
+[node name="ProtocolSelect" type="OptionButton" parent="."]
+layout_mode = 0
+offset_left = 232.0
+offset_top = 422.0
+offset_right = 321.0
+offset_bottom = 485.0
+focus_neighbor_right = NodePath("../IPEnter")
+focus_neighbor_bottom = NodePath("../JoinButton")
+focus_next = NodePath("../IPEnter")
+focus_previous = NodePath("../JoinButton")
+item_count = 2
+selected = 0
+popup/item_0/text = "ws://"
+popup/item_0/id = 0
+popup/item_1/text = "wss://"
+popup/item_1/id = 1
+
 [node name="IPTitle" type="Label" parent="."]
 layout_mode = 0
 offset_left = 234.0
@@ -58,26 +75,23 @@ offset_right = 830.0
 offset_bottom = 430.0
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
-text = "IP:"
+text = "Host:"
 horizontal_alignment = 1
 
-[node name="IPEnter" type="TextEdit" parent="."]
+[node name="IPEnter" type="LineEdit" parent="."]
 layout_mode = 0
-offset_left = 232.0
-offset_top = 416.0
+offset_left = 328.0
+offset_top = 422.0
 offset_right = 832.0
-offset_bottom = 576.0
+offset_bottom = 485.0
+focus_neighbor_left = NodePath("../ProtocolSelect")
 focus_neighbor_right = NodePath("../UsernameEnter")
+focus_neighbor_bottom = NodePath("../JoinButton")
 focus_next = NodePath("../UsernameEnter")
-focus_previous = NodePath("../JoinButton")
-theme_override_colors/background_color = Color(0.870588, 0.870588, 0.870588, 1)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_colors/font_placeholder_color = Color(0.458824, 0.458824, 0.458824, 1)
-theme_override_colors/caret_color = Color(0.12549, 0.12549, 0, 1)
-theme_override_colors/caret_background_color = Color(0, 0, 0, 1)
+focus_previous = NodePath("../ProtocolSelect")
 theme_override_font_sizes/font_size = 36
+clear_button_enabled = true
 caret_blink = true
-script = ExtResource("2_sy5gx")
 
 [node name="UsernameTitle" type="Label" parent="."]
 layout_mode = 0
@@ -90,20 +104,20 @@ theme_override_font_sizes/font_size = 72
 text = "Username:"
 horizontal_alignment = 1
 
-[node name="UsernameEnter" type="TextEdit" parent="."]
+[node name="UsernameEnter" type="LineEdit" parent="."]
 layout_mode = 0
 offset_left = 1088.0
-offset_top = 416.0
+offset_top = 422.0
 offset_right = 1688.0
-offset_bottom = 576.0
+offset_bottom = 485.0
+rotation = 5.04018e-05
 focus_neighbor_left = NodePath("../IPEnter")
+focus_neighbor_bottom = NodePath("../JoinButton")
 focus_next = NodePath("../JoinButton")
 focus_previous = NodePath("../IPEnter")
-theme_override_colors/background_color = Color(0.870588, 0.870588, 0.870588, 1)
-theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
 placeholder_text = "Default"
-script = ExtResource("2_sy5gx")
+clear_button_enabled = true
 
 [node name="JoinButton" type="Button" parent="."]
 layout_mode = 0
@@ -111,7 +125,7 @@ offset_left = 782.0
 offset_top = 630.0
 offset_right = 1120.0
 offset_bottom = 737.0
-focus_next = NodePath("../IPEnter")
+focus_neighbor_top = NodePath("../IPEnter")
 focus_previous = NodePath("../UsernameEnter")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72

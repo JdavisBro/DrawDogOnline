@@ -9,6 +9,7 @@ const PAINT_CHANNEL = 2
 
 var ip = DEFAULT_IP
 var port = DEFAULT_PORT
+var protocol = "ws://"
 
 var connected = false
 var connection_status = ""
@@ -69,8 +70,6 @@ func get_ip_port(newip):
 		if not both[1].is_valid_int():
 			return false
 		port = int(both[1])
-	if not newip:
-		ip = DEFAULT_IP
 	else:
 		ip = newip
 	return true
