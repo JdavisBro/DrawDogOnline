@@ -14,11 +14,15 @@ var dog
 var chat
 var me = USER_INFO
 
+var player_list
+
 var reconnect = true
 
 # Signal
 
 func on_player_disconnected(id):
+	if player_list:
+		player_list.remove_player(id)
 	if id in level_puppets:
 		if is_instance_valid(level_puppets[id]):
 			level_puppets[id].queue_free()
@@ -111,6 +115,8 @@ func complete_level_move(_pid, level):
 	MultiplayerManager.client_level_moved.rpc(me, level)
 
 func client_level_moved(pid, userinfo, level):
+	if player_list:
+		player_list.set_player(pid, userinfo, level)
 	if level != Global.current_level:
 		if pid in level_puppets:
 			level_puppets[pid].queue_free()
@@ -144,6 +150,8 @@ func dog_update_animation(pid, animation):
 		level_puppets[pid].animation.play(animation)
 
 func dog_update_dog(pid, newdog):
+	if player_list:
+		player_list.update_dog(pid, newdog)
 	if pid == MultiplayerManager.uid:
 		Global.dog_dict = newdog
 		me.dog = newdog
@@ -163,3 +171,7 @@ func global_chat_message(_pid, username, level, message):
 
 func join_leave_message(_pid, username, joined):
 	chat.add_connection_message(username, joined)
+
+func recieve_player_list(_pid, playerlist):
+	if player_list:
+		player_list.set_players(playerlist)

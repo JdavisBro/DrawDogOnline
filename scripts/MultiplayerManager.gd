@@ -204,6 +204,18 @@ func join_leave_message(username, joined):
 	if server: return
 	client.join_leave_message(pid, username, joined)
 
+@rpc("any_peer", "call_remote", "reliable")
+func get_player_list():
+	var pid = multiplayer.get_remote_sender_id()
+	if not server: return
+	client.get_player_list(pid)
+
+@rpc("authority", "call_remote", "reliable")
+func recieve_player_list(playerlist):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	client.recieve_player_list(pid, playerlist)
+
 func start(nserver=false):
 	server = nserver
 	if client:

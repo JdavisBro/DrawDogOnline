@@ -164,3 +164,6 @@ func chat_message(_pid, username, level, message):
 
 func chat_message_global(_pid, username, level, message):
 	print("GLOBAL %s (%d,%d,%d)> %s" % [username, level.x, level.y, level.z, message])
+
+func get_player_list(pid):
+	MultiplayerManager.recieve_player_list.rpc_id(pid, players)

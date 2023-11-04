@@ -1,0 +1,48 @@
+[gd_scene load_steps=3 format=3 uid="uid://bv2mfx6xrvhuk"]
+
+[ext_resource type="Script" path="res://objects/player_list_player.gd" id="1_oc6qp"]
+
+[sub_resource type="ViewportTexture" id="ViewportTexture_jmkjq"]
+viewport_path = NodePath("SubViewport")
+
+[node name="player_list_player" type="PanelContainer"]
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_oc6qp")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="ViewportTexture" type="TextureRect" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+texture = SubResource("ViewportTexture_jmkjq")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="MarginContainer/HBoxContainer"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+
+[node name="Username" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 48
+text = "Default"
+horizontal_alignment = 1
+
+[node name="Level" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+theme_override_font_sizes/font_size = 30
+text = "1,1,1"
+horizontal_alignment = 1
+
+[node name="SubViewport" type="SubViewport" parent="."]
+transparent_bg = true
+size = Vector2i(150, 150)
