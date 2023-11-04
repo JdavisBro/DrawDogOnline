@@ -11,6 +11,7 @@ var level_puppets = {} # pid: dogpuppet
 var dogpuppet = preload("res://objects/dog_puppet.tscn")
 var level_scene
 var dog
+var chat
 var me = USER_INFO
 
 var reconnect = true
@@ -104,6 +105,7 @@ func recieve_puppet(_pid, puppet, userinfo):
 
 func complete_level_move(_pid, level):
 	Global.current_level = level
+	chat.clear_room_chat()
 	get_tree().paused = false
 	set_loading(false)
 	MultiplayerManager.client_level_moved.rpc(me, level)
@@ -151,3 +153,13 @@ func dog_update_dog(pid, newdog):
 	if pid in level_puppets:
 		level_puppets[pid].animation.set_dog_dict(newdog)
 		level_puppets[pid].brush.handle.modulate = newdog.color.brush_handle
+
+func chat_message(_pid, username, level, message):
+	if level == Global.current_level:
+		chat.add_room_message(username, message)
+
+func global_chat_message(_pid, username, level, message):
+	chat.add_global_message(username, level, message)
+
+func join_leave_message(_pid, username, joined):
+	chat.add_connection_message(username, joined)

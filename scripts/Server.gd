@@ -39,6 +39,7 @@ func _process(delta):
 
 func on_player_disconnected(id):
 	if id in player_location:
+		MultiplayerManager.join_leave_message.rpc(players[player_location[id]][id].username, false)
 		players[player_location[id]].erase(id)
 		player_location.erase(id)
 
@@ -121,6 +122,8 @@ func request_move_to_level(pid, userinfo, level):
 	if pid in player_location:
 		players[player_location[pid]].erase(pid)
 		player_location.erase(pid)
+	else:
+		MultiplayerManager.join_leave_message.rpc(userinfo.username, true)
 	level = check_server_level(level)
 	MultiplayerManager.set_palette.rpc_id(pid, palettes[level], level)
 	var newpaint = MultiplayerManager.compress_paint(paint[level])
@@ -155,3 +158,9 @@ func dog_update_animation(pid, animation):
 func dog_update_dog(pid, dog):
 	if pid in player_location:
 		players[player_location[pid]][pid].dog = dog
+
+func chat_message(_pid, username, level, message):
+	print("ROOM %s (%d,%d,%d)> %s" % [username, level.x, level.y, level.z, message])
+
+func chat_message_global(_pid, username, level, message):
+	print("GLOBAL %s (%d,%d,%d)> %s" % [username, level.x, level.y, level.z, message])

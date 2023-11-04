@@ -48,7 +48,6 @@ size = Vector2i(1920, 1080)
 texture_repeat = 2
 tile_set = SubResource("TileSet_whygt")
 format = 2
-layer_0/modulate = Color(1, 0, 0, 1)
 layer_0/tile_data = PackedInt32Array(65534, 65536, 1, -2, 65536, 1, -1, 65536, 1, -65536, 65536, 1, -65535, 65536, 1)
 
 [node name="DisplaySprite" type="Sprite2D" parent="."]

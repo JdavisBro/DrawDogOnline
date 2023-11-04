@@ -77,26 +77,29 @@ func process_style_inputs():
 
 func _physics_process(delta):
 	prev_position = pos
-	if not Global.paintable:
-		return
 	if DisplayServer.window_is_focused():
 		pos = get_global_mouse_position()
+	if not Global.paintable:
+		brush_return_timer = prop.update(delta, false, brush_return_timer, pos, prev_position, size)
+		$circle.visible = false
+		return
 	
 	prev_paint_pos = paint_pos
 	paint_pos = pos / Global.paint_res
 	
-	if Input.is_action_just_pressed("brush_size_next"):
-		size = BRUSH_SIZES[(BRUSH_SIZES.find(size)+1) % len(BRUSH_SIZES)]
-		reset_flood()
+	if dog.is_physics_processing(): # Chatting
+		if Input.is_action_just_pressed("brush_size_next"):
+			size = BRUSH_SIZES[(BRUSH_SIZES.find(size)+1) % len(BRUSH_SIZES)]
+			reset_flood()
+			
+		if Input.is_action_just_pressed("brush_color_next"):
+			color_index = (color_index+1) % len(Global.palette)
+			reset_flood()
+		elif Input.is_action_just_pressed("brush_color_prev"):
+			color_index = posmod(color_index-1, len(Global.palette))
+			reset_flood()
 		
-	if Input.is_action_just_pressed("brush_color_next"):
-		color_index = (color_index+1) % len(Global.palette)
-		reset_flood()
-	elif Input.is_action_just_pressed("brush_color_prev"):
-		color_index = posmod(color_index-1, len(Global.palette))
-		reset_flood()
-	
-	process_style_inputs()
+		process_style_inputs()
 	
 	var drawing = false
 	var draw_col

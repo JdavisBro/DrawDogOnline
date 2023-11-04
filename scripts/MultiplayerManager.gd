@@ -7,6 +7,7 @@ const DEFAULT_WSS_PORT = 443
 const LEVEL_RANGE = Vector2(20, 20)
 
 const PAINT_CHANNEL = 2
+const CHAT_CHANNEL = 4
 
 var ip = DEFAULT_IP
 var port = DEFAULT_PORT
@@ -186,6 +187,22 @@ func dog_update_animation(animation):
 func dog_update_dog(dog):
 	var pid = multiplayer.get_remote_sender_id()
 	client.dog_update_dog(pid, dog)
+
+@rpc("any_peer", "call_local", "reliable", CHAT_CHANNEL)
+func chat_message(username, level, message):
+	var pid = multiplayer.get_remote_sender_id()
+	client.chat_message(pid, username, level, message)
+	
+@rpc("any_peer", "call_local", "reliable", CHAT_CHANNEL)
+func global_chat_message(username, level, message):
+	var pid = multiplayer.get_remote_sender_id()
+	client.global_chat_message(pid, username, level, message)
+
+@rpc("authority", "call_remote", "reliable", CHAT_CHANNEL)
+func join_leave_message(username, joined):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	client.join_leave_message(pid, username, joined)
 
 func start(nserver=false):
 	server = nserver
