@@ -6,6 +6,7 @@
 [sub_resource type="GDScript" id="GDScript_v2flf"]
 script/source = "extends Control
 
+@onready var iptitle = $VBoxContainer/VBoxContainer/IPTitle
 @onready var ipenter = $VBoxContainer/VBoxContainer/HBoxContainer/IPEnter
 @onready var usernameenter = $VBoxContainer/VBoxContainer2/UsernameEnter
 @onready var status = $Status
@@ -39,7 +40,7 @@ func _process(_delta):
 func _on_join_button_pressed():
 	MultiplayerManager.protocol = protocolselect.text
 	if not MultiplayerManager.get_ip_port(ipenter.text):
-		$IPTitle.text = \"IP - Invalid:\"
+		iptitle.text = \"IP - Invalid:\"
 		return
 	if Global.username != usernameenter.text.strip_edges():
 		Global.username = usernameenter.text.strip_edges()
