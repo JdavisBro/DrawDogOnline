@@ -1,5 +1,10 @@
 extends Node2D
 
+@export var set_paint_target := true
+@export var init_paint_string := ""
+@export var init_paint_size := 0
+@export var init_palette: Array[Color] = []
+
 var size := Vector2(162, 91)
 var total_pixel := size.x * size.y
 
@@ -57,9 +62,14 @@ func setup_tilemap_layers():
 		i += 1
 
 func _ready():
-	setup_tilemap_layers()
 	clear_paint()
-	if not Global.paint_target:
+	if init_paint_string:
+		palette = init_palette
+		print(palette)
+		paint = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(init_paint_string), init_paint_size)
+		init_paint_string = ""
+	setup_tilemap_layers()
+	if not Global.paint_target and set_paint_target:
 		Global.paint_target = self
 
 var hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "X"]

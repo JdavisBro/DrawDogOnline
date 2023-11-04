@@ -46,6 +46,7 @@ transparent_bg = true
 size = Vector2i(1920, 1080)
 
 [node name="TileMap" type="TileMap" parent="MapViewport"]
+texture_filter = 1
 texture_repeat = 2
 tile_set = SubResource("TileSet_whygt")
 format = 2

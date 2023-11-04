@@ -1,34 +1,40 @@
-[gd_scene load_steps=3 format=3 uid="uid://mgqf0hweh5h8"]
+[gd_scene load_steps=4 format=3 uid="uid://mgqf0hweh5h8"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_hy0qq"]
+[ext_resource type="PackedScene" uid="uid://doo4hph7vj7lr" path="res://objects/paint.tscn" id="2_1uc1t"]
 
 [sub_resource type="GDScript" id="GDScript_v2flf"]
 script/source = "extends Control
 
+@onready var ipenter = $VBoxContainer/VBoxContainer/HBoxContainer/IPEnter
+@onready var usernameenter = $VBoxContainer/VBoxContainer2/UsernameEnter
+@onready var status = $Status
+@onready var protocolselect = $VBoxContainer/VBoxContainer/HBoxContainer/ProtocolSelect
+
 func _ready():
 	Global.pause_enable = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	$IPEnter.text = \"%s:%d\" % [MultiplayerManager.DEFAULT_IP, MultiplayerManager.DEFAULT_PORT]
-	$Status.text = MultiplayerManager.connection_status
-	$UsernameEnter.text = Global.username
+	ipenter.text = \"%s:%d\" % [MultiplayerManager.DEFAULT_IP, MultiplayerManager.DEFAULT_PORT]
+	status.text = MultiplayerManager.connection_status
+	usernameenter.text = Global.username
 	if OS.has_feature(\"web\"):
 		var search = JavaScriptBridge.eval(\"window.location.search\")
 		search = search.lstrip(\"?\").split(\"&\")
 		for i in search:
 			i = i.to_lower().split(\"=\")
 			if i[0] == \"ip\":
-				$IPEnter.text = i[1]
+				ipenter.text = i[1]
 			elif i[0] == \"secure\":
 				if i[1] == \"true\":
-					$ProtocolSelect.select(1)
+					protocolselect.select(1)
 
 func _on_join_button_pressed():
-	MultiplayerManager.protocol = $ProtocolSelect.text
-	if not MultiplayerManager.get_ip_port($IPEnter.text):
+	MultiplayerManager.protocol = protocolselect.text
+	if not MultiplayerManager.get_ip_port(ipenter.text):
 		$IPTitle.text = \"IP - Invalid:\"
 		return
-	if Global.username != $UsernameEnter.text.strip_edges():
-		Global.username = $UsernameEnter.text.strip_edges()
+	if Global.username != usernameenter.text.strip_edges():
+		Global.username = usernameenter.text.strip_edges()
 		Global.save_username()
 	get_tree().change_scene_to_file(\"res://scenes/level.tscn\")
 	MultiplayerManager.start()
@@ -48,8 +54,8 @@ theme = ExtResource("1_hy0qq")
 script = SubResource("GDScript_v2flf")
 
 [node name="TitleText" type="Label" parent="."]
-layout_mode = 1
-anchors_preset = -1
+visible = false
+layout_mode = 2
 offset_left = 3.0
 offset_top = 122.0
 offset_right = 1925.0
@@ -61,16 +67,33 @@ theme_override_font_sizes/font_size = 72
 text = "DrawDog Online"
 horizontal_alignment = 1
 
-[node name="ProtocolSelect" type="OptionButton" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 232.0
-offset_top = 422.0
-offset_right = 321.0
-offset_bottom = 485.0
+offset_left = 1215.0
+offset_top = 224.0
+offset_right = 1785.0
+offset_bottom = 838.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="IPTitle" type="Label" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+text = "Host:"
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="ProtocolSelect" type="OptionButton" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
 focus_neighbor_right = NodePath("../IPEnter")
-focus_neighbor_bottom = NodePath("../JoinButton")
+focus_neighbor_bottom = NodePath("../../../JoinButton")
 focus_next = NodePath("../IPEnter")
-focus_previous = NodePath("../JoinButton")
+focus_previous = NodePath("../../../JoinButton")
 item_count = 2
 selected = 0
 popup/item_0/text = "ws://"
@@ -78,66 +101,45 @@ popup/item_0/id = 0
 popup/item_1/text = "wss://"
 popup/item_1/id = 1
 
-[node name="IPTitle" type="Label" parent="."]
-layout_mode = 0
-offset_left = 234.0
-offset_top = 328.0
-offset_right = 830.0
-offset_bottom = 430.0
-theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 72
-text = "Host:"
-horizontal_alignment = 1
-
-[node name="IPEnter" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 328.0
-offset_top = 422.0
-offset_right = 832.0
-offset_bottom = 485.0
+[node name="IPEnter" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+custom_minimum_size = Vector2(500, 0)
+layout_mode = 2
+size_flags_horizontal = 3
 focus_neighbor_left = NodePath("../ProtocolSelect")
-focus_neighbor_right = NodePath("../UsernameEnter")
-focus_neighbor_bottom = NodePath("../JoinButton")
-focus_next = NodePath("../UsernameEnter")
+focus_neighbor_right = NodePath("../../../VBoxContainer2/UsernameEnter")
+focus_neighbor_bottom = NodePath("../../../JoinButton")
+focus_next = NodePath("../../../VBoxContainer2/UsernameEnter")
 focus_previous = NodePath("../ProtocolSelect")
 theme_override_font_sizes/font_size = 36
 clear_button_enabled = true
 caret_blink = true
 
-[node name="UsernameTitle" type="Label" parent="."]
-layout_mode = 0
-offset_left = 1091.0
-offset_top = 328.0
-offset_right = 1689.0
-offset_bottom = 430.0
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+
+[node name="UsernameTitle" type="Label" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Username:"
 horizontal_alignment = 1
 
-[node name="UsernameEnter" type="LineEdit" parent="."]
-layout_mode = 0
-offset_left = 1088.0
-offset_top = 422.0
-offset_right = 1688.0
-offset_bottom = 485.0
-rotation = 5.04018e-05
-focus_neighbor_left = NodePath("../IPEnter")
-focus_neighbor_bottom = NodePath("../JoinButton")
-focus_next = NodePath("../JoinButton")
-focus_previous = NodePath("../IPEnter")
+[node name="UsernameEnter" type="LineEdit" parent="VBoxContainer/VBoxContainer2"]
+layout_mode = 2
+focus_neighbor_left = NodePath("../../VBoxContainer/HBoxContainer/IPEnter")
+focus_neighbor_bottom = NodePath("../../JoinButton")
+focus_next = NodePath("../../JoinButton")
+focus_previous = NodePath("../../VBoxContainer/HBoxContainer/IPEnter")
 theme_override_font_sizes/font_size = 36
 placeholder_text = "Default"
 clear_button_enabled = true
 
-[node name="JoinButton" type="Button" parent="."]
-layout_mode = 0
-offset_left = 782.0
-offset_top = 630.0
-offset_right = 1120.0
-offset_bottom = 737.0
-focus_neighbor_top = NodePath("../IPEnter")
-focus_previous = NodePath("../UsernameEnter")
+[node name="JoinButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+focus_neighbor_top = NodePath("../VBoxContainer/HBoxContainer/IPEnter")
+focus_previous = NodePath("../VBoxContainer2/UsernameEnter")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Join"
@@ -151,4 +153,10 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 horizontal_alignment = 1
 
-[connection signal="pressed" from="JoinButton" to="." method="_on_join_button_pressed"]
+[node name="paint" parent="." instance=ExtResource("2_1uc1t")]
+set_paint_target = false
+init_paint_string = "ARER4C8BAhREROACOiANYAAAQeACFGATAEHgAiTgEwBAKSAw4AAuwAjgAVCgHKAG4AAAIDTgATXgAADgAJwAFKAc4ACXAUFBgFrgAjWgIoAAABRAHuACHIAA4AMiYFvgABACFEFBQILgBTEAFOAAbuAAF+AACEAA4AEfYABAQEB2YAACRBEUYAfgBgAgYWAA4AAngDZgaCA/IA7gDgAg0OAMUOAPACBT4BNOIUFgU+BCAEBMQAPgQABATEAD4QZm4DEAQEwgAyFn4QN/4AIA4RUx4AkAIExBlSBP4Aw5QGjgDBjgEABCACHmIPHgDKKAUOAOvOAMACBMQAMgUOIB6+ACAENXIFAgHeAfAGAxQAbgD1AgSCCmQRngHwAAQSABIDNgUCA6IAugD0AAQBcgAOAwUEDcgFQgWEAAoAcARCPvIGbgHQAAQaCRIDIgS0AHIDugSCAHQEcgBWAVIFmgaOATAABBYZdASEAFQDMgRCBCIAmgA0BGIBUgHKBW4BUAZWAgTSAwIAUgPQBBIAkgBeACAyAQIAMgEiBQIBvgFgBlXyBKICogBSBGIABgBYBUYAAhXWACQFAgaeAVAKBQQCngAFAgPeADUCBDIA8gBoAm4BYA4ABQYKeAOkD2IAAgOyAFQAagSuAhUCA4ID1goSGPIAIgR0BiQOqAACAOIAogGCAF4BUAYKFizaAAIDFANyBBoBDgBADgH1DgIADgRVDhIkMgKyDq4BcAQFDgFyOC2CDKYXRgAGM64AxeIFDgDBfgAgAgmEA/IAcgACAHQABANOAADOAnAAEUFMBQ4AFDYFDAiSBnwArgHAAgnmDdIJEgU4AAwAhASUC54CdQQnhAPEBHYD1gCEALIATgNlAgPiCOYFAjLkAMIARAEuAhACA/YAMgNSBHID1glUAP4D1QIEbgAaEgXyACIATgIwDgAKFDvGBQYKpgCUCzIKfgI06B4UBUIDggOiBNIAIgSiBgIAVgAiAAQCDgHgAiNYBQIEEgN4ACQAAgS4AAQFGAEuAcAGA2gC/gEDbgJFBgS2AE4D4AYEtgBOA+AOAC8uA9AOEBlOA/AEDuQAPgQABATEAD4EAAQPPgA1ADFVVVVeA0XCBQIALgAAAEVVUzMzXgNFIlXeABUAMVVVMzQAAANeAzpOADUCCegAABNVHgALPgKADgAlAAFYCfQADgMlAARCBSoAAhj0BMQADgMlAAFKBQQd4BUzUgowM1MzNT4DNQqSwAFYCcIFAgVgBV4DpQgE8AMyAG4D1QwY8g72BQIU7hMEZqHyCZYADAUCKK4jCLQFDAoEBQIFMAU0BP4DCiYFAAM6AAIE1gACCgAFXgL6JAUCDjgADgBFDhLkVAUCItgADgPlDhAELgQFAgSoAA4D6h4QBCADMgCUN+ADNCiOEwQwAU4QFCIjBB4AAzIAAh5+EtlEsSIEagACAJAFUgSgAzQAAANSPo4CoAABQgUiBGgABBQiAMJB0gAOIuhyUNAEEgPyBGIACgUEFKADPlLrUmUwIRQRXFCEBQIANmWuAuoEahIeYgo0BJIEwCMzNVgE/hLZImAUBQABEi2kE4QAOAAOAvTyCdgAMlAiLeInxAqyAH4C6fgExAVAIVVVEgUCBGRlvgMU5hQmBQIAAg9iBQ4DYAQZNAA2AAAFXiLingAwBATEGXYAAAFeIuKeADAEBQQULgQADgmVBA7+BE8kBN4EVQLT/gRVAiNOBGUMnO4EEAR5fgRADgflBPRuAO1+Afoe8AkkAAYAwiIcAAYA9AACBoddQvZSAE4AIAL+AgGuABEEAM4AEPoAmgBiBFcPwgACBGJ5dUeyAuIA+gACBmYAnAB0AnQACghyA/QA0gAIAQRuggCiAUQAMihmAGIBHgAAAgGsAAgBPADYAO4AIegDQgGAsREREURERBERERERE="
+init_paint_size = 7371
+init_palette = Array[Color]([Color(0, 0.952941, 0.866667, 1), Color(0.847059, 1, 0.333333, 1), Color(1, 0.65098, 0.580392, 1), Color(0.713726, 0.603922, 1, 1), Color(0, 0, 0, 1)])
+
+[connection signal="pressed" from="VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

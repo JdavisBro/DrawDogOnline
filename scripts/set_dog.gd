@@ -79,20 +79,19 @@ func _on_hair_item_list_item_selected(index):
 	update_dog_visual()
 
 func _on_body_picker_button_color_changed(color):
-	print(color)
-	newdog.color.body = color
+	newdog.color.body = Color(color)
 	update_dog_visual()
 
 func _on_clothes_picker_button_color_changed(color):
-	newdog.color.clothes = color
+	newdog.color.clothes = Color(color)
 	update_dog_visual()
 
 func _on_hat_picker_button_color_changed(color):
-	newdog.color.hat = color
+	newdog.color.hat = Color(color)
 	update_dog_visual()
 
 func _on_brush_picker_button_color_changed(color):
-	newdog.color.brush_handle = color
+	newdog.color.brush_handle = Color(color)
 	update_dog_visual()
 
 func _on_clothes_search_text_changed(new_text):

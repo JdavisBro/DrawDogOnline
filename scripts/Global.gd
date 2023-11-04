@@ -67,7 +67,7 @@ func save_dog():
 	var file = FileAccess.open("user://dog.json", FileAccess.WRITE)
 	var outdog = dog_dict
 	for i in outdog.color:
-		if not typeof(outdog) == TYPE_STRING:
+		if not typeof(outdog.color[i]) == TYPE_STRING:
 			outdog.color[i] = "#" + outdog.color[i].to_html(false)
 	file.store_line(JSON.stringify(outdog))
 

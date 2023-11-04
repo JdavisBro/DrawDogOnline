@@ -31,8 +31,7 @@ func set_player(pid, userdata, level):
 
 func update_dog(pid, newdog):
 	if pid in players:
-		players[pid].dog_dict = newdog
-		players[pid].dog.update_dog_dict()
+		players[pid].dog.set_dog_dict(newdog)
 
 func remove_player(pid):
 	if pid in players:
