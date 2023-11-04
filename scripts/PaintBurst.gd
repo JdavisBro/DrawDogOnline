@@ -52,7 +52,7 @@ func _process(delta):
 		var diff = Vector2(1, 1) # pos/neg is random in game but it only changes queue order so doesn't matter that much
 		for newpos in [pos+Vector2(diff.x, 0), pos+Vector2(0, diff.y), pos-Vector2(diff.x, 0), pos-Vector2(0, diff.y)]:
 			add_newpos(newpos)
-		if cur_dist < farthest_dist:
+		if cur_dist < farthest_dist and (color_collide == -1 or Settings.fill_bucket_do_corners):
 			#diff = Vector2(1, 1) # this is rerandomised here but again it doesn't matter much
 			for newpos in [pos+Vector2(diff.x, diff.y), pos+Vector2(-diff.x, diff.y), pos+Vector2(diff.x, -diff.y), pos+Vector2(-diff.x, -diff.y)]:
 				add_newpos(newpos)

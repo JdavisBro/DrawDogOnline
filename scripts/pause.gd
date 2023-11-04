@@ -38,6 +38,10 @@ func _on_edit_dog_pressed():
 	submenu = preload("res://scenes/ui/set_dog.tscn").instantiate()
 	add_child(submenu)
 
+func _on_settings_pressed():
+	submenu = preload("res://scenes/ui/settings.tscn").instantiate()
+	add_child(submenu)
+
 func _on_leave_server_pressed():
 	get_tree().paused = false
 	visible = false

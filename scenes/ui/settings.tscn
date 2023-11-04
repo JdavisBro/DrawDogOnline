@@ -1,0 +1,62 @@
+[gd_scene load_steps=3 format=3 uid="uid://v2wyxl35vh0s"]
+
+[ext_resource type="Script" path="res://scripts/settings_ui.gd" id="1_yrtgd"]
+
+[sub_resource type="Theme" id="Theme_inack"]
+Label/font_sizes/font_size = 32
+
+[node name="settings" type="Control"]
+z_index = 3000
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_inack")
+script = ExtResource("1_yrtgd")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+layout_mode = 0
+offset_right = 1920.0
+offset_bottom = 1080.0
+color = Color(0.435294, 0.435294, 0.435294, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 28.0
+offset_top = 16.0
+offset_right = 1891.0
+offset_bottom = 1064.0
+
+[node name="Title" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+text = "Settings"
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Cancel"
+
+[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+text = "Confirm"
+
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/ConfirmButton" to="." method="_on_confirm_button_pressed"]

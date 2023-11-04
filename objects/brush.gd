@@ -122,7 +122,7 @@ func _physics_process(delta):
 		else:
 			reset_flood()
 		
-		if flood_start_timer > 1.0:
+		if flood_start_timer > 1.0 and Settings.hold_brushburst:
 			if selected_style:
 				if styles[selected_style-1].has_method("flood"):
 					styles[selected_style-1].flood(paint_pos, draw_col, !was_flooding)
