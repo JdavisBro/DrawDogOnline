@@ -75,6 +75,7 @@ func cancel_screenshotting():
 	filedialog.queue_free()
 	screenshot = null
 	paintable = true
+	get_tree().paused = false
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func save_screenshot(path):
@@ -83,6 +84,7 @@ func save_screenshot(path):
 	Settings.save()
 	filedialog.queue_free()
 	screenshot = null
+	get_tree().paused = false
 	paintable = true
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
@@ -99,6 +101,7 @@ func _process(_delta):
 			if OS.has_feature("web"):
 				JavaScriptBridge.download_buffer(screenshot.save_png_to_buffer(), "paint.png", "image/png")
 			else:
+				get_tree().paused = true
 				paintable = false
 				filedialog = FileDialog.new()
 				
