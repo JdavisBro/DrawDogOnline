@@ -11,6 +11,8 @@ script/source = "extends Control
 @onready var status = $Status
 @onready var protocolselect = $VBoxContainer/VBoxContainer/HBoxContainer/ProtocolSelect
 
+var submenu
+
 func _ready():
 	Global.pause_enable = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
@@ -28,6 +30,12 @@ func _ready():
 				if i[1] == \"true\":
 					protocolselect.select(1)
 
+func _process(_delta):
+	if submenu and Input.is_action_just_pressed(\"pause\"):
+		if submenu.has_method(\"before_close\"):
+			submenu.before_close()
+		submenu.queue_free()
+
 func _on_join_button_pressed():
 	MultiplayerManager.protocol = protocolselect.text
 	if not MultiplayerManager.get_ip_port(ipenter.text):
@@ -38,6 +46,10 @@ func _on_join_button_pressed():
 		Global.save_username()
 	get_tree().change_scene_to_file(\"res://scenes/level.tscn\")
 	MultiplayerManager.start()
+
+func _on_set_dog_button_pressed():
+	submenu = preload(\"res://scenes/ui/set_dog.tscn\").instantiate()
+	add_child(submenu)
 "
 
 [node name="title" type="Control"]
@@ -144,6 +156,15 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Join"
 
+[node name="SetDogButton" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 6
+focus_neighbor_top = NodePath("../VBoxContainer/HBoxContainer/IPEnter")
+focus_previous = NodePath("../VBoxContainer2/UsernameEnter")
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 72
+text = "Set Dog"
+
 [node name="Status" type="Label" parent="."]
 layout_mode = 0
 offset_top = 956.0
@@ -160,3 +181,4 @@ init_paint_size = 7371
 init_palette = Array[Color]([Color(0, 0.952941, 0.866667, 1), Color(0.847059, 1, 0.333333, 1), Color(1, 0.65098, 0.580392, 1), Color(0.713726, 0.603922, 1, 1), Color(0, 0, 0, 1)])
 
 [connection signal="pressed" from="VBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/SetDogButton" to="." method="_on_set_dog_button_pressed"]
