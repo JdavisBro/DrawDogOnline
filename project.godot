@@ -26,7 +26,7 @@ MultiplayerManager="*res://scripts/MultiplayerManager.gd"
 
 multirun/number_of_windows=5
 multirun/add_custom_args=true
-multirun/window_args=["server-start default", "join-server 127.0.0.1", "join-server 127.0.0.1", "join-server 127.0.0.1", "join-server 127.0.0.1"]
+multirun/window_args=["join-server 127.0.0.1", "join-server 127.0.0.1", "server-start default", "join-server 127.0.0.1", "join-server 127.0.0.1"]
 
 [display]
 
@@ -120,7 +120,7 @@ zoom_modifier={
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":4194325,"key_label":0,"unicode":0,"echo":false,"script":null)
 ]
 }
-reset_zoom={
+zoom_reset={
 "deadzone": 0.5,
 "events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":48,"key_label":0,"unicode":48,"echo":false,"script":null)
 ]

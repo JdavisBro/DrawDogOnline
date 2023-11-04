@@ -82,15 +82,17 @@ func connected():
 		clear_paint_diff()
 
 func _process(delta):
-	if MultiplayerManager.connected:
-		connected()
 	boil_timer += delta
-	randomize()
 	if boil_timer > 0.25:
 		var boil = randf()
 		$DisplaySprite.material.set_shader_parameter("boil", boil)
-		$ScreenshotViewport/ScreenshotSprite.material.set_shader_parameter("bodsil", boil)
+		$ScreenshotViewport/ScreenshotSprite.material.set_shader_parameter("boil", boil)
 		boil_timer = fmod(boil_timer, 0.25)
+	if get_tree().paused:
+		return
+	if MultiplayerManager.connected:
+		connected()
+	randomize()
 	if update_needed:
 		var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
 		if not newrect.encloses(update_rect):

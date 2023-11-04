@@ -68,7 +68,7 @@ func create_mesh():
 	mesh.surface_end()
 
 func get_selected():
-	var diff = brush.pos - startpos
+	var diff = (brush.pos - startpos)*(Vector2.ONE/scale)
 	if diff.length() < MIN_DIST:
 		selected = null
 		return

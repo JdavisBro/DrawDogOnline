@@ -24,6 +24,8 @@ var brush_return_timer = 5.0
 var styles = []
 var selected_style = 0
 
+var camera
+
 @onready var styletip = $styletip
 
 @onready var circle = $circle
@@ -139,6 +141,8 @@ func _physics_process(delta):
 	else:
 		reset_flood()
 
+	circle.scale = (Vector2.ONE/camera.zoom).clamp(Vector2(0.25, 0.25), Vector2.ONE)
+	$ColorSelectorCircle.scale = Vector2.ONE/camera.zoom
 	circle.position = pos
 	brush_return_timer = prop.update(delta, drawing, brush_return_timer, pos, prev_position, size)
 	circle.visible = brush_return_timer > .5
@@ -165,6 +169,7 @@ func _ready():
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 	prop.dog = dog
 	prop.handle.modulate = Global.dog_dict.color.brush_handle
+	camera = dog.get_node("../Camera2D")
 	setup_styles()
 	if not Global.loaded_brush:
 		for i in range(3):

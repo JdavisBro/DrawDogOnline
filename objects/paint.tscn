@@ -37,6 +37,7 @@ shader_parameter/noise = ExtResource("3_aagr5")
 viewport_path = NodePath("MapViewport")
 
 [node name="paint" type="Node2D"]
+process_mode = 3
 z_index = -100
 script = ExtResource("1_km0p0")
 

@@ -56,7 +56,8 @@ func _process(delta):
 		redtab[tab.current_tab] = false
 	if Input.is_action_just_pressed("chat") and not lineedit.has_focus():
 		lineedit.grab_focus()
-		get_node("../../Dog").set_physics_process(false)
+		process_mode = PROCESS_MODE_ALWAYS
+		get_tree().paused = true
 		Global.pause_enable = false
 	if Input.is_action_just_pressed("ui_text_clear_carets_and_selection") and lineedit.has_focus():
 		lineedit.release_focus()
@@ -99,7 +100,8 @@ func _ready():
 func reset_lineedit():
 	lineedit.release_focus()
 	lineedit.text = ""
-	get_node("../../Dog").set_physics_process(true)
+	process_mode = Node.PROCESS_MODE_INHERIT
+	get_tree().paused = false
 	Global.pause_enable = true
 
 func _on_line_edit_focus_exited():

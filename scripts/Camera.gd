@@ -19,6 +19,8 @@ func _physics_process(delta):
 		zoom -= speed*delta
 		if zoom < Vector2.ONE:
 			zoom = Vector2.ONE
+	if Input.is_action_just_pressed("zoom_reset"):
+		zoom = Vector2.ONE
 	var new_center = position + SCREEN_SIZE/zoom/2
 	if prev_center != new_center:
 		position += prev_center - new_center
