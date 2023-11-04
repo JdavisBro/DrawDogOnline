@@ -57,7 +57,10 @@ func set_loading(loading):
 
 func add_puppet(pid, userinfo):
 	if pid in level_puppets:
-		return
+		if is_instance_valid(level_puppets[pid]):
+			level_puppets[pid].queue_free()
+		else:
+			return
 	var puppet = dogpuppet.instantiate()
 	puppet.position = userinfo.position
 	level_puppets[pid] = puppet
@@ -99,8 +102,7 @@ func recieve_level_paint(_pid, newpaint, size):
 	Global.paint_target.paint = MultiplayerManager.decompress_paint(newpaint, size)
 
 func kill_puppets(_pid):
-	for puppet in level_puppets:
-		level_puppets.erase(puppet)
+	level_puppets = {}
 	get_tree().call_group("dogpuppets", "queue_free")
 
 func recieve_puppet(_pid, puppet, userinfo):
