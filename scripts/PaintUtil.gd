@@ -10,7 +10,7 @@ func ensure_rect_bounds(size: Vector2, rect: Rect2):
 	var paint_rect = Rect2(Vector2.ZERO, size-Vector2.ONE)
 	if paint_rect.encloses(rect):
 		return rect
-	pass#push_warning("Paint rect drawing out of paint bounds.")
+	#push_warning("Paint rect drawing out of paint bounds.")
 	var new_rect = Rect2(rect.position.clamp(Vector2.ZERO, size), Vector2.ZERO)
 	new_rect.end = rect.end.clamp(Vector2.ZERO, size)
 	return new_rect
@@ -51,6 +51,10 @@ func undo_diff(paint, _color, position, me, diff):
 		if paint.undo_diff[position.y][position.x] != -1:
 			paint.undo_diff[position.y][position.x] = -1
 		for i in paint.undo_queue:
+			if i.diff:
+				if i.diff[position.y][position.x] != -1:
+					i.diff[position.y][position.x] = -1
+		for i in paint.redo_queue:
 			if i.diff:
 				if i.diff[position.y][position.x] != -1:
 					i.diff[position.y][position.x] = -1
