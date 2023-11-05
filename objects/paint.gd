@@ -101,13 +101,24 @@ func setup_tilemap_layers():
 		map.set_layer_modulate(i, col)
 		i += 1
 
-func _ready():
-	clear_paint()
-	clear_undo_diff()
+func set_init_paint():
 	if init_paint_string:
 		palette = init_palette
 		paint = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(init_paint_string), init_paint_size)
-		init_paint_string = ""
+
+func force_update():
+	updated = []
+	for i in range(total_pixel):
+		if i % int(size.x) == 0:
+			updated.append([])
+		updated[-1].append(false)
+	update_rect = Rect2(0,0,size.x,size.y)
+	update_needed = true
+
+func _ready():
+	clear_paint()
+	clear_undo_diff()
+	set_init_paint()
 	setup_tilemap_layers()
 	if not Global.paint_target and set_paint_target:
 		Global.paint_target = self

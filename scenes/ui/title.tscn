@@ -2,61 +2,8 @@
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_hy0qq"]
 [ext_resource type="PackedScene" uid="uid://doo4hph7vj7lr" path="res://objects/paint.tscn" id="2_1uc1t"]
+[ext_resource type="Script" path="res://scenes/ui/title.gd" id="2_362du"]
 [ext_resource type="PackedScene" uid="uid://buoqly7yyvp10" path="res://objects/eyestrain.tscn" id="3_sxvmw"]
-
-[sub_resource type="GDScript" id="GDScript_v2flf"]
-script/source = "extends Control
-
-@onready var iptitle = $VBoxContainer/VBoxContainer/IPTitle
-@onready var ipenter = $VBoxContainer/VBoxContainer/HBoxContainer/IPEnter
-@onready var usernameenter = $VBoxContainer/VBoxContainer2/UsernameEnter
-@onready var status = $Status
-@onready var protocolselect = $VBoxContainer/VBoxContainer/HBoxContainer/ProtocolSelect
-
-var submenu
-
-func _ready():
-	Global.pause_enable = false
-	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	ipenter.text = \"%s:%d\" % [MultiplayerManager.DEFAULT_IP, MultiplayerManager.DEFAULT_PORT]
-	status.text = MultiplayerManager.connection_status
-	usernameenter.text = Global.username
-	if OS.has_feature(\"web\"):
-		var search = JavaScriptBridge.eval(\"window.location.search\")
-		search = search.lstrip(\"?\").split(\"&\")
-		for i in search:
-			i = i.to_lower().split(\"=\")
-			if i[0] == \"ip\":
-				ipenter.text = i[1]
-			elif i[0] == \"secure\":
-				if i[1] == \"true\":
-					protocolselect.select(1)
-
-func _process(_delta):
-	if submenu and Input.is_action_just_pressed(\"pause\", true):
-		if submenu.has_method(\"before_close\"):
-			submenu.before_close()
-		submenu.queue_free()
-
-func _on_join_button_pressed():
-	MultiplayerManager.protocol = protocolselect.text
-	if not MultiplayerManager.get_ip_port(ipenter.text):
-		iptitle.text = \"IP - Invalid:\"
-		return
-	if Global.username != usernameenter.text.strip_edges():
-		Global.username = usernameenter.text.strip_edges()
-		Global.save_username()
-	get_tree().change_scene_to_file(\"res://scenes/level.tscn\")
-	MultiplayerManager.start()
-
-func _on_settings_button_pressed():
-	submenu = preload(\"res://scenes/ui/settings.tscn\").instantiate()
-	add_child(submenu)
-
-func _on_set_dog_button_pressed():
-	submenu = preload(\"res://scenes/ui/set_dog.tscn\").instantiate()
-	add_child(submenu)
-"
 
 [node name="title" type="Control"]
 layout_mode = 3
@@ -69,7 +16,7 @@ offset_bottom = -1080.0
 grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("1_hy0qq")
-script = SubResource("GDScript_v2flf")
+script = ExtResource("2_362du")
 
 [node name="TitleText" type="Label" parent="."]
 visible = false

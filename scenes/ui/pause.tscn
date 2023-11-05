@@ -62,6 +62,11 @@ layout_mode = 2
 theme_override_font_sizes/font_size = 72
 text = "Edit Dog"
 
+[node name="SetTitle" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 72
+text = "Set Title Paint"
+
 [node name="Settings" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
 layout_mode = 2
 theme_override_font_sizes/font_size = 72
@@ -76,5 +81,6 @@ text = "Leave Server"
 [connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/PlayerList" to="." method="_on_player_list_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/EditPalette" to="." method="_on_edit_palette_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/EditDog" to="." method="_on_edit_dog_pressed"]
+[connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/SetTitle" to="." method="_on_set_title_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="VBoxContainer/ButtonsMargin/HFlowContainer/LeaveServer" to="." method="_on_leave_server_pressed"]

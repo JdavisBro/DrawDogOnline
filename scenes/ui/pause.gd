@@ -41,6 +41,17 @@ func _on_edit_dog_pressed():
 	submenu = preload("res://scenes/ui/set_dog.tscn").instantiate()
 	add_child(submenu)
 
+func _on_set_title_pressed():
+	var paint = MultiplayerManager.compress_paint(Global.paint_target.paint)
+	Settings.title_paint_custom_size = paint[0]
+	Settings.title_paint_custom = Marshalls.raw_to_base64(paint[1])
+	var pal = []
+	for i in Global.paint_target.palette:
+		pal.append(i.to_html(false))
+	Settings.title_paint_custom_palette = pal
+	Settings.title_paint_custom_enabled = true
+	Settings.save()
+
 func _on_settings_pressed():
 	submenu = preload("res://scenes/ui/settings.tscn").instantiate()
 	add_child(submenu)
