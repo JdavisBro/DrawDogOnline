@@ -55,7 +55,6 @@ func _on_connected_fail():
 	if client.has_method("on_connected_fail"):
 		client.on_connected_fail()
 
-
 func _on_server_disconnected():
 	connected = false
 	connection_status = "Disconnected from server"

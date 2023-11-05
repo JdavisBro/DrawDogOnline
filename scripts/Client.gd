@@ -18,6 +18,10 @@ var player_list
 
 var reconnect = true
 
+const TIMEOUT_TIME = 10.0
+var timeout = 0.0
+var timeout_enable = false
+
 # Signal
 
 func on_player_disconnected(id):
@@ -44,6 +48,19 @@ func on_server_disconnected():
 		set_loading(false)
 		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
+# Builtin
+
+func _process(delta):
+	if not timeout_enable:
+		return
+	timeout += delta
+	if timeout > TIMEOUT_TIME:
+		reconnect = false
+		multiplayer.multiplayer_peer.close()
+		MultiplayerManager.connection_status = "Connection Timed Out"
+		set_loading(false)
+		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
+
 # Util
 
 func brush_me_update(position, drawing, color, size):
@@ -53,6 +70,7 @@ func brush_me_update(position, drawing, color, size):
 	me.brush.size = size
 
 func set_loading(loading):
+	get_tree().paused = loading
 	Global.loading_screen.visible = loading
 
 func add_puppet(pid, userinfo):
@@ -79,8 +97,8 @@ func add_puppet(pid, userinfo):
 # Start
 
 func start():
+	timeout_enable = true
 	set_loading(true)
-	get_tree().paused = true
 	var peer = WebSocketMultiplayerPeer.new()
 	peer.supported_protocols = ["ludus"]
 	#var error = peer.create_client(ip, port)
@@ -110,6 +128,7 @@ func recieve_puppet(_pid, puppet, userinfo):
 		add_puppet(puppet, userinfo)
 
 func complete_level_move(_pid, level):
+	timeout_enable = false
 	Global.current_level = level
 	chat.clear_room_chat()
 	get_tree().paused = false

@@ -65,7 +65,6 @@ func _ready():
 	clear_paint()
 	if init_paint_string:
 		palette = init_palette
-		print(palette)
 		paint = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(init_paint_string), init_paint_size)
 		init_paint_string = ""
 	setup_tilemap_layers()
