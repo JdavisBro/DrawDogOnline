@@ -1,5 +1,7 @@
 extends Control
 
+const TITLE_NEEDED = [Settings.SettingType.INT_LIST]
+
 @onready var container = $VBoxContainer/PanelContainer/VBoxContainer
 
 var newvalues = {}
@@ -10,18 +12,17 @@ func _ready():
 		var setting_type = val.type
 		var setting_con = HBoxContainer.new()
 		setting_con.tooltip_text = val.desc
-		var label = Label.new()
-		label.size_flags_horizontal = SIZE_EXPAND
-		label.text = val.name
-		setting_con.add_child(label)
 		var value_node
 		match setting_type:
 			Settings.SettingType.BOOL:
 				value_node = CheckButton.new()
+				value_node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 				value_node.button_pressed = Settings.get(prop)
+				value_node.text = val.name
 				value_node.connect("toggled", bool_setting_changed.bind(prop))
 			Settings.SettingType.INT_LIST:
 				value_node = OptionButton.new()
+				value_node.size_flags_horizontal = SIZE_SHRINK_END
 				for i in val.value_names:
 					value_node.add_item(i)
 				value_node.select(Settings.get(prop))
@@ -29,9 +30,18 @@ func _ready():
 			_:
 				push_warning("Non Implemented Setting Type.")
 				continue
-		value_node.size_flags_horizontal = SIZE_SHRINK_END
-		setting_con.add_child(value_node)
-		container.add_child(setting_con)
+		if setting_type in TITLE_NEEDED:
+			var label = Label.new()
+			label.size_flags_horizontal = SIZE_EXPAND
+			label.text = val.name
+			var panel = PanelContainer.new()
+			setting_con.add_child(label)
+			setting_con.add_child(value_node)
+			panel.add_child(setting_con)
+			container.add_child(panel)
+		else:
+			setting_con.add_child(value_node)
+			container.add_child(setting_con)
 
 func bool_setting_changed(value, property):
 	newvalues[property] = value

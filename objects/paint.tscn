@@ -42,8 +42,11 @@ z_index = -100
 script = ExtResource("1_km0p0")
 
 [node name="MapViewport" type="SubViewport" parent="."]
-transparent_bg = true
 size = Vector2i(1920, 1080)
+
+[node name="ColorRect" type="ColorRect" parent="MapViewport"]
+offset_right = 1920.0
+offset_bottom = 1080.0
 
 [node name="TileMap" type="TileMap" parent="MapViewport"]
 texture_filter = 1

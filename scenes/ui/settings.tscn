@@ -1,15 +1,13 @@
 [gd_scene load_steps=3 format=3 uid="uid://v2wyxl35vh0s"]
 
+[ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_455xm"]
 [ext_resource type="Script" path="res://scripts/settings_ui.gd" id="1_yrtgd"]
-
-[sub_resource type="Theme" id="Theme_inack"]
-Label/font_sizes/font_size = 32
 
 [node name="settings" type="Control"]
 z_index = 3000
 layout_mode = 3
 anchors_preset = 0
-theme = SubResource("Theme_inack")
+theme = ExtResource("1_455xm")
 script = ExtResource("1_yrtgd")
 metadata/_edit_use_anchors_ = true
 
@@ -51,7 +49,7 @@ size_flags_horizontal = 8
 
 [node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "Cancel"
+text = "Cancel "
 
 [node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
