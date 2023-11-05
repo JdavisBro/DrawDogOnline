@@ -129,6 +129,7 @@ func recieve_puppet(_pid, puppet, userinfo):
 
 func complete_level_move(_pid, level):
 	timeout_enable = false
+	Global.paint_target.clear_undo()
 	Global.current_level = level
 	chat.clear_room_chat()
 	get_tree().paused = false

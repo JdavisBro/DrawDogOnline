@@ -36,6 +36,11 @@ func get_texture():
 	await get_tree().process_frame
 	return $ScreenshotViewport.get_texture().get_image()
 
+func clear_undo():
+	undo_queue = []
+	redo_queue = []
+	undo_diff_changed = false
+
 func clear_paint(random=false):
 	randomize()
 	paint = []
