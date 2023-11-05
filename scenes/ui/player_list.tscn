@@ -42,11 +42,11 @@ alignment = 1
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="Close" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2

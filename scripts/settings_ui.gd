@@ -16,10 +16,16 @@ func _ready():
 		setting_con.add_child(label)
 		var value_node
 		match setting_type:
-			TYPE_BOOL:
+			Settings.SettingType.BOOL:
 				value_node = CheckButton.new()
 				value_node.button_pressed = Settings.get(prop)
 				value_node.connect("toggled", bool_setting_changed.bind(prop))
+			Settings.SettingType.INT_LIST:
+				value_node = OptionButton.new()
+				for i in val.value_names:
+					value_node.add_item(i)
+				value_node.select(Settings.get(prop))
+				value_node.connect("item_selected", int_list_changed.bind(prop))
 			_:
 				push_warning("Non Implemented Setting Type.")
 				continue
@@ -28,6 +34,9 @@ func _ready():
 		container.add_child(setting_con)
 
 func bool_setting_changed(value, property):
+	newvalues[property] = value
+
+func int_list_changed(value, property):
 	newvalues[property] = value
 
 func _on_cancel_button_pressed():

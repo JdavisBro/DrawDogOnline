@@ -89,6 +89,7 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 allow_search = false
+max_text_lines = 3
 item_count = 1
 item_0/text = "Overalls"
 item_0/icon = ExtResource("5_xqi5h")
@@ -192,18 +193,20 @@ edit_alpha = false
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
-text = "Cancel"
+size_flags_horizontal = 3
+text = "Cancel "
 
 [node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
+size_flags_horizontal = 3
 text = "Confirm"
 
 [connection signal="text_changed" from="VBoxContainer/HBoxContainer/ClothesContainer/ClothesSearch" to="." method="_on_clothes_search_text_changed"]

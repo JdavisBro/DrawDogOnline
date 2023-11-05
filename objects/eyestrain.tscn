@@ -1,0 +1,21 @@
+[gd_scene load_steps=4 format=3 uid="uid://buoqly7yyvp10"]
+
+[ext_resource type="Shader" path="res://shaders/eyestrain.gdshader" id="1_nmp2u"]
+[ext_resource type="Script" path="res://objects/eyestrain.gd" id="2_722hy"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ddgnn"]
+shader = ExtResource("1_nmp2u")
+shader_parameter/mult = Vector4(1, 1, 1, 1)
+shader_parameter/add = Vector4(0, 0, 0, 0)
+
+[node name="Eyestrain" type="CanvasLayer"]
+
+[node name="EyestrainColorRect" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_ddgnn")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+script = ExtResource("2_722hy")

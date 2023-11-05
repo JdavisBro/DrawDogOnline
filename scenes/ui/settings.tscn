@@ -8,13 +8,10 @@ Label/font_sizes/font_size = 32
 [node name="settings" type="Control"]
 z_index = 3000
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
+anchors_preset = 0
 theme = SubResource("Theme_inack")
 script = ExtResource("1_yrtgd")
+metadata/_edit_use_anchors_ = true
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -23,11 +20,13 @@ offset_bottom = 1080.0
 color = Color(0.435294, 0.435294, 0.435294, 1)
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
-layout_mode = 0
+layout_mode = 1
+anchors_preset = -1
 offset_left = 28.0
 offset_top = 16.0
 offset_right = 1891.0
 offset_bottom = 1064.0
+grow_vertical = 2
 
 [node name="Title" type="Label" parent="VBoxContainer"]
 layout_mode = 2
@@ -44,11 +43,11 @@ size_flags_vertical = 3
 
 [node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
 layout_mode = 2
-size_flags_horizontal = 8
 size_flags_vertical = 8
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
 layout_mode = 2
+size_flags_horizontal = 8
 
 [node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
