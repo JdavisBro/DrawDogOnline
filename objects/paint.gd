@@ -23,7 +23,6 @@ var paint_diff_changed = false
 const UNDO_LENGTH = 10
 
 var undo_queue = []
-var redo_queue = []
 
 var undo_diff := []
 var undo_diff_rect = Rect2(Vector2.ZERO, Vector2.ZERO)
@@ -70,7 +69,6 @@ func clear_undo_diff(undoing=false):
 			undo_diff[-1].append(-1)
 		return
 	if undoing:
-		add_undo_to(redo_queue) # If undoing add it to redo queue
 		if undo_queue:
 			var undo = undo_queue.pop_front()
 			undo_diff = undo.diff
@@ -133,9 +131,10 @@ func do_undo():
 	for x in range(undo_diff_rect.position.x, undo_diff_rect.end.x):
 		for y in range(undo_diff_rect.position.y, undo_diff_rect.end.y):
 			newdiff += hex[undo_diff[y][x]]
-#	var diffs = MultiplayerManager.encode_diff(newdiff)
-	PaintUtil.apply_diff(Global.paint_target, newdiff, undo_diff_rect, MultiplayerManager.uid, false)
-	#MultiplayerManager.draw_diff_to_server.rpc_id(1, diffs[0], diffs[1], undo_diff_rect, Global.current_level)
+	var diffs = MultiplayerManager.encode_diff(newdiff)
+#	PaintUtil.apply_diff(Global.paint_target, newdiff, undo_diff_rect, MultiplayerManager.uid, false)
+	if diffs[0] > 0:
+		MultiplayerManager.draw_diff_to_server.rpc_id(1, diffs[0], diffs[1], undo_diff_rect, Global.current_level)
 	clear_undo_diff(true)
 
 func _process(delta):
