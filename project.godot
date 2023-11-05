@@ -17,10 +17,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-Settings="*res://scripts/Settings.gd"
-Global="*res://scripts/Global.gd"
-PaintUtil="*res://scripts/PaintUtil.gd"
-MultiplayerManager="*res://scripts/MultiplayerManager.gd"
+Settings="*res://scripts/Autoload/Settings.gd"
+Global="*res://scripts/Autoload/Global.gd"
+PaintUtil="*res://scripts/Autoload/PaintUtil.gd"
+MultiplayerManager="*res://scripts/Autoload/MultiplayerManager.gd"
 
 [debug]
 

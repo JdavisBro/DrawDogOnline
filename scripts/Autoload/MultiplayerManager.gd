@@ -220,8 +220,8 @@ func start(nserver=false):
 	if client:
 		client.queue_free()
 	if server:
-		client = preload("res://scripts/Server.gd").new()
+		client = preload("res://scripts/Autoload/Server.gd").new()
 	else:
-		client = preload("res://scripts/Client.gd").new()
+		client = preload("res://scripts/Autoload/Client.gd").new()
 	add_child(client)
 	client.start()

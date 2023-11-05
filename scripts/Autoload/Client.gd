@@ -8,7 +8,7 @@ var USER_INFO = {
 	"dog": Global.dog_dict
 }
 var level_puppets = {} # pid: dogpuppet
-var dogpuppet = preload("res://objects/dog_puppet.tscn")
+var dogpuppet = preload("res://objects/dog/dog_puppet.tscn")
 var level_scene
 var dog
 var chat

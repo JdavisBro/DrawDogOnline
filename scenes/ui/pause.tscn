@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://c7qca6i2c2ow3"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_k6wvt"]
-[ext_resource type="Script" path="res://scripts/pause.gd" id="2_oaphg"]
+[ext_resource type="Script" path="res://scenes/ui/pause.gd" id="2_tli4u"]
 
 [node name="pause" type="Control"]
 process_mode = 3
@@ -9,7 +9,7 @@ z_index = 3000
 layout_mode = 3
 anchors_preset = 0
 theme = ExtResource("1_k6wvt")
-script = ExtResource("2_oaphg")
+script = ExtResource("2_tli4u")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0

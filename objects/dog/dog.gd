@@ -87,7 +87,7 @@ func _physics_process(delta):
 
 func _ready():
 	animation.puppet = false
-	brush = preload("res://objects/brush.tscn").instantiate()
+	brush = preload("res://objects/brush/brush.tscn").instantiate()
 	brush.dog = self
 	get_node("..").add_child.call_deferred(brush)
 	animation.set_dog_dict(Global.dog_dict)

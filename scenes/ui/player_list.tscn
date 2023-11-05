@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://ctliw0bub5qtc"]
 
-[ext_resource type="Script" path="res://scripts/player_list.gd" id="1_a2qlo"]
+[ext_resource type="Script" path="res://scenes/ui/player_list.gd" id="1_a2qlo"]
 
 [node name="player_list" type="Control"]
 z_index = 3000

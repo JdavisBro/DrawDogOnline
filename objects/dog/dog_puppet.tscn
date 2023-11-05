@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://c06eh5ixn3h81"]
 
-[ext_resource type="Script" path="res://objects/dog_puppet.gd" id="1_cqfht"]
-[ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog_animation.tscn" id="2_k5r5l"]
-[ext_resource type="PackedScene" uid="uid://wvf60gr2lk61" path="res://objects/brush_prop.tscn" id="9_opc51"]
+[ext_resource type="Script" path="res://objects/dog/dog_puppet.gd" id="1_cqfht"]
+[ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="2_k5r5l"]
+[ext_resource type="PackedScene" uid="uid://wvf60gr2lk61" path="res://objects/brush/brush_prop.tscn" id="9_opc51"]
 
 [node name="DogPuppet" type="Node2D" groups=["dogpuppets"]]
 script = ExtResource("1_cqfht")

@@ -14,6 +14,6 @@ func setup():
 	level_label.text = "%d,%d,%d" % [level.x, level.y, level.z]
 
 func _ready():
-	dog = load("res://objects/dog_animation.tscn").instantiate() # Preloading or instantiating in the scene tree for some reason breaks dog_animation for all nodes
+	dog = load("res://objects/dog/dog_animation.tscn").instantiate() # Preloading or instantiating in the scene tree for some reason breaks dog_animation for all nodes
 	dog.position = Vector2(75, 130)
 	$SubViewport.add_child(dog)

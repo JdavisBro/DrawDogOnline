@@ -8,23 +8,26 @@ func _process(_delta):
 	if Input.is_action_just_pressed("pause", true) and not get_tree().paused:
 		get_tree().paused = true
 		visible = true
+		Global.paintable = false
 		get_parent().move_child(self, -1) # level control steals input
 	elif Input.is_action_just_pressed("pause", true)  and get_tree().paused and visible:
-		if is_instance_valid(submenu):
-			if submenu.has_method("before_close"):
-				submenu.before_close()
-			submenu.queue_free()
-		else:
-			get_tree().paused = false
-			visible = false
-			Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+		close_pause()
 	if get_tree().paused and visible:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 
+func close_pause():
+	if is_instance_valid(submenu):
+		if submenu.has_method("before_close"):
+			submenu.before_close()
+		submenu.queue_free()
+	else:
+		get_tree().paused = false
+		visible = false
+		Global.paintable = true
+		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+
 func _on_resume_pressed():
-	get_tree().paused = false
-	visible = false
-	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
+	close_pause()
 
 func _on_player_list_pressed():
 	submenu = preload("res://scenes/ui/player_list.tscn").instantiate()

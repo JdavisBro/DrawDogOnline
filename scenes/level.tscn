@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://c8n4gjq3v6y35"]
 
 [ext_resource type="PackedScene" uid="uid://doo4hph7vj7lr" path="res://objects/paint.tscn" id="1_moyao"]
-[ext_resource type="PackedScene" uid="uid://bebdv4x8a47fm" path="res://objects/dog.tscn" id="2_q35ip"]
+[ext_resource type="PackedScene" uid="uid://bebdv4x8a47fm" path="res://objects/dog/dog.tscn" id="2_q35ip"]
 [ext_resource type="FontFile" uid="uid://oksyowjco4fg" path="res://assets/Domigorgon_Plus.ttf" id="3_ayk3y"]
 [ext_resource type="Script" path="res://scripts/Camera.gd" id="3_xxubx"]
 [ext_resource type="Script" path="res://scripts/Chat.gd" id="4_1g5n7"]
@@ -99,17 +99,14 @@ func _process(_delta):
 "
 
 [node name="level" type="Node2D"]
-process_mode = 3
 script = SubResource("GDScript_shql5")
 
 [node name="paint" parent="." instance=ExtResource("1_moyao")]
 
 [node name="Dog" parent="." instance=ExtResource("2_q35ip")]
-process_mode = 1
 position = Vector2(51, 47)
 
 [node name="Camera2D" type="Camera2D" parent="."]
-process_mode = 1
 anchor_mode = 0
 limit_left = 0
 limit_top = 0
