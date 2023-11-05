@@ -20,6 +20,9 @@ func _init(n_paint, n_color, n_color_collide=-1):
 	color = n_color
 	color_collide = n_color_collide
 
+func stop():
+	queue = []
+
 func _ready():
 	add_to_group("paintbursts")
 	queue.append(position.round())

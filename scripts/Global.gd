@@ -89,13 +89,13 @@ func save_screenshot(path):
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
 func _process(_delta):
-	if Input.is_action_just_pressed("fullscreen"):
+	if Input.is_action_just_pressed("fullscreen", true):
 		if DisplayServer.window_get_mode() == DisplayServer.WINDOW_MODE_FULLSCREEN:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
 		else:
 			DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
 	
-	if Input.is_action_just_pressed("screenshot") and not get_tree().paused:
+	if Input.is_action_just_pressed("screenshot", true) and not get_tree().paused:
 		if Global.paint_target and not screenshot:
 			screenshot = await Global.paint_target.get_texture()
 			if OS.has_feature("web"):

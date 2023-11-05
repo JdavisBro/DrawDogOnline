@@ -116,10 +116,10 @@ func draw_diff_to_server(size, diff, rect, level):
 	client.draw_diff_to_server(pid, size, diff, rect, level)
 
 @rpc("authority", "call_remote", "reliable", PAINT_CHANNEL)
-func draw_diff_from_server(size, diff, rect, level):
+func draw_diff_from_server(size, diff, rect, level, user):
 	var pid = multiplayer.get_remote_sender_id()	
 	if server: return
-	client.draw_diff(pid, size, diff, rect, level)
+	client.draw_diff(pid, size, diff, rect, level, user)
 
 @rpc("any_peer", "call_remote", "unreliable") # this isn't rpc called atm
 func draw_diff(size, diff, rect, level):

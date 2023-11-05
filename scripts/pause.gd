@@ -5,11 +5,11 @@ var submenu = null
 func _process(_delta):
 	if Global.pause_enable == false:
 		return
-	if Input.is_action_just_pressed("pause") and not get_tree().paused:
+	if Input.is_action_just_pressed("pause", true) and not get_tree().paused:
 		get_tree().paused = true
 		visible = true
 		get_parent().move_child(self, -1) # level control steals input
-	elif Input.is_action_just_pressed("pause")  and get_tree().paused and visible:
+	elif Input.is_action_just_pressed("pause", true)  and get_tree().paused and visible:
 		if is_instance_valid(submenu):
 			if submenu.has_method("before_close"):
 				submenu.before_close()

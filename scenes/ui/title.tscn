@@ -33,7 +33,7 @@ func _ready():
 					protocolselect.select(1)
 
 func _process(_delta):
-	if submenu and Input.is_action_just_pressed(\"pause\"):
+	if submenu and Input.is_action_just_pressed(\"pause\", true):
 		if submenu.has_method(\"before_close\"):
 			submenu.before_close()
 		submenu.queue_free()

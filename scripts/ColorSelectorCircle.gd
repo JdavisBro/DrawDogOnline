@@ -78,7 +78,7 @@ func get_selected():
 	selected = floori(ang / (TAU/len(Global.palette)))
 
 func _process(_delta):
-	if Input.is_action_pressed("quick_color") and not Input.is_action_pressed("draw"):
+	if Input.is_action_pressed("quick_color", true) and not Input.is_action_pressed("draw", true):
 		if not visible:
 			startpos = brush.pos
 		get_selected()

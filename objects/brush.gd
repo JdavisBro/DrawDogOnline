@@ -43,22 +43,22 @@ func reset_flood():
 
 func process_style_inputs():
 	var oldsel = selected_style
-	if Input.is_action_just_pressed("style_1"):
+	if Input.is_action_just_pressed("style_1", true):
 		if selected_style == 1:
 			selected_style = 0
 		else:
 			selected_style = 1
-	elif Input.is_action_just_pressed("style_2"):
+	elif Input.is_action_just_pressed("style_2", true):
 		if selected_style == 2:
 			selected_style = 0
 		else:
 			selected_style = 2
-	elif Input.is_action_just_pressed("style_3"):
+	elif Input.is_action_just_pressed("style_3", true):
 		if selected_style == 3:
 			selected_style = 0
 		else:
 			selected_style = 3
-	elif Input.is_action_just_pressed("style_4"):
+	elif Input.is_action_just_pressed("style_4", true):
 		if selected_style == 4:
 			selected_style = 0
 		else:
@@ -90,14 +90,14 @@ func _physics_process(delta):
 	paint_pos = pos / Global.paint_res
 	
 	if dog.is_physics_processing(): # Chatting
-		if Input.is_action_just_pressed("brush_size_next"):
+		if Input.is_action_just_pressed("brush_size_next", true):
 			size = BRUSH_SIZES[(BRUSH_SIZES.find(size)+1) % len(BRUSH_SIZES)]
 			reset_flood()
 			
-		if Input.is_action_just_pressed("brush_color_next"):
+		if Input.is_action_just_pressed("brush_color_next", true):
 			color_index = (color_index+1) % len(Global.palette)
 			reset_flood()
-		elif Input.is_action_just_pressed("brush_color_prev"):
+		elif Input.is_action_just_pressed("brush_color_prev", true):
 			color_index = posmod(color_index-1, len(Global.palette))
 			reset_flood()
 		
@@ -108,13 +108,16 @@ func _physics_process(delta):
 	if Input.is_action_pressed("draw"):
 		draw_col = color_index + 1
 		drawing = true
-		if (not Input.is_action_pressed("erase") or Input.is_action_just_pressed("erase")) and Input.is_action_just_pressed("draw"): # If button just pressed change prev_pos to not use that
+		if (not Input.is_action_pressed("erase", true) or Input.is_action_just_pressed("erase", true)) and Input.is_action_just_pressed("draw", true): # If button just pressed change prev_pos to not use that
 			prev_position = pos
-	if Input.is_action_pressed("erase"):
+	if Input.is_action_pressed("erase", true):
 		draw_col = 0
 		drawing = true
-		if not Input.is_action_pressed("draw") and Input.is_action_just_pressed("erase"): # If button just pressed change prev_pos to not use that
+		if not Input.is_action_pressed("draw", true) and Input.is_action_just_pressed("erase", true): # If button just pressed change prev_pos to not use that
 			prev_position = pos
+	
+	if (not prev_drawing) and drawing and (not get_tree().get_nodes_in_group("paintbursts")): # If im drawing new and there are no brushbursts
+		Global.paint_target.clear_undo_diff()
 	
 	if drawing:
 		if prev_position.distance_to(pos) <= 1:

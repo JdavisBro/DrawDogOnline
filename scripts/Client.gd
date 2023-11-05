@@ -110,10 +110,10 @@ func start():
 
 # RPC
 
-func draw_diff(_pid, size, diff, rect, level):
+func draw_diff(_pid, size, diff, rect, level, user):
 	if level == Global.current_level:
 		diff = MultiplayerManager.decode_diff(diff, size)
-		PaintUtil.apply_diff(Global.paint_target, diff, rect)
+		PaintUtil.apply_diff(Global.paint_target, diff, rect, user)
 
 func recieve_level_paint(_pid, newpaint, size):
 	Global.paint_target.clear_paint()

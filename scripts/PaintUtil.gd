@@ -15,9 +15,11 @@ func ensure_rect_bounds(size: Vector2, rect: Rect2):
 	new_rect.end = rect.end.clamp(Vector2.ZERO, size)
 	return new_rect
 
-func update_pos(paint, color: int, position: Vector2):
+func update_pos(paint, color: int, position: Vector2, me=true, diff=false):
 	position = ensure_bounds(paint.size, position)
-	update_diff(paint, color, position)
+	if me and not diff:
+		update_diff(paint, color, position)
+	undo_diff(paint, color, position, me, diff)
 	if paint.paint[position.y][position.x] == color:
 		return
 	paint.paint[position.y][position.x] = color
@@ -32,7 +34,7 @@ func update_pos(paint, color: int, position: Vector2):
 	paint.update_needed = true
 	
 func update_diff(paint, color, position):
-	if not paint.drawing_paint_diff:
+	if not paint.paint_diff_drawing:
 		return
 	paint.paint_diff[position.y][position.x] = color
 	if not paint.paint_diff_changed:
@@ -42,17 +44,35 @@ func update_diff(paint, color, position):
 		paint.paint_diff_rect = paint.paint_diff_rect.expand(position+Vector2.ONE)
 	paint.paint_diff_changed = true
 
-func apply_diff(paint, diff, rect):
-	var diffing = paint.drawing_paint_diff
-	paint.drawing_paint_diff = false
+func undo_diff(paint, _color, position, me, diff):
+	if diff and me:
+		return
+	if not me: # someone else updates where i have
+		if paint.undo_diff[position.y][position.x] != -1:
+			paint.undo_diff[position.y][position.x] = -1
+		for i in paint.undo_queue:
+			if i.diff:
+				if i.diff[position.y][position.x] != -1:
+					i.diff[position.y][position.x] = -1
+		return
+	if paint.undo_diff[position.y][position.x] != -1:
+		return
+	paint.undo_diff[position.y][position.x] = paint.paint[position.y][position.x]
+	if not paint.undo_diff_changed:
+		paint.undo_diff_rect = Rect2(position, Vector2.ONE*2)
+	else:
+		paint.undo_diff_rect = paint.undo_diff_rect.expand(position)
+		paint.undo_diff_rect = paint.undo_diff_rect.expand(position+Vector2.ONE)
+	paint.undo_diff_changed = true
+
+func apply_diff(paint, diff, rect, pid=0, multiplayer_diff=true):
 	var i = 0
 	for x in range(rect.size.x):
 		for y in range(rect.size.y):
 			if diff[i] != "X":
 				var target_pos = rect.position + Vector2(x, y)
-				update_pos(paint, diff[i].hex_to_int(), target_pos)
+				update_pos(paint, diff[i].hex_to_int(), target_pos, pid == MultiplayerManager.uid, multiplayer_diff)
 			i += 1
-	paint.drawing_paint_diff = diffing
 
 func draw_rect(paint, color: int, rect: Rect2):
 	rect = ensure_rect_bounds(paint.size, rect)

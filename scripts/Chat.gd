@@ -54,12 +54,12 @@ func _process(delta):
 	if redtab[tab.current_tab]:
 		tab.set_tab_icon(tab.current_tab, null)
 		redtab[tab.current_tab] = false
-	if Input.is_action_just_pressed("chat") and not lineedit.has_focus():
+	if Input.is_action_just_pressed("chat", true) and not lineedit.has_focus():
 		lineedit.grab_focus()
 		process_mode = PROCESS_MODE_ALWAYS
 		get_tree().paused = true
 		Global.pause_enable = false
-	if Input.is_action_just_pressed("ui_text_clear_carets_and_selection") and lineedit.has_focus():
+	if Input.is_action_just_pressed("ui_text_clear_carets_and_selection", true) and lineedit.has_focus():
 		lineedit.release_focus()
 	if lineedit.has_focus():
 		display_timer = 0.0
