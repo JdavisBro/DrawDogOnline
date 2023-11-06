@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://bcprn6a7r6qcd" path="res://assets/chicory/stamp/00.png" id="6_lk76n"]
 
 [node name="brush" type="Node2D"]
+process_mode = 3
 script = ExtResource("1_e6fv8")
 
 [node name="circle" type="MeshInstance2D" parent="."]
