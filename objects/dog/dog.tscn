@@ -1,19 +1,12 @@
-[gd_scene load_steps=4 format=3 uid="uid://bebdv4x8a47fm"]
+[gd_scene load_steps=3 format=3 uid="uid://bebdv4x8a47fm"]
 
 [ext_resource type="Script" path="res://objects/dog/dog.gd" id="1_0su5j"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="2_ovtlf"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_fbixq"]
-size = Vector2(75, 104)
-
-[node name="Dog" type="CharacterBody2D"]
+[node name="Dog" type="Node2D"]
 script = ExtResource("1_0su5j")
 
 [node name="AnimationManager" parent="." instance=ExtResource("2_ovtlf")]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(62.5, 95)
-shape = SubResource("RectangleShape2D_fbixq")
 
 [node name="username" type="Label" parent="."]
 anchors_preset = 8

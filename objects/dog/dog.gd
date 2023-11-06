@@ -1,8 +1,9 @@
-extends CharacterBody2D
+extends Node2D
 
 const ACCEL = 6000
 const MAX_SPEED = 600
 
+var velocity = Vector2.ONE
 var prev_position
 
 var brush
@@ -22,21 +23,11 @@ func do_movement(delta):
 	
 	var move = Input.get_vector("left", "right", "up", "down").limit_length() # this is weird compared to usual but idk how to fix it maybe later?
 	
-	velocity += move.normalized() * ACCEL * delta
+	velocity = move * MAX_SPEED
 	
-	velocity = velocity.clamp(Vector2(-MAX_SPEED, -MAX_SPEED), Vector2(MAX_SPEED, MAX_SPEED))
+	#velocity *= abs(move)
 	
-	if sign(move.x) != sign(velocity.x):
-		velocity.x = 0
-	if sign(move.y) != sign(velocity.y):
-		velocity.y = 0
-	
-	var unmodified_vel = velocity
-	velocity *= abs(move)
-	
-	move_and_slide()
-	
-	velocity = unmodified_vel
+	position += velocity*delta
 	
 	if prev_position != position and MultiplayerManager.connected:
 		MultiplayerManager.dog_update_position.rpc(position)

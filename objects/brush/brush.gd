@@ -5,9 +5,19 @@ var dog
 var size = 24
 var color_index = 0
 var pos = Vector2.ZERO
+
 var prev_position = Vector2.ZERO
-var prev_paint_pos = Vector2.ZERO
+
+var use_mouse_pos = true
+
+const SPEED = 1000
+
+var prev_mouse_pos = Vector2.ZERO
+@warning_ignore("integer_division")
+var controller_pos = Vector2(1920/2, 1080/2)
+
 var paint_pos = Vector2.ZERO
+var prev_paint_pos = Vector2.ZERO
 
 var prev_draw_col = 1
 var prev_size = 24
@@ -79,8 +89,18 @@ func process_style_inputs():
 
 func _physics_process(delta):
 	prev_position = pos
-	if DisplayServer.window_is_focused():
+	var move = Input.get_vector("brush_left", "brush_right", "brush_up", "brush_down").limit_length()
+	if not move.is_zero_approx():
+		controller_pos += move*SPEED*delta
+		use_mouse_pos = false
+	elif DisplayServer.window_is_focused():
+		if prev_mouse_pos != get_global_mouse_position():
+			use_mouse_pos = true
+			prev_mouse_pos = get_global_mouse_position()
+	if use_mouse_pos:
 		pos = get_global_mouse_position()
+	else:
+		pos = controller_pos
 	if not Global.paintable:
 		brush_return_timer = prop.update(delta, false, brush_return_timer, pos, prev_position, size)
 		$circle.visible = false
