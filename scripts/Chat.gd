@@ -1,6 +1,7 @@
 extends VBoxContainer
 
-const DISPLAY_TIME = 3.0
+const DISPLAY_TIME = 2.0
+const FADEOUT_TIMER = 0.5
 const MAX_CHATS = 50
 const ROOM_MESSAGE = "%s> %s"
 const GLOBAL_MESSAGE = "%s (%d,%d,%d)> %s"
@@ -10,6 +11,7 @@ const LEAVE_MESSAGE = "%s left."
 var display_timer = 0.0
 var eating_inputs = false
 var red_tex = GradientTexture2D.new()
+var orange_tex = GradientTexture2D.new()
 var redtab = [false, false, false]
 
 @onready var lineedit = $LineEdit
@@ -28,7 +30,10 @@ func add_message(chat, message, tab_ind):
 	if tab_ind == tab.current_tab:
 		display_timer = 0.0
 	else:
-		tab.set_tab_icon(tab_ind, red_tex)
+		if ("@%s" % Global.username.to_lower()) in message.to_lower():
+			tab.set_tab_icon(tab_ind, orange_tex)
+		elif not redtab[tab_ind]:
+			tab.set_tab_icon(tab_ind, red_tex)
 		redtab[tab_ind] = true
 	if prev_end:
 		await get_tree().process_frame
@@ -60,6 +65,7 @@ func _process(delta):
 		get_tree().paused = true
 		Global.pause_enable = false
 	if Input.is_action_just_pressed("ui_text_clear_carets_and_selection", true) and lineedit.has_focus():
+		display_timer = DISPLAY_TIME
 		lineedit.release_focus()
 	if lineedit.has_focus():
 		display_timer = 0.0
@@ -70,11 +76,11 @@ func _process(delta):
 		lineedit.editable = true
 	
 	if display_timer > 0 and tab.current_tab == 2:
-		display_timer = DISPLAY_TIME+1
+		display_timer = DISPLAY_TIME+FADEOUT_TIMER
 	display_timer += delta
 	
 	if display_timer > DISPLAY_TIME:
-		modulate.a = clamp(1.0 - (display_timer - DISPLAY_TIME)/1.0, 0 , 1)
+		modulate.a = clamp(1.0 - (display_timer - DISPLAY_TIME)/FADEOUT_TIMER, 0 , 1)
 	else:
 		modulate.a = 1
 	
@@ -85,9 +91,11 @@ func _process(delta):
 		display_timer = 0.0
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		Global.paintable = false
+		lineedit.mouse_filter = MOUSE_FILTER_PASS
 	else:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		Global.paintable = true
+		lineedit.mouse_filter = MOUSE_FILTER_IGNORE
 
 func _ready():
 	MultiplayerManager.client.chat = self
@@ -96,6 +104,11 @@ func _ready():
 	red_tex.gradient.set_color(0, Color.RED)
 	red_tex.height = 10
 	red_tex.width = 10
+	orange_tex.gradient = red_tex.gradient.duplicate()
+	orange_tex.gradient.set_color(0, Color.ORANGE)
+	orange_tex.height = 10
+	orange_tex.width = 10
+	
 
 func reset_lineedit():
 	lineedit.release_focus()
