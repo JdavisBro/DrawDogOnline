@@ -1,7 +1,7 @@
 extends Node
 
 var USER_INFO = {
-	"username": "Default", "position": Vector2.ZERO, "animation": "idle", "facing": false,
+	"username": "Default", "position": Vector2.ZERO, "animation": "idle", "facing": false, "playerstatus": Global.PlayerStatus.Normal,
 	"brush": {
 		"position": Vector2.ZERO, "drawing": false, "color": 1, "size": 24
 	},
@@ -80,6 +80,7 @@ func add_puppet(pid, userinfo):
 		else:
 			return
 	var puppet = dogpuppet.instantiate()
+	puppet.userinfo = userinfo
 	puppet.position = userinfo.position
 	level_puppets[pid] = puppet
 	level_scene.add_child(puppet)
@@ -93,6 +94,7 @@ func add_puppet(pid, userinfo):
 	puppet.facing = userinfo.facing
 	puppet.animation.set_dog_dict(userinfo.dog)
 	puppet.brush.handle.modulate = userinfo.dog.color.brush_handle
+	puppet.playerstatus = userinfo.playerstatus
 
 # Start
 
@@ -184,6 +186,12 @@ func dog_update_dog(pid, newdog):
 		level_puppets[pid].animation.set_dog_dict(newdog)
 		level_puppets[pid].brush.handle.modulate = newdog.color.brush_handle
 
+func dog_update_playerstatus(pid, playerstatus):
+	if pid == MultiplayerManager.uid:
+		me.playerstatus = playerstatus
+	if pid in level_puppets:
+		level_puppets[pid].playerstatus = playerstatus
+
 func chat_message(_pid, username, level, message):
 	if level == Global.current_level:
 		chat.add_room_message(username, message)
@@ -197,3 +205,4 @@ func join_leave_message(_pid, username, joined):
 func recieve_player_list(_pid, playerlist):
 	if player_list:
 		player_list.set_players(playerlist)
+

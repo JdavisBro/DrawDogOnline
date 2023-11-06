@@ -3,6 +3,8 @@ extends Control
 @onready var palette_item = $VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer/PaletteItemList
 @onready var ingame_tree = $VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer/InGameTree
 @onready var colorpicker = $VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/MarginContainer/ColorPicker
+@onready var warning = $VBoxContainer/MarginContainer/WarningPanelContainer
+@onready var warninglabel = $VBoxContainer/MarginContainer/WarningPanelContainer/Label
 
 var ingame_tree_root
 
@@ -45,7 +47,21 @@ func get_ingame_colors(search=""):
 			
 			#ingame_item.add_item("%s Color %s" % [pname, (ii+1)], get_gradient_texture(pal[ii]))
 
+func check_editing():
+	var paletters = []
+	for pid in MultiplayerManager.client.level_puppets:
+		if MultiplayerManager.client.level_puppets[pid].playerstatus == Global.PlayerStatus.Palette:
+			paletters.append(MultiplayerManager.client.level_puppets[pid].userinfo.username)
+	if paletters:
+		var are = "is"
+		if len(paletters) > 1:
+			are = "are"
+		warninglabel.text = warninglabel.text % [", ".join(paletters), are]
+	else:
+		warning.visible = false
+
 func _ready():
+	check_editing()
 	var i = 0
 	palette_item.remove_item(0)
 	for color in newpalette:

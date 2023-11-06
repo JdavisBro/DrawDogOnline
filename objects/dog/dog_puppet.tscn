@@ -29,3 +29,8 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
 text = "USERNAME"
 horizontal_alignment = 1
+
+[node name="PlayerStatus" type="Sprite2D" parent="."]
+texture_filter = 1
+position = Vector2(0, -150)
+scale = Vector2(5, 5)

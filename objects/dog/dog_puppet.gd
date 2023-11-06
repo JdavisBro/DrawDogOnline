@@ -5,6 +5,9 @@ var anims = ["idle", "run", "runup", "walk", "walkup", "jump", "hop_up", "hop_do
 
 var prev_position
 
+var userinfo
+var playerstatus = Global.PlayerStatus.Normal : set=_set_playerstatus
+
 var facing = false
 
 var brush_position = Vector2(0, 0)
@@ -16,6 +19,14 @@ var brush_size = 24
 
 @onready var animation = $AnimationManager
 @onready var brush = $prop
+
+func _set_playerstatus(newstatus):
+	playerstatus = newstatus
+	if playerstatus > 0:
+		$PlayerStatus.texture = load("res://assets/playerstatus/%d.png" % playerstatus)
+		$PlayerStatus.visible =  true
+	else:
+		$PlayerStatus.visible =  false
 
 func _ready():
 	brush.dog = self

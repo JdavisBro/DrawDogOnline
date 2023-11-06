@@ -159,6 +159,10 @@ func dog_update_dog(pid, dog):
 	if pid in player_location:
 		players[player_location[pid]][pid].dog = dog
 
+func dog_update_playerstatus(pid, playerstatus):
+	if pid in player_location:
+		players[player_location[pid]][pid].playerstatus = playerstatus
+
 func chat_message(_pid, username, level, message):
 	print("ROOM %s (%d,%d,%d)> %s" % [username, level.x, level.y, level.z, message])
 

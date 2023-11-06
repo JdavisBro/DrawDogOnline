@@ -187,6 +187,11 @@ func dog_update_dog(dog):
 	var pid = multiplayer.get_remote_sender_id()
 	client.dog_update_dog(pid, dog)
 
+@rpc("any_peer", "call_local", "reliable")
+func dog_update_playerstatus(playerstatus):
+	var pid = multiplayer.get_remote_sender_id()
+	client.dog_update_playerstatus(pid, playerstatus)
+
 @rpc("any_peer", "call_local", "reliable", CHAT_CHANNEL)
 func chat_message(username, level, message):
 	var pid = multiplayer.get_remote_sender_id()
