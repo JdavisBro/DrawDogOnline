@@ -46,4 +46,8 @@ func _process(delta):
 		if brush_color:
 			brush.end_color = Global.palette[(brush_color-1) % len(Global.palette)]
 	
+	if animation.animation_name == "idle" and brush_drawing:
+		if animation.flip != (brush_position.x < position.x):
+			animation.flip = (brush_position.x < position.x)
+	
 	brush_prev_position = brush_position
