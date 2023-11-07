@@ -1,7 +1,6 @@
 extends Node2D
 
 var anim = 0
-var anims = ["idle", "run", "runup", "walk", "walkup", "jump", "hop_up", "hop_down", "sit"]
 
 var prev_position
 

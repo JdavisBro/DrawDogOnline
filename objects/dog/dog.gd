@@ -2,9 +2,14 @@ extends Node2D
 
 const ACCEL = 6000
 const MAX_SPEED = 600
+const JUMP_MAX_SPEED = 800
 
 var velocity = Vector2.ONE
 var prev_position
+
+var jumping = false
+var jump_dir = Vector2.ZERO
+var jump_buffered = false
 
 var brush
 
@@ -23,9 +28,26 @@ func do_movement(delta):
 	
 	var move = Input.get_vector("left", "right", "up", "down").limit_length() # this is weird compared to usual but idk how to fix it maybe later?
 	
-	velocity = move * MAX_SPEED
+	if not jumping and (Input.is_action_just_pressed("jump") or jump_buffered):
+		jumping = true
+		jump_dir = move
+		animation.play("jump")
+		jump_buffered = false
 	
-	#velocity *= abs(move)
+	if jumping:
+		if animation.animation_name != "jump":
+			jumping = false
+			velocity = move * MAX_SPEED
+		elif (animation.frame / 10) > 9:
+			if jump_buffered:
+				jumping = false
+			velocity = Vector2.ZERO
+		else:
+			velocity = jump_dir * JUMP_MAX_SPEED
+		if (animation.frame / 10) > 3 and Input.is_action_just_pressed("jump"):
+			jump_buffered = true
+	else:
+		velocity = move * MAX_SPEED
 	
 	position += velocity*delta
 	
@@ -35,6 +57,9 @@ func do_movement(delta):
 func change_sprite_by_velocity():
 	if velocity.x != 0:
 		facing = velocity.x < 0
+	
+	if jumping:
+		return
 	
 	if velocity.is_zero_approx():
 		if animation.animation_name in ["run", "runup", "walk", "walkup"]:

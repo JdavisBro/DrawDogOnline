@@ -19,6 +19,8 @@ var speed_scale = 1.0
 
 var tween
 
+var initial_pos = Vector2.ZERO
+
 var sprites_A := []
 var sprites_B := []
 var sprites_ear := []
@@ -71,12 +73,20 @@ func _set_big(value):
 
 func _ready():
 	play("idle")
+	initial_pos = position
 	for anim in ["run", "runup"]:
 		for l in [["A", Global.loaded_sprites_A], ["B", Global.loaded_sprites_B], ["ear", Global.loaded_sprites_ear]]:
 			load_frames(anim, l[0], l[1])
 
 func _process(delta):
 	var f = int(frame / 10)
+	if animation_name == "jump":
+		position.y = initial_pos.y - 70*sin( min(frame/10, len(sprites_ear)-2) * ( PI/(len(sprites_ear)-2) ) )
+		$shadow.position.y = -position.y+5
+		$shadow.visible = true
+	else:
+		position.y = initial_pos.y
+		$shadow.visible = false
 	if f == previous_f:
 		frame += 60 * delta * animation.speed_scale * speed_scale
 		return

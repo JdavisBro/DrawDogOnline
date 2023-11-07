@@ -191,6 +191,10 @@ func dog_update_playerstatus(pid, playerstatus):
 		me.playerstatus = playerstatus
 	if pid in level_puppets:
 		level_puppets[pid].playerstatus = playerstatus
+		if playerstatus > 0 and level_puppets[pid].animation.animation_name != "idle":
+			level_puppets[pid].animation.speed_scale = 0
+		else:
+			level_puppets[pid].animation.speed_scale = 1
 
 func chat_message(_pid, username, level, message):
 	if level == Global.current_level:
