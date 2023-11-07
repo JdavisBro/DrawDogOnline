@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d21m8qkv2atq5"]
+[gd_scene load_steps=12 format=3 uid="uid://d21m8qkv2atq5"]
 
 [ext_resource type="Script" path="res://objects/brush/brush.gd" id="1_e6fv8"]
 [ext_resource type="Script" path="res://objects/brush/brush_circle.gd" id="2_lvilv"]
@@ -6,18 +6,31 @@
 [ext_resource type="Script" path="res://objects/brush/ColorSelectorCircle.gd" id="4_hdasc"]
 [ext_resource type="FontFile" uid="uid://oksyowjco4fg" path="res://assets/Domigorgon_Plus.ttf" id="5_5x5o1"]
 [ext_resource type="Texture2D" uid="uid://bcprn6a7r6qcd" path="res://assets/chicory/stamp/00.png" id="6_lk76n"]
+[ext_resource type="Shader" path="res://shaders/invert.gdshader" id="7_17kxd"]
+[ext_resource type="Script" path="res://objects/brush/ruler.gd" id="7_ych26"]
+[ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="9_eoc43"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eylrg"]
+shader = ExtResource("7_17kxd")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qt182"]
+shader = ExtResource("7_17kxd")
 
 [node name="brush" type="Node2D"]
 process_mode = 3
 script = ExtResource("1_e6fv8")
 
 [node name="circle" type="MeshInstance2D" parent="."]
+process_mode = 1
 z_index = 2000
+z_as_relative = false
 script = ExtResource("2_lvilv")
 
 [node name="prop" parent="." instance=ExtResource("3_46ldi")]
+process_mode = 1
 
 [node name="ColorSelectorCircle" type="MeshInstance2D" parent="."]
+process_mode = 1
 visible = false
 script = ExtResource("4_hdasc")
 
@@ -43,3 +56,20 @@ text = "2"
 position = Vector2(47, 26)
 scale = Vector2(1.1875, 1.1875)
 texture = ExtResource("6_lk76n")
+
+[node name="ruler" type="Node2D" parent="."]
+process_mode = 1
+z_index = 1999
+z_as_relative = false
+material = SubResource("ShaderMaterial_eylrg")
+script = ExtResource("7_ych26")
+
+[node name="distlabel" type="Label" parent="ruler"]
+z_index = 2001
+z_as_relative = false
+material = SubResource("ShaderMaterial_qt182")
+offset_right = 40.0
+offset_bottom = 23.0
+theme = ExtResource("9_eoc43")
+theme_override_font_sizes/font_size = 32
+text = "(1, 1)"
