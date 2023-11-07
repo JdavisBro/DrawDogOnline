@@ -98,6 +98,7 @@ func _physics_process(delta):
 		MultiplayerManager.request_move_to_level.rpc_id(1, MultiplayerManager.client.me, Global.current_level)
 		get_tree().paused = true
 		return
+	position = position.clamp(Vector2.ZERO, Vector2(1920, 1080))
 	
 	if animation.animation_name == "idle" and brush.prev_drawing and brush.pos < position != facing:
 		facing = brush.pos < position
