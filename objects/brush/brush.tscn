@@ -59,8 +59,6 @@ texture = ExtResource("6_lk76n")
 
 [node name="ruler" type="Node2D" parent="."]
 process_mode = 1
-z_index = 1999
-z_as_relative = false
 material = SubResource("ShaderMaterial_eylrg")
 script = ExtResource("7_ych26")
 

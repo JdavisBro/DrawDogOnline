@@ -28,7 +28,7 @@ func _process(_delta):
 		end = newend
 		queue_redraw()
 	
-	var dist = abs(start - end) / STEP
+	var dist = (abs(start - end) / STEP) + Vector2.ONE
 	$distlabel.text = "%d, %d" % [dist.x, dist.y]
 	$distlabel.position = end + Vector2(30, -30)
 
@@ -36,12 +36,12 @@ func _draw():
 	if not (rect and start and end):
 		return
 	for y in range(rect.position.y, rect.end.y+STEP.y, STEP.y):
-		if fposmod((start.y - y)/STEP.y, 5) == 0:
+		if fposmod((start.y - y)/STEP.y-1, 5) == 0:
 			draw_rect(Rect2(Vector2(end.x-2, y), STEP+Vector2(4, 0)), Color.WHITE, false, WIDTH)
 		else:
 			draw_rect(Rect2(Vector2(end.x, y), STEP), Color.WHITE, false, WIDTH)
 	for x in range(rect.position.x, rect.end.x+STEP.x, STEP.x):
-		if fposmod((start.x - x)/STEP.x, 5) == 0:
+		if fposmod((start.x - x)/STEP.x-1, 5) == 0:
 			draw_rect(Rect2(Vector2(x, start.y-2), STEP+Vector2(0, 4)), Color.WHITE, false, WIDTH)
 		else:
 			draw_rect(Rect2(Vector2(x, start.y), STEP), Color.WHITE, false, WIDTH)
