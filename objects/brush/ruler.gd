@@ -8,6 +8,7 @@ var end
 var rect
 
 @onready var brush = $'..'
+@onready var distlabel = $distlabel
 
 func _process(_delta):
 	if not Input.is_action_pressed("ruler"):
@@ -29,8 +30,10 @@ func _process(_delta):
 		queue_redraw()
 	
 	var dist = (abs(start - end) / STEP) + Vector2.ONE
-	$distlabel.text = "%d, %d" % [dist.x, dist.y]
-	$distlabel.position = end + Vector2(30, -30)
+	distlabel.text = "%d, %d" % [dist.x, dist.y]
+	distlabel.position = end + Vector2(30, -30)
+	var distrange = Vector2(1920-distlabel.size.x, 1080-distlabel.size.y)
+	distlabel.global_position = distlabel.global_position.clamp(Vector2.ZERO, distrange)
 
 func _draw():
 	if not (rect and start and end):
