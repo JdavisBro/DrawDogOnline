@@ -95,6 +95,7 @@ func load_paint():
 
 func start():
 	DisplayServer.window_set_size(Vector2(10, 10))
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)
 	load_paint()
 	var peer = WebSocketMultiplayerPeer.new()
 	peer.supported_protocols = ["ludus"]
