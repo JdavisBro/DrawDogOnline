@@ -1,0 +1,142 @@
+[gd_scene load_steps=39 format=3 uid="uid://ctjsen354eycf"]
+
+[ext_resource type="Script" path="res://objects/dog/dog_sounds.gd" id="1_31422"]
+[ext_resource type="AudioStream" uid="uid://deci4s7hyigth" path="res://assets/chicory/sounds/fly/dirt/run/01.wav" id="2_ol4rh"]
+[ext_resource type="AudioStream" uid="uid://dooooc3cpvfur" path="res://assets/chicory/sounds/fly/dirt/run/02.wav" id="3_0jiof"]
+[ext_resource type="AudioStream" uid="uid://c8bb35rp66m1q" path="res://assets/chicory/sounds/fly/dirt/run/03.wav" id="4_stxph"]
+[ext_resource type="AudioStream" uid="uid://cxddy3jk6lmnh" path="res://assets/chicory/sounds/fly/dirt/run/04.wav" id="5_584v1"]
+[ext_resource type="AudioStream" uid="uid://bwjog7n17byws" path="res://assets/chicory/sounds/fly/dirt/run/05.wav" id="6_d7lku"]
+[ext_resource type="AudioStream" uid="uid://dx1qpgqr43hs6" path="res://assets/chicory/sounds/fly/dirt/run/06.wav" id="7_iidh6"]
+[ext_resource type="AudioStream" uid="uid://dn4p25msl8242" path="res://assets/chicory/sounds/fly/dirt/run/07.wav" id="8_au50l"]
+[ext_resource type="AudioStream" uid="uid://c34bky6ko3t4" path="res://assets/chicory/sounds/fly/dirt/run/08.wav" id="9_1mdtc"]
+[ext_resource type="AudioStream" uid="uid://c30py6w22rqmv" path="res://assets/chicory/sounds/fly/dirt/run/09.wav" id="10_sixih"]
+[ext_resource type="AudioStream" uid="uid://dn2s78nsnsa0n" path="res://assets/chicory/sounds/fly/dirt/jump/01.wav" id="11_jgogb"]
+[ext_resource type="AudioStream" uid="uid://bksrsxa0ap7dx" path="res://assets/chicory/sounds/fly/dirt/jump/02.wav" id="12_wxpfl"]
+[ext_resource type="AudioStream" uid="uid://4fifcf4wpbkb" path="res://assets/chicory/sounds/fly/dirt/jump/03.wav" id="13_86lr6"]
+[ext_resource type="AudioStream" uid="uid://03rj532tctec" path="res://assets/chicory/sounds/fly/dirt/jump/04.wav" id="14_ffek4"]
+[ext_resource type="AudioStream" uid="uid://bm1cyherueh41" path="res://assets/chicory/sounds/fly/dirt/jump/05.wav" id="15_hd1ek"]
+[ext_resource type="AudioStream" uid="uid://b6s1u0vdyivbi" path="res://assets/chicory/sounds/sfx/jump/01.wav" id="16_dx6qb"]
+[ext_resource type="AudioStream" uid="uid://cfi5epnlsm1h1" path="res://assets/chicory/sounds/sfx/jump/02.wav" id="17_8lc0l"]
+[ext_resource type="AudioStream" uid="uid://dfmrr0r24sran" path="res://assets/chicory/sounds/sfx/jump/03.wav" id="18_q6cm8"]
+[ext_resource type="AudioStream" uid="uid://cnos577f85qkb" path="res://assets/chicory/sounds/sfx/jump/04.wav" id="19_hss06"]
+[ext_resource type="AudioStream" uid="uid://c0tjwdricnup0" path="res://assets/chicory/sounds/fly/dirt/land/01.wav" id="20_vnrng"]
+[ext_resource type="AudioStream" uid="uid://brtmwer4jy07v" path="res://assets/chicory/sounds/fly/dirt/land/02.wav" id="21_t5i13"]
+[ext_resource type="AudioStream" uid="uid://f5oc8f0kfe8m" path="res://assets/chicory/sounds/fly/dirt/land/03.wav" id="22_jwggy"]
+[ext_resource type="AudioStream" uid="uid://b7mpscf2u7nl2" path="res://assets/chicory/sounds/fly/dirt/land/04.wav" id="23_nrusy"]
+[ext_resource type="AudioStream" uid="uid://cuq37i0ecmfyk" path="res://assets/chicory/sounds/fly/dirt/stop/01.wav" id="24_ajx7n"]
+[ext_resource type="AudioStream" uid="uid://b8a1gde6rbb7l" path="res://assets/chicory/sounds/fly/dirt/stop/02.wav" id="25_6kmw3"]
+[ext_resource type="AudioStream" uid="uid://cnheudqi3xg50" path="res://assets/chicory/sounds/fly/dirt/stop/03.wav" id="26_g2hvk"]
+[ext_resource type="AudioStream" uid="uid://b1q0487x83qn" path="res://assets/chicory/sounds/fly/dirt/stop/04.wav" id="27_vkg17"]
+[ext_resource type="AudioStream" uid="uid://6fudjdvx33w" path="res://assets/chicory/sounds/fly/dirt/turn/01.wav" id="28_08vmf"]
+[ext_resource type="AudioStream" uid="uid://cq1meyisjx2vj" path="res://assets/chicory/sounds/fly/dirt/turn/02.wav" id="29_kfmka"]
+[ext_resource type="AudioStream" uid="uid://dj88ifih2863p" path="res://assets/chicory/sounds/fly/dirt/turn/03.wav" id="30_5fb1a"]
+[ext_resource type="AudioStream" uid="uid://dqgfy84hjdj5o" path="res://assets/chicory/sounds/fly/dirt/turn/04.wav" id="31_00k45"]
+[ext_resource type="AudioStream" uid="uid://cowwfqwrq1x8i" path="res://assets/chicory/sounds/fly/dirt/turn/05.wav" id="32_ke0rn"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_6patx"]
+streams_count = 9
+stream_0/stream = ExtResource("2_ol4rh")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("3_0jiof")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("4_stxph")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("5_584v1")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("6_d7lku")
+stream_4/weight = 1.0
+stream_5/stream = ExtResource("7_iidh6")
+stream_5/weight = 1.0
+stream_6/stream = ExtResource("8_au50l")
+stream_6/weight = 1.0
+stream_7/stream = ExtResource("9_1mdtc")
+stream_7/weight = 1.0
+stream_8/stream = ExtResource("10_sixih")
+stream_8/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_7cckh"]
+streams_count = 5
+stream_0/stream = ExtResource("11_jgogb")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("12_wxpfl")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("13_86lr6")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("14_ffek4")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("15_hd1ek")
+stream_4/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_1t28g"]
+streams_count = 4
+stream_0/stream = ExtResource("16_dx6qb")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("17_8lc0l")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("18_q6cm8")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("19_hss06")
+stream_3/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_5tpir"]
+streams_count = 4
+stream_0/stream = ExtResource("20_vnrng")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("21_t5i13")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("22_jwggy")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("23_nrusy")
+stream_3/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_l37df"]
+streams_count = 4
+stream_0/stream = ExtResource("24_ajx7n")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("25_6kmw3")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("26_g2hvk")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("27_vkg17")
+stream_3/weight = 1.0
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_qwbxw"]
+streams_count = 5
+stream_0/stream = ExtResource("28_08vmf")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("29_kfmka")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("30_5fb1a")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("31_00k45")
+stream_3/weight = 1.0
+stream_4/stream = ExtResource("32_ke0rn")
+stream_4/weight = 1.0
+
+[node name="dog_sounds" type="Node2D"]
+script = ExtResource("1_31422")
+
+[node name="footsteps" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_6patx")
+panning_strength = 3.0
+
+[node name="jump" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_7cckh")
+panning_strength = 3.0
+
+[node name="jump_whoosh" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_1t28g")
+panning_strength = 3.0
+
+[node name="land" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_5tpir")
+panning_strength = 3.0
+
+[node name="stop" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_l37df")
+panning_strength = 3.0
+
+[node name="turn" type="AudioStreamPlayer2D" parent="."]
+stream = SubResource("AudioStreamRandomizer_qwbxw")
+volume_db = -20.0
+panning_strength = 3.0

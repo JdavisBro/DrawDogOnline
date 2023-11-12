@@ -18,10 +18,13 @@ var anim = 0
 var anims = ["idle", "run", "runup", "walk", "walkup", "jump", "hop_up", "hop_down", "sit"]
 
 @onready var animation = $AnimationManager
+@onready var sfx = $SoundManager
 
 func _set_facing(new):
-	facing = new
-	animation.flip = new
+	if facing != new:
+		sfx.turn_around()
+		facing = new
+		animation.flip = new
 
 func do_movement(delta):
 	prev_position = position
@@ -33,10 +36,12 @@ func do_movement(delta):
 		jump_dir = move
 		animation.play("jump")
 		jump_buffered = false
+		sfx.jump()
 	
 	if jumping:
 		if animation.animation_name != "jump":
 			jumping = false
+			sfx.play_sound("sfx_land")
 			velocity = move * MAX_SPEED
 		elif (animation.frame / 10) > 9:
 			if jump_buffered:
@@ -61,11 +66,14 @@ func change_sprite_by_velocity():
 	if velocity.is_zero_approx():
 		if animation.animation_name in ["run", "runup", "walk", "walkup"]:
 			animation.play_if_not("idle")
+			sfx.play_sound("sfx_stop")
+			sfx.stop_running()
 	else:
 		if velocity.x == 0:
 			animation.play_if_not("runup")
 		else:
 			animation.play_if_not("run")
+		sfx.start_running()
 
 func _physics_process(delta):
 	if !Global.chat:
