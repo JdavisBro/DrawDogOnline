@@ -21,46 +21,57 @@ script = ExtResource("2_irxnk")
 [node name="B" type="Sprite2D" parent="."]
 texture = ExtResource("2_0edie")
 centered = false
+offset = Vector2(-75, -130)
 
 [node name="body" type="Sprite2D" parent="."]
+position = Vector2(-4.55, -12.05)
 texture = ExtResource("3_jfnic")
 centered = false
 offset = Vector2(-75, -119)
 
 [node name="body_0" type="Sprite2D" parent="."]
+position = Vector2(-4.55, -12.05)
 centered = false
 offset = Vector2(-75, -119)
 
 [node name="A" type="Sprite2D" parent="."]
 texture = ExtResource("4_swwp0")
 centered = false
+offset = Vector2(-75, -130)
 
 [node name="body_1" type="Sprite2D" parent="."]
+position = Vector2(-4.55, -12.05)
 centered = false
 offset = Vector2(-75, -119)
 
 [node name="body_2_hat" type="Sprite2D" parent="."]
+position = Vector2(-4.55, -12.05)
 centered = false
 offset = Vector2(-75, -119)
 
 [node name="hat_1" type="Sprite2D" parent="."]
+position = Vector2(-2.5, -45.6)
 centered = false
 offset = Vector2(-77, -84)
 
 [node name="head" type="Sprite2D" parent="."]
+position = Vector2(-2.5, -45.6)
 texture = ExtResource("5_x346j")
 centered = false
 offset = Vector2(-77, -84)
 
 [node name="hair" type="Sprite2D" parent="."]
+position = Vector2(-2.5, -45.6)
 centered = false
 offset = Vector2(-77, -84)
 
 [node name="body_2" type="Sprite2D" parent="."]
+position = Vector2(-2.5, -45.6)
 centered = false
 offset = Vector2(-75, -119)
 
 [node name="hat" type="Sprite2D" parent="."]
+position = Vector2(-2.5, -45.6)
 texture = ExtResource("6_6os1e")
 centered = false
 offset = Vector2(-77, -84)
@@ -68,3 +79,4 @@ offset = Vector2(-77, -84)
 [node name="ear" type="Sprite2D" parent="."]
 texture = ExtResource("7_jp0i6")
 centered = false
+offset = Vector2(-75, -130)
