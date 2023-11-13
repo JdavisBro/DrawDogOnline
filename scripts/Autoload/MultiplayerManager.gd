@@ -150,10 +150,10 @@ func set_palette(palette, level):
 	client.set_palette(pid, palette, level)
 
 @rpc("authority", "call_remote", "reliable", 3)
-func recieve_level_paint(newpaint, size):
+func recieve_level_paint(newpaint, size, level, palette):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
-	client.recieve_level_paint(pid, newpaint, size)
+	client.recieve_level_paint(pid, newpaint, size, level, palette)
 
 @rpc("authority", "call_remote", "reliable", 3)
 func kill_puppets():
@@ -209,10 +209,10 @@ func join_leave_message(username, joined):
 	client.join_leave_message(pid, username, joined)
 
 @rpc("any_peer", "call_remote", "reliable")
-func get_player_list():
+func get_map_player_list():
 	var pid = multiplayer.get_remote_sender_id()
 	if not server: return
-	client.get_player_list(pid)
+	client.get_map_player_list(pid)
 
 @rpc("authority", "call_remote", "reliable")
 func recieve_player_list(playerlist):

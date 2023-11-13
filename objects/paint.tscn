@@ -34,21 +34,21 @@ shader_parameter/boil = 0.0
 shader_parameter/noise = ExtResource("3_aagr5")
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_bj0di"]
-viewport_path = NodePath("MapViewport")
+viewport_path = NodePath("PaintViewport")
 
 [node name="paint" type="Node2D"]
 process_mode = 3
 z_index = -100
 script = ExtResource("1_km0p0")
 
-[node name="MapViewport" type="SubViewport" parent="."]
+[node name="PaintViewport" type="SubViewport" parent="."]
 size = Vector2i(1920, 1080)
 
-[node name="ColorRect" type="ColorRect" parent="MapViewport"]
+[node name="ColorRect" type="ColorRect" parent="PaintViewport"]
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="TileMap" type="TileMap" parent="MapViewport"]
+[node name="TileMap" type="TileMap" parent="PaintViewport"]
 texture_filter = 1
 texture_repeat = 2
 tile_set = SubResource("TileSet_whygt")

@@ -13,7 +13,8 @@ var update_needed := true
 var update_rect := Rect2(Vector2.ZERO, size-Vector2.ONE)
 var updated := []
 var palette = Global.palette
-var boil_timer := 0.0
+
+var diffs_enabled = true
 
 var paint_diff := []
 var paint_diff_drawing = false
@@ -29,7 +30,9 @@ var undo_diff := []
 var undo_diff_rect = Rect2(Vector2.ZERO, Vector2.ZERO)
 var undo_diff_changed = false
 
-@onready var map = $MapViewport/TileMap
+var pause_process = false
+
+@onready var map = $PaintViewport/TileMap
 
 func get_texture():
 	$ScreenshotViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
@@ -116,9 +119,10 @@ func force_update():
 	update_needed = true
 
 func _ready():
-	clear_paint()
-	clear_undo_diff()
-	set_init_paint()
+	if not paint:
+		clear_paint()
+		clear_undo_diff()
+		set_init_paint()
 	setup_tilemap_layers()
 	if not Global.paint_target and set_paint_target:
 		Global.paint_target = self
@@ -155,14 +159,11 @@ func apply_undo(diff, rect):
 	if diffs[0] > 0:
 		PaintUtil.apply_diff(Global.paint_target, newdiff, rect, MultiplayerManager.uid, false)
 
-func _process(delta):
-	boil_timer += delta
-	if boil_timer > 0.25:
-		var boil = randf()
-		$DisplaySprite.material.set_shader_parameter("boil", boil)
-		$ScreenshotViewport/ScreenshotSprite.material.set_shader_parameter("boil", boil)
-		boil_timer = fmod(boil_timer, 0.25)
-	if get_tree().paused:
+func _process(_delta):
+	$DisplaySprite.material.set_shader_parameter("boil", Global.boil)
+	$ScreenshotViewport/ScreenshotSprite.material.set_shader_parameter("boil", Global.boil)
+
+	if get_tree().paused and not pause_process:
 		return
 	if MultiplayerManager.connected:
 		connected()

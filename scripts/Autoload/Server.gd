@@ -126,9 +126,8 @@ func request_move_to_level(pid, userinfo, level):
 	else:
 		MultiplayerManager.join_leave_message.rpc(userinfo.username, true)
 	level = check_server_level(level)
-	MultiplayerManager.set_palette.rpc_id(pid, palettes[level], level)
 	var newpaint = MultiplayerManager.compress_paint(paint[level])
-	MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0])
+	MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])
 	MultiplayerManager.kill_puppets.rpc_id(pid)
 	for puppet in players[level]:
 		MultiplayerManager.recieve_puppet.rpc_id(pid, puppet, players[level][puppet])
@@ -170,5 +169,8 @@ func chat_message(_pid, username, level, message):
 func chat_message_global(_pid, username, level, message):
 	print("GLOBAL %s (%d,%d,%d)> %s" % [username, level.x, level.y, level.z, message])
 
-func get_player_list(pid):
+func get_map_player_list(pid):
 	MultiplayerManager.recieve_player_list.rpc_id(pid, players)
+	for level in paint:
+		var newpaint = MultiplayerManager.compress_paint(paint[level])
+		MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])

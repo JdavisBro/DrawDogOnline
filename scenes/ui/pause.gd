@@ -37,7 +37,7 @@ func _on_resume_pressed():
 
 func _on_player_list_pressed():
 	MultiplayerManager.dog_update_playerstatus.rpc(Global.PlayerStatus.PlayerList)
-	submenu = preload("res://scenes/ui/player_list.tscn").instantiate()
+	submenu = preload("res://scenes/ui/map.tscn").instantiate()
 	add_child(submenu)
 
 func _on_edit_palette_pressed():

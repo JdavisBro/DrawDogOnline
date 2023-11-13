@@ -34,7 +34,7 @@ func update_pos(paint, color: int, position: Vector2, me=true, diff=false):
 	paint.update_needed = true
 	
 func update_diff(paint, color, position):
-	if not paint.paint_diff_drawing:
+	if not paint.paint_diff_drawing or not paint.diffs_enabled:
 		return
 	paint.paint_diff[position.y][position.x] = color
 	if not paint.paint_diff_changed:
@@ -45,7 +45,7 @@ func update_diff(paint, color, position):
 	paint.paint_diff_changed = true
 
 func undo_diff(paint, _color, position, me, diff):
-	if diff and me:
+	if (diff and me) or not paint.diffs_enabled:
 		return
 	if not me: # someone else updates where i have
 		if paint.undo_diff[position.y][position.x] != -1:

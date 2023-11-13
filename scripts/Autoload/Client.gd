@@ -113,13 +113,19 @@ func start():
 # RPC
 
 func draw_diff(_pid, size, diff, rect, level, user):
+	diff = MultiplayerManager.decode_diff(diff, size)
 	if level == Global.current_level:
-		diff = MultiplayerManager.decode_diff(diff, size)
 		PaintUtil.apply_diff(Global.paint_target, diff, rect, user)
+	elif player_list:
+		player_list.update_paint(level, diff, rect)
 
-func recieve_level_paint(_pid, newpaint, size):
-	Global.paint_target.clear_paint()
-	Global.paint_target.paint = MultiplayerManager.decompress_paint(newpaint, size)
+func recieve_level_paint(_pid, newpaint, size, level, palette):
+	if level == Global.current_level:
+		Global.paint_target.clear_paint()
+		Global.paint_target.paint = MultiplayerManager.decompress_paint(newpaint, size)
+		set_palette(_pid, palette, level)
+	elif player_list:
+		player_list.set_paint(level, MultiplayerManager.decompress_paint(newpaint, size), palette)
 
 func kill_puppets(_pid):
 	level_puppets = {}
@@ -154,6 +160,8 @@ func set_palette(_pid, palette, level):
 		Global.paint_target.palette = palette
 		Global.paint_target.setup_tilemap_layers()
 		dog.brush.color_index = min(dog.brush.color_index, len(Global.palette)-1)
+	elif player_list:
+		player_list.update_palette(level, palette)
 
 func brush_update(pid, position, drawing, color, size):
 	if pid in level_puppets:

@@ -1,8 +1,9 @@
-[gd_scene load_steps=2 format=3 uid="uid://ctliw0bub5qtc"]
+[gd_scene load_steps=3 format=3 uid="uid://ctliw0bub5qtc"]
 
-[ext_resource type="Script" path="res://scenes/ui/player_list.gd" id="1_a2qlo"]
+[ext_resource type="Script" path="res://scenes/ui/map.gd" id="1_ylkcl"]
+[ext_resource type="Script" path="res://scripts/map_view.gd" id="2_4wsmq"]
 
-[node name="player_list" type="Control"]
+[node name="map" type="Control"]
 z_index = 3000
 layout_mode = 3
 anchors_preset = 15
@@ -10,7 +11,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-script = ExtResource("1_a2qlo")
+script = ExtResource("1_ylkcl")
 
 [node name="ColorRect" type="ColorRect" parent="."]
 layout_mode = 0
@@ -29,12 +30,31 @@ offset_bottom = 1064.0
 layout_mode = 2
 text = "Player List"
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="MapContainer" type="SubViewportContainer" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+script = ExtResource("2_4wsmq")
+
+[node name="MapViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer/MapContainer"]
+handle_input_locally = false
+size = Vector2i(1420, 950)
+
+[node name="Camera2D" type="Camera2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
+zoom = Vector2(0.25, 0.25)
+limit_left = -38400
+limit_top = -21600
+limit_right = 38400
+limit_bottom = 21600
+
+[node name="PlayerListContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer/ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PlayerListContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
