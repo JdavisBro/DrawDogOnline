@@ -15,6 +15,9 @@ var frame_counter = 0
 var step_frequency = 20
 var running = false
 
+func set_not_puppet():
+	for s in sfx:
+		sfx[s].set_bus("DogSounds")
 
 func _process(_delta):
 	if running:

@@ -119,24 +119,30 @@ script = ExtResource("1_31422")
 [node name="footsteps" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_6patx")
 panning_strength = 3.0
+bus = &"PuppetSounds"
 
 [node name="jump" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_7cckh")
 panning_strength = 3.0
+bus = &"PuppetSounds"
 
 [node name="jump_whoosh" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_1t28g")
 panning_strength = 3.0
+bus = &"PuppetSounds"
 
 [node name="land" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_5tpir")
 panning_strength = 3.0
+bus = &"PuppetSounds"
 
 [node name="stop" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_l37df")
 panning_strength = 3.0
+bus = &"PuppetSounds"
 
 [node name="turn" type="AudioStreamPlayer2D" parent="."]
 stream = SubResource("AudioStreamRandomizer_qwbxw")
 volume_db = -20.0
 panning_strength = 3.0
+bus = &"PuppetSounds"
