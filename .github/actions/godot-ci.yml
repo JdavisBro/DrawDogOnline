@@ -1,0 +1,56 @@
+name: "godot-ci export"
+on: push
+
+jobs:
+  # job id, can be anything
+  export_game:
+    # Always use ubuntu-latest for this action
+    runs-on: ubuntu-latest
+    # Add permission for release creation. Can be made narrower according to your needs
+    permissions: write-all
+    # Job name, can be anything
+    name: Export Game
+    steps:
+      # Always include the checkout step so that
+      # your project is available for Godot to export
+      - name: checkout
+        uses: actions/checkout@v3.3.0
+
+      - name: Get Game Sprite Export
+        run: |
+          curl ${{ secrets.ASSETS_URL }} -o "assets.zip" > /dev/null
+          unzip "assets.zip" -d assets/
+          rm assets.zip
+
+      - name: export game
+        id: export
+        # Use latest version (see releases for all versions)
+        uses: firebelley/godot-export@v5.2.0
+        with:
+          # Defining all the required inputs
+          godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.1.2/Godot_v4.1.2-stable_linux.x86_64.zip
+          godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.1.2/Godot_v4.1.2-stable_export_templates.tpz
+          relative_project_path: ./
+          archive_output: true
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: windows
+          path: ${{ steps.export.outputs.archive_directory }}/Windows Desktop.zip
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: linux
+          path: ${{ steps.export.outputs.archive_directory }}/LinuxX11.zip
+      - name: Upload Web Artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: web
+          path: ${{ steps.export.outputs.archive_directory }}/Web.zip
+
+      - name: Deploy Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          folder: ${{ steps.export.outputs.build_directory }}/Web/
+          target-folder: latest/
