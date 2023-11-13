@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://bebdv4x8a47fm"]
+[gd_scene load_steps=3 format=3 uid="uid://bebdv4x8a47fm"]
 
 [ext_resource type="Script" path="res://objects/dog/dog.gd" id="1_0su5j"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="2_ovtlf"]
