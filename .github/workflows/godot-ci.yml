@@ -40,7 +40,7 @@ jobs:
           path: ${{ steps.export.outputs.build_directory }}/LinuxX11/
 
       - name: Add coi-serviceworker to web export.
-        run: curl https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.min.js -o "${{ steps.export.outputs.build_directory }}/coi-serviceworker.min.js"
+        run: curl https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.min.js -o "${{ steps.export.outputs.build_directory }}/Web/coi-serviceworker.min.js"
         
 
       - name: Upload Web Artifact
