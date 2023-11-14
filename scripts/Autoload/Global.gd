@@ -56,9 +56,10 @@ var screenshot = null
 var filedialog = null
 
 func load_username():
-	var file = FileAccess.open("user://username.txt", FileAccess.READ)
-	Global.username = file.get_line().strip_edges()
-	file.close()
+	if FileAccess.file_exists("user://username.txt"):
+		var file = FileAccess.open("user://username.txt", FileAccess.READ)
+		Global.username = file.get_line().strip_edges()
+		file.close()
 
 func save_username():
 	var file = FileAccess.open("user://username.txt", FileAccess.WRITE)
