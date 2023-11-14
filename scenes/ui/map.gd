@@ -12,9 +12,19 @@ var paint_node = preload("res://objects/paint.tscn")
 
 var screen = Vector2(1920, 1080)
 
+@onready var teleport = $VBoxContainer/MarginContainer/HBoxContainer/Teleport
+var teleport_level = null
+var teleport_position = null
+
 @onready var mapviewport = $VBoxContainer/HBoxContainer/MapContainer/MapViewport
 @onready var mapheads = $VBoxContainer/HBoxContainer/MapContainer/MapViewport/heads
 @onready var playercontainer = $VBoxContainer/HBoxContainer/PlayerListContainer/VBoxContainer
+
+func set_teleport(level, pos):
+	teleport_level = level
+	teleport_position = pos
+	teleport.text = "Teleport to %d,%d,%d" % [level.x, level.y, level.z]
+	teleport.disabled = false
 
 func set_paint(level, paint, palette):
 	if level == Global.current_level:
@@ -48,13 +58,17 @@ func add_player(pid, userdata, level):
 	node.connect("gui_input", head_input.bind(pid))
 	playercontainer.add_child(node)
 	node.setup()
+	node.name = userdata.username
 	players[pid] = node
 	var head = head_node.instantiate() # map head
 	mapheads.add_child(head)
 	heads[pid] = head
 	head.flip = userdata.facing
+	if pid == MultiplayerManager.uid:
+		head.get_node("username").add_theme_color_override("font_color", Color("5c7aff"))
 	head.get_node("username").text = userdata.username
 	head.position = userdata.position + (screen * Vector2(level.x, level.y))
+	head.name = userdata.username
 	head.set_dog_dict(userdata.dog)
 
 func set_players(playerlist):
@@ -111,8 +125,8 @@ func before_close():
 	Global.paint_target.pause_process = false
 
 func _on_update_switch_toggled(button_pressed):
-	for screen in paints:
-		paints[screen].pause_process = button_pressed
+	for level in paints:
+		paints[level].pause_process = button_pressed
 
 func _on_heads_switch_toggled(button_pressed):
 	mapheads.visible = button_pressed
@@ -120,3 +134,13 @@ func _on_heads_switch_toggled(button_pressed):
 func _on_close_pressed():
 	before_close()
 	queue_free()
+
+func _on_teleport_pressed():
+	MultiplayerManager.client.change_level(teleport_level, teleport_position)
+	get_node("..").submenu = null
+	get_node("..").close_pause()
+	before_close()
+	queue_free()
+
+func _on_reset_zoom_pressed():
+	$VBoxContainer/HBoxContainer/MapContainer/MapViewport/Camera2D.zoom = Vector2(0.1, 0.1)

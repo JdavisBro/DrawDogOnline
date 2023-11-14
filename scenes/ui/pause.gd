@@ -11,7 +11,7 @@ func _process(_delta):
 		Global.paintable = false
 		get_parent().move_child(self, -1) # level control steals input
 		MultiplayerManager.dog_update_playerstatus.rpc(Global.PlayerStatus.Paused)
-	elif Input.is_action_just_pressed("pause", true)  and get_tree().paused and visible:
+	elif Input.is_action_just_pressed("pause", true) and get_tree().paused and visible:
 		close_pause()
 	if get_tree().paused and visible:
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE

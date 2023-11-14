@@ -172,6 +172,7 @@ func chat_message_global(_pid, username, level, message):
 func get_map_player_list(pid):
 	MultiplayerManager.recieve_player_list.rpc_id(pid, players)
 	for level in paint:
+		if player_location[pid] == level: continue
 		var newpaint = MultiplayerManager.compress_paint(paint[level])
 		MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])
 

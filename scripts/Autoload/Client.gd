@@ -96,6 +96,20 @@ func add_puppet(pid, userinfo):
 	puppet.brush.handle.modulate = userinfo.dog.color.brush_handle
 	puppet.playerstatus = userinfo.playerstatus
 
+# for other nodes
+
+func change_level(level, position):
+	if level != null:
+		Global.current_level = level
+	if position != null:
+		dog.position = position
+		me.position = position
+	get_tree().call_group("paintbursts", "queue_free")
+	Global.paint_target.clear_paint_diff()
+	set_loading(true)
+	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
+	get_tree().paused = true
+
 # Start
 
 func start():
