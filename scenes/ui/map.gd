@@ -13,6 +13,7 @@ var paint_node = preload("res://objects/paint.tscn")
 var screen = Vector2(1920, 1080)
 
 @onready var mapviewport = $VBoxContainer/HBoxContainer/MapContainer/MapViewport
+@onready var mapheads = $VBoxContainer/HBoxContainer/MapContainer/MapViewport/heads
 @onready var playercontainer = $VBoxContainer/HBoxContainer/PlayerListContainer/VBoxContainer
 
 func set_paint(level, paint, palette):
@@ -49,7 +50,7 @@ func add_player(pid, userdata, level):
 	node.setup()
 	players[pid] = node
 	var head = head_node.instantiate() # map head
-	mapviewport.add_child(head)
+	mapheads.add_child(head)
 	heads[pid] = head
 	head.flip = userdata.facing
 	head.get_node("username").text = userdata.username
@@ -108,6 +109,13 @@ func _ready():
 func before_close():
 	MultiplayerManager.client.player_list = null
 	Global.paint_target.pause_process = false
+
+func _on_update_switch_toggled(button_pressed):
+	for screen in paints:
+		paints[screen].pause_process = button_pressed
+
+func _on_heads_switch_toggled(button_pressed):
+	mapheads.visible = button_pressed
 
 func _on_close_pressed():
 	before_close()

@@ -50,6 +50,9 @@ limit_top = -21600
 limit_right = 38400
 limit_bottom = 21600
 
+[node name="heads" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
+z_index = 1
+
 [node name="PlayerListContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
@@ -69,8 +72,20 @@ size_flags_vertical = 8
 layout_mode = 2
 size_flags_horizontal = 8
 
+[node name="UpdateSwitch" type="CheckButton" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Update Paint"
+
+[node name="HeadsSwitch" type="CheckButton" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+button_pressed = true
+text = "Show Heads"
+
 [node name="Close" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
 layout_mode = 2
 text = "Close"
 
+[connection signal="toggled" from="VBoxContainer/MarginContainer/HBoxContainer/UpdateSwitch" to="." method="_on_update_switch_toggled"]
+[connection signal="toggled" from="VBoxContainer/MarginContainer/HBoxContainer/HeadsSwitch" to="." method="_on_heads_switch_toggled"]
 [connection signal="pressed" from="VBoxContainer/MarginContainer/HBoxContainer/Close" to="." method="_on_close_pressed"]
