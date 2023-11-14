@@ -220,6 +220,12 @@ func recieve_player_list(playerlist):
 	if server: return
 	client.recieve_player_list(pid, playerlist)
 
+@rpc("any_peer", "call_remote", "reliable")
+func request_map_paint(level):
+	var pid = multiplayer.get_remote_sender_id()
+	if not server: return
+	client.request_map_paint(pid, level)
+
 func start(nserver=false):
 	server = nserver
 	if client:

@@ -1,0 +1,45 @@
+[gd_scene load_steps=6 format=3 uid="uid://c30iu7nalil7v"]
+
+[ext_resource type="Script" path="res://objects/map_dog_head.gd" id="1_r1b11"]
+[ext_resource type="Texture2D" uid="uid://jwr6p4602ecr" path="res://assets/chicory/expression/0.png" id="2_gy06p"]
+[ext_resource type="Texture2D" uid="uid://be2fjv8q22m0" path="res://assets/chicory/hat/00.png" id="3_p1p0y"]
+[ext_resource type="Texture2D" uid="uid://dejs3c1dmhoty" path="res://assets/chicory/dog/idle/ear/03.png" id="4_dsgyb"]
+[ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="5_l6778"]
+
+[node name="map_dog_head" type="Node2D"]
+scale = Vector2(3, 3)
+script = ExtResource("1_r1b11")
+
+[node name="head" type="Node2D" parent="."]
+
+[node name="hat_1" type="Sprite2D" parent="head"]
+
+[node name="head" type="Sprite2D" parent="head"]
+texture = ExtResource("2_gy06p")
+
+[node name="hat" type="Sprite2D" parent="head"]
+texture = ExtResource("3_p1p0y")
+
+[node name="hair" type="Sprite2D" parent="head"]
+
+[node name="ear" type="Sprite2D" parent="head"]
+texture = ExtResource("4_dsgyb")
+
+[node name="username" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -42.5
+offset_top = 28.3333
+offset_right = 42.5
+offset_bottom = 59.3333
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+theme = ExtResource("5_l6778")
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 10
+text = "Default"
+horizontal_alignment = 1

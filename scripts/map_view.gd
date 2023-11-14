@@ -5,6 +5,9 @@ extends SubViewportContainer
 
 var moving = false
 
+var ZOOM_MIN = 0.05
+var ZOOM_MAX = 10.0
+
 func _gui_input(event):
 	if event is InputEventMouseMotion:
 		if moving:
@@ -33,5 +36,4 @@ func _gui_input(event):
 				loops += 1
 				if loops > 9:
 					scroll = 0
-			camera.zoom = newzoom.clamp(Vector2(0.01, 0.01), Vector2(10, 10))
-			prints(camera.zoom, scroll)
+			camera.zoom = newzoom.clamp(Vector2(ZOOM_MIN, ZOOM_MIN), Vector2(ZOOM_MAX, ZOOM_MAX))
