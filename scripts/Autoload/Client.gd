@@ -174,6 +174,8 @@ func brush_update(pid, position, drawing, color, size):
 		level_puppets[pid].brush_size = size
 
 func dog_update_position(pid, position):
+	if player_list:
+		player_list.update_head_position(pid, position)
 	if pid in level_puppets:
 		level_puppets[pid].position = position
 

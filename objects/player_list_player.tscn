@@ -8,6 +8,7 @@ viewport_path = NodePath("SubViewport")
 [node name="player_list_player" type="PanelContainer"]
 offset_right = 40.0
 offset_bottom = 40.0
+mouse_default_cursor_shape = 2
 script = ExtResource("1_oc6qp")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

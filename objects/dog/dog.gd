@@ -50,9 +50,6 @@ func do_movement(delta):
 		velocity = move * MAX_SPEED
 	
 	position += velocity*delta
-	
-	if prev_position != position and MultiplayerManager.connected:
-		MultiplayerManager.dog_update_position.rpc(position)
 
 func change_sprite_by_velocity():
 	if velocity.x != 0:
@@ -100,9 +97,12 @@ func _physics_process(delta):
 		return
 	position = position.clamp(Vector2.ZERO, Vector2(1920, 1080))
 	
+	
 	if animation.animation_name == "idle" and brush.prev_drawing and brush.pos < position != facing:
 		facing = brush.pos < position
 	
+	if prev_position != position and MultiplayerManager.connected:
+		MultiplayerManager.dog_update_position.rpc(position)
 	MultiplayerManager.client.me.position = position
 
 func _ready():

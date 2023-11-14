@@ -174,3 +174,7 @@ func get_map_player_list(pid):
 	for level in paint:
 		var newpaint = MultiplayerManager.compress_paint(paint[level])
 		MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])
+
+func request_map_paint(pid, level):
+	var newpaint = MultiplayerManager.compress_paint(paint[level])
+	MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])

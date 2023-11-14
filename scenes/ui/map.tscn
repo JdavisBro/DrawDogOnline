@@ -41,6 +41,7 @@ script = ExtResource("2_4wsmq")
 [node name="MapViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer/MapContainer"]
 handle_input_locally = false
 size = Vector2i(1420, 950)
+render_target_update_mode = 4
 
 [node name="Camera2D" type="Camera2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
 zoom = Vector2(0.25, 0.25)
