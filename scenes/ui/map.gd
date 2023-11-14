@@ -59,6 +59,8 @@ func add_player(pid, userdata, level):
 	playercontainer.add_child(node)
 	node.setup()
 	node.name = userdata.username
+	if pid == MultiplayerManager.uid:
+		node.username_label.add_theme_color_override("font_color", Color("5c7aff"))
 	players[pid] = node
 	var head = head_node.instantiate() # map head
 	mapheads.add_child(head)
