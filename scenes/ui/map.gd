@@ -50,7 +50,9 @@ func update_palette(level, palette):
 	paints[level].palette = palette
 	paints[level].setup_tilemap_layers()
 
-func add_player(pid, userdata, level):
+func add_player(pid, userdata, level, adding_self=false):
+	if pid == MultiplayerManager.uid and not adding_self:
+		return
 	var node = player_node.instantiate() # player list
 	node.username = userdata.username
 	node.level = level
@@ -59,14 +61,14 @@ func add_player(pid, userdata, level):
 	playercontainer.add_child(node)
 	node.setup()
 	node.name = userdata.username
-	if pid == MultiplayerManager.uid:
+	if adding_self:
 		node.username_label.add_theme_color_override("font_color", Color("5c7aff"))
 	players[pid] = node
 	var head = head_node.instantiate() # map head
 	mapheads.add_child(head)
 	heads[pid] = head
 	head.flip = userdata.facing
-	if pid == MultiplayerManager.uid:
+	if adding_self:
 		head.get_node("username").add_theme_color_override("font_color", Color("5c7aff"))
 	head.get_node("username").text = userdata.username
 	head.position = userdata.position + (screen * Vector2(level.x, level.y))
@@ -111,6 +113,7 @@ func head_input(event: InputEvent, pid):
 			mapviewport.get_node("Camera2D").position = heads[pid].position
 
 func _ready():
+	add_player(MultiplayerManager.uid, MultiplayerManager.client.me, Global.current_level, true)
 	var node = Sprite2D.new()
 	node.texture = Global.paint_target.get_node("DisplaySprite").texture
 	node.material = Global.paint_target.get_node("DisplaySprite").material
