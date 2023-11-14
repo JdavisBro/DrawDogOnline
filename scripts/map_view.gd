@@ -34,7 +34,6 @@ func _gui_input(event):
 			MOUSE_BUTTON_WHEEL_UP:
 				scroll += event.factor/50.0
 		if scroll != 0:
-			var loops = 0
 			var newzoom = camera.zoom + Vector2.ONE * (scroll / 4)
 			camera.zoom = newzoom.clamp(Vector2(ZOOM_MIN, ZOOM_MIN), Vector2(ZOOM_MAX, ZOOM_MAX))
 
