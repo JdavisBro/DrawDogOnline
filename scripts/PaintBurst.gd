@@ -25,6 +25,7 @@ func stop():
 
 func _ready():
 	add_to_group("paintbursts")
+	process_mode = PROCESS_MODE_PAUSABLE
 	queue.append(position.round())
 	for y in range(paint.size.y):
 		for x in range(paint.size.x):

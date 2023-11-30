@@ -27,7 +27,7 @@ func _gui_input(event):
 		match event.button_index:
 			MOUSE_BUTTON_RIGHT:
 				selecting = event.pressed
-			MOUSE_BUTTON_MIDDLE:
+			MOUSE_BUTTON_LEFT:
 				moving = event.pressed
 			MOUSE_BUTTON_WHEEL_DOWN:
 				scroll -= event.factor/50.0

@@ -14,12 +14,12 @@ func process_arg(key, value=""):
 				else:
 					print("Port Invalid")
 					get_tree().quit()
-			get_tree().change_scene_to_file("res://scenes/server.tscn")
+			get_tree().change_scene_to_file.call_deferred("res://scenes/server.tscn")
 			MultiplayerManager.start(true)
 			scene_changed = true
 		"join-server":
 			MultiplayerManager.get_ip_port(value)
-			get_tree().change_scene_to_file("res://scenes/level.tscn")
+			get_tree().change_scene_to_file.call_deferred("res://scenes/level.tscn")
 			MultiplayerManager.start(false)
 			scene_changed = true
 		"--winpos":
@@ -48,4 +48,4 @@ func _ready():
 			process_arg(key, value)
 			getting_value = false
 	if not scene_changed:
-		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
+		get_tree().change_scene_to_file.call_deferred("res://scenes/ui/title.tscn")
