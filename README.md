@@ -21,7 +21,7 @@ You can replace default with a port number.
 ## Contributing/Exporting
 
 Requires
-- [Godot 4.1.2](https://godotengine.org/download/archive/4.1.2-stable/)
+- [Godot 4.2](https://godotengine.org/download/archive/4.2-stable/)
 - [UndertaleModTool](https://github.com/krzys-h/UndertaleModTool/)
 
 First (before opening the repo in Godot) create an Export_Sprites with UndertaleModTool and move it to this repo dir.
