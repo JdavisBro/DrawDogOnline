@@ -43,6 +43,16 @@ window/stretch/mode="canvas_items"
 
 enabled=PackedStringArray("res://addons/multirun/plugin.cfg")
 
+[file_customization]
+
+folder_colors={
+"res://assets/": "red",
+"res://data/": "gray",
+"res://objects/": "blue",
+"res://scenes/": "pink",
+"res://scripts/": "purple"
+}
+
 [input]
 
 fullscreen={
