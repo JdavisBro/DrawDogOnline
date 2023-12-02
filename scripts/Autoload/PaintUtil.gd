@@ -20,13 +20,16 @@ func update_pos(paint, color: int, position: Vector2, me=true, diff=false):
 	if me and not diff:
 		update_diff(paint, color, position)
 	undo_diff(paint, color, position, me, diff)
-	if paint.paint[position.y][position.x] == color:
+	if paint.paint.at(position.x, position.y) == color:
 		return
-	paint.paint[position.y][position.x] = color
-	paint.updated[position.y][position.x] = false
-	paint.updated[position.y][position.x-1] = false
-	paint.updated[position.y-1][position.x] = false
-	paint.updated[position.y-1][position.x-1] = false
+	paint.paint.put(position.x, position.y, color)
+	paint.updated.set_bit(position.x, position.y, false)
+	if position.x > 0:
+		paint.updated.set_bit(position.x-1, position.y, false)
+		if position.y > 0:
+			paint.updated.set_bit(position.x-1, position.y-1, false)
+	if position.y:
+		paint.updated.set_bit(position.x, position.y-1, false)
 	if not paint.update_needed:
 		paint.update_rect = Rect2(position - Vector2.ONE, Vector2.ONE*2)
 	else:
@@ -36,7 +39,7 @@ func update_pos(paint, color: int, position: Vector2, me=true, diff=false):
 func update_diff(paint, color, position):
 	if not paint.paint_diff_drawing or not paint.diffs_enabled:
 		return
-	paint.paint_diff[position.y][position.x] = color
+	paint.paint_diff.put(position.x, position.y, color)
 	if not paint.paint_diff_changed:
 		paint.paint_diff_rect = Rect2(position, Vector2.ONE*2)
 	else:
@@ -48,20 +51,20 @@ func undo_diff(paint, _color, position, me, diff):
 	if (diff and me) or not paint.diffs_enabled:
 		return
 	if not me: # someone else updates where i have
-		if paint.undo_diff[position.y][position.x] != -1:
-			paint.undo_diff[position.y][position.x] = -1
+		if paint.undo_diff.at(position.x, position.y) != -1:
+			paint.undo_diff.put(position.x, position.y, -1)
 		for i in paint.undo_queue:
 			if i.diff:
-				if i.diff[position.y][position.x] != -1:
-					i.diff[position.y][position.x] = -1
+				if i.diff.at(position.x, position.y) != -1:
+					i.diff.put(position.x, position.y, -1)
 		for i in paint.redo_queue:
 			if i.diff:
-				if i.diff[position.y][position.x] != -1:
-					i.diff[position.y][position.x] = -1
+				if i.diff.at(position.x, position.y) != -1:
+					i.diff.put(position.x, position.y, -1)
 		return
-	if paint.undo_diff[position.y][position.x] != -1:
+	if paint.undo_diff.at(position.x, position.y) != -1:
 		return
-	paint.undo_diff[position.y][position.x] = paint.paint[position.y][position.x]
+	paint.undo_diff.put(position.x, position.y, paint.paint.at(position.x, position.y))
 	if not paint.undo_diff_changed:
 		paint.undo_diff_rect = Rect2(position, Vector2.ONE*2)
 	else:
@@ -73,9 +76,9 @@ func apply_diff(paint, diff, rect, pid=0, multiplayer_diff=true):
 	var i = 0
 	for x in range(rect.size.x):
 		for y in range(rect.size.y):
-			if diff[i] != "X":
+			if diff[i] != 255:
 				var target_pos = rect.position + Vector2(x, y)
-				update_pos(paint, diff[i].hex_to_int(), target_pos, pid == MultiplayerManager.uid, multiplayer_diff)
+				update_pos(paint, diff[i], target_pos, pid == MultiplayerManager.uid, multiplayer_diff)
 			i += 1
 
 func draw_rect(paint, color: int, rect: Rect2):

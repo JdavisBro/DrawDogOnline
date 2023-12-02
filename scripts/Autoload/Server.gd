@@ -46,12 +46,7 @@ func on_player_disconnected(id):
 # Utils
 
 func new_paint():
-	var newpaint = []
-	for i in range(Global.paint_total):
-		if i % int(Global.paint_size.x) == 0:
-			newpaint.append([])
-		newpaint[-1].append(0)
-	return newpaint
+	return PackedByteArray2D.new()
 
 func check_server_level(level):
 	level = MultiplayerManager.level_in_bounds(level)
@@ -74,7 +69,8 @@ func load_paint():
 			var size = int(file.get_line())
 			var paintstr = file.get_line()
 			paintstr = Marshalls.base64_to_raw(paintstr)
-			paint[level] = MultiplayerManager.decompress_paint(paintstr, size)
+			paint[level] = PackedByteArray2D.new()
+			paint[level].array = MultiplayerManager.decompress_paint(paintstr, size)
 		save_levels()
 		file.close()
 		DirAccess.open("user://").remove("paint.txt")
@@ -86,7 +82,8 @@ func load_paint():
 			var leveldata = levelsin[level]
 			level = level.split(",")
 			level = Vector3(int(level[0]), int(level[1]), int(level[2]))
-			paint[level] = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(leveldata.paint), leveldata.paintsize)
+			paint[level] = PackedByteArray2D.new()
+			paint[level].array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(leveldata.paint), leveldata.paintsize)
 			palettes[level] = []
 			for col in leveldata.palette:
 				palettes[level].append(Color(col))
@@ -113,9 +110,9 @@ func draw_diff_to_server(pid, size, diff, rect, level):
 	var i = 0
 	for x in range(rect.size.x):
 		for y in range(rect.size.y):
-			if diff[i] != "X":
+			if diff[i] != 255:
 				var target_pos = rect.position + Vector2(x, y)
-				paint[level][target_pos.y][target_pos.x] =  diff[i].hex_to_int()
+				paint[level].put(target_pos.x, target_pos.y, diff[i])
 			i += 1
 	save_required = true
 

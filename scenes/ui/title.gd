@@ -11,7 +11,7 @@ var paintset = false
 
 func load_custom_paint():
 	if Settings.title_paint_custom_enabled and Settings.title_paint_custom:
-		$paint.paint = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(Settings.title_paint_custom), Settings.title_paint_custom_size)
+		$paint.paint.array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(Settings.title_paint_custom), Settings.title_paint_custom_size)
 		var pal = []
 		for i in Settings.title_paint_custom_palette:
 			pal.append(Color(i))

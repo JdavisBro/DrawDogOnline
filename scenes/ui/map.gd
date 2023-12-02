@@ -31,7 +31,7 @@ func set_paint(level, paint, palette):
 		return
 	var node = paint_node.instantiate()
 	node.force_update()
-	node.paint = paint
+	node.paint.array = paint
 	node.palette = palette
 	node.pause_process = true
 	node.diffs_enabled = false

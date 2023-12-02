@@ -8,15 +8,15 @@ extends Node2D
 var size := Vector2(162, 91)
 var total_pixel := size.x * size.y
 
-var paint := []
+var paint := PackedByteArray2D.new()
 var update_needed := true
 var update_rect := Rect2(Vector2.ZERO, size-Vector2.ONE)
-var updated := []
+var updated: BitMap = BitMap.new()
 var palette = Global.palette
 
 var diffs_enabled = true
 
-var paint_diff := []
+var paint_diff := PackedByteArray2D.new(size, -1)
 var paint_diff_drawing = false
 var paint_diff_rect = Rect2(Vector2.ZERO, Vector2.ZERO)
 var paint_diff_changed = false
@@ -26,7 +26,7 @@ const UNDO_LENGTH = 10
 var undo_queue = []
 var redo_queue = []
 
-var undo_diff := []
+var undo_diff := PackedByteArray2D.new()
 var undo_diff_rect = Rect2(Vector2.ZERO, Vector2.ZERO)
 var undo_diff_changed = false
 
@@ -44,37 +44,19 @@ func clear_undo():
 	redo_queue = []
 	undo_diff_changed = false
 
-func clear_paint(random=false):
-	randomize()
-	paint = []
-	updated = []
-	for i in range(total_pixel):
-		if i % int(size.x) == 0:
-			paint.append([])
-			updated.append([])
-		var col = 0
-		if random:
-			col = randi_range(0,4)
-		paint[-1].append(col)
-		updated[-1].append(false)
-		update_rect = Rect2(0,0,size.x,size.y)
-		update_needed = true
+func clear_paint():
+	paint.clear()
+	updated.create(Vector2i(size))
+	update_rect = Rect2(0,0,size.x,size.y)
+	update_needed = true
 
 func clear_paint_diff():
-	paint_diff = []
-	for i in range(total_pixel):
-		if i % int(size.x) == 0:
-			paint_diff.append([])
-		paint_diff[-1].append(-1)
+	paint_diff.clear()
 	paint_diff_changed = false
 
 func clear_undo_diff(undo=true, clear_redo=true):
 	add_undo_to(undo, clear_redo)
-	undo_diff = []
-	for i in range(total_pixel):
-		if i % int(size.x) == 0:
-			undo_diff.append([])
-		undo_diff[-1].append(-1)
+	undo_diff.clear()
 	undo_diff_changed = false
 
 func add_undo_to(undo=true, clear_redo=true):
@@ -88,7 +70,7 @@ func add_undo_to(undo=true, clear_redo=true):
 	else:
 		queue = redo_queue
 	var undodict = {}
-	undodict["diff"] = undo_diff
+	undodict["diff"] = undo_diff.duplicate()
 	undodict["rect"] = undo_diff_rect
 	queue.push_front(undodict)
 	if len(queue) > UNDO_LENGTH:
@@ -107,22 +89,17 @@ func setup_tilemap_layers():
 func set_init_paint():
 	if init_paint_string:
 		palette = init_palette
-		paint = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(init_paint_string), init_paint_size)
+		paint.array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(init_paint_string), init_paint_size)
 
 func force_update():
-	updated = []
-	for i in range(total_pixel):
-		if i % int(size.x) == 0:
-			updated.append([])
-		updated[-1].append(false)
+	updated.create(Vector2i(size))
 	update_rect = Rect2(0,0,size.x,size.y)
 	update_needed = true
 
 func _ready():
-	if not paint:
-		clear_paint()
-		clear_undo_diff()
-		set_init_paint()
+	clear_paint()
+	clear_undo_diff()
+	set_init_paint()
 	setup_tilemap_layers()
 	if not Global.paint_target and set_paint_target:
 		Global.paint_target = self
@@ -134,13 +111,13 @@ func connected():
 		clear_paint_diff()
 	paint_diff_drawing = true
 	if paint_diff_changed:
-		var newdiff = ""
+		var newdiff = PackedByteArray()
 		var newrect = Rect2(Vector2.ZERO, size)
 		if not newrect.encloses(paint_diff_rect):
 			paint_diff_rect = newrect
 		for x in range(paint_diff_rect.position.x, paint_diff_rect.end.x):
 			for y in range(paint_diff_rect.position.y, paint_diff_rect.end.y):
-				newdiff += hex[paint_diff[y][x]]
+				newdiff.append(paint_diff.at(x, y))
 		#MultiplayerManager.draw_diff.rpc(newdiff, paint_diff_rect, Global.current_level)
 		var diffs = MultiplayerManager.encode_diff(newdiff)
 		MultiplayerManager.draw_diff_to_server.rpc_id(1, diffs[0], diffs[1], paint_diff_rect, Global.current_level)
@@ -167,6 +144,7 @@ func _process(_delta):
 		return
 	if MultiplayerManager.connected:
 		connected()
+		
 	if Input.is_action_just_pressed("undo", true):
 		clear_undo_diff()
 		if undo_queue:
@@ -182,24 +160,30 @@ func _process(_delta):
 			apply_undo(undo.diff, undo.rect) # reverses redo
 			clear_undo_diff(true, false) # adds reversed redo to undo
 	randomize()
+	
 	if update_needed:
+		$PaintViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 		var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
 		if not newrect.encloses(update_rect):
 			update_rect = newrect
-		for y in range(update_rect.position.y-1, update_rect.end.y): # -1 because we only render ones we can do msquares of
-			for x in range(update_rect.position.x-1, update_rect.end.x):
-				if updated[y][x]:
+		for y in range(update_rect.position.y, update_rect.end.y):
+			for x in range(update_rect.position.x, update_rect.end.x):
+				if updated.get_bit(x, y):
 					continue
 				for i in range(len(palette)):
 					map.set_cell(i, Vector2(x, y))
 				var donecol = []
-				for color in [paint[y][x], paint[y][x+1], paint[y+1][x], paint[y+1][x+1]]:
+				var v1 = paint.at(x, y)
+				var v2 = paint.at(x+1, y)
+				var v3 = paint.at(x+1, y+1)
+				var v4 = paint.at(x, y+1)
+				for color in [v1, v2, v3, v4]:
 					if color in donecol or color == 0 or color > map.get_layers_count():
 						continue
 					donecol.append(color)
-					var val = int(paint[y][x] == color) + (int(paint[y][x+1] == color) << 1) + (int(paint[y+1][x+1] == color) << 2) + (int(paint[y+1][x] == color) << 3) 
+					var val = int(v1 == color) + (int(v2 == color) << 1) + (int(v3 == color) << 2) + (int(v4 == color) << 3) 
 					if val > 0:
 						@warning_ignore("integer_division")
 						map.set_cell(color-1, Vector2(x, y), 0, Vector2((val) % 4, (val) / 4))
-				updated[y][x] = true
+				updated.set_bit(x, y, true)
 		update_needed = false

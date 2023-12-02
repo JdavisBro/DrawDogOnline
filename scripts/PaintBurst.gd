@@ -45,7 +45,7 @@ func _process(delta):
 	while queue and checked < CHECKED_CAP and Time.get_ticks_msec() < end_time:
 		var pos = queue.pop_front()
 		if color_collide > -1:
-			if paint.paint[pos.y][pos.x] != color_collide:
+			if paint.paint.at(pos.x, pos.y) != color_collide:
 				continue
 		var cur_dist = position.distance_to(pos)
 		farthest_dist = max(cur_dist, farthest_dist)

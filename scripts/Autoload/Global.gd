@@ -83,7 +83,7 @@ func save_dog():
 			outdog.color[i] = "#" + outdog.color[i].to_html(false)
 	file.store_line(JSON.stringify(outdog))
 
-func save_screenshot(status: bool, paths: PackedStringArray, selected_filter_index: int):
+func save_screenshot(status: bool, paths: PackedStringArray, _selected_filter_index: int):
 	if not status: # Cancelled:
 		screenshot = null
 		return

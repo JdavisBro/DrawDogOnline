@@ -83,30 +83,27 @@ func level_in_bounds(level):
 	return Vector3(clamp(level.x, -LEVEL_RANGE.x, LEVEL_RANGE.x), clamp(level.y, -LEVEL_RANGE.y, LEVEL_RANGE.y), 0)
 
 func encode_diff(diff):
-	var buffer = diff.to_ascii_buffer()
-	return [buffer.size(), buffer.compress()]
+	return [diff.size(), diff.compress()]
 
 func decode_diff(diff, size):
-	return diff.decompress(size).get_string_from_ascii()
+	return diff.decompress(size)
 
 var hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
 
 func compress_paint(inpaint):
 	var out = ""
-	for y in inpaint:
-		for i in y:
-			out += hex[i]
+	for y in range(inpaint.size.y):
+		for x in range(inpaint.size.x):
+			out += hex[inpaint.at(x,y)]
 	var buffer = out.hex_decode()
 	return [buffer.size(), buffer.compress()]
 
 func decompress_paint(inb, size):
-	inb = inb.decompress(size).hex_encode()
-	var newpaint = []
-	for i in range(Global.paint_total):
-		if i % int(Global.paint_size.x) == 0:
-			newpaint.append([])
-		newpaint[-1].append(inb[i].hex_to_int())
-	return newpaint
+	var hexstr = inb.decompress(size).hex_encode()
+	var array = PackedByteArray()
+	for i in hexstr:
+		array.append(i.hex_to_int())
+	return array
 
 # RPC
 
@@ -117,7 +114,7 @@ func draw_diff_to_server(size, diff, rect, level):
 
 @rpc("authority", "call_remote", "reliable", PAINT_CHANNEL)
 func draw_diff_from_server(size, diff, rect, level, user):
-	var pid = multiplayer.get_remote_sender_id()	
+	var pid = multiplayer.get_remote_sender_id()
 	if server: return
 	client.draw_diff(pid, size, diff, rect, level, user)
 
@@ -157,13 +154,13 @@ func recieve_level_paint(newpaint, size, level, palette):
 
 @rpc("authority", "call_remote", "reliable", 3)
 func kill_puppets():
-	var pid = multiplayer.get_remote_sender_id()	
+	var pid = multiplayer.get_remote_sender_id()
 	if server: return
 	client.kill_puppets(pid)
 
 @rpc("authority", "call_remote", "reliable", 3)
 func recieve_puppet(puppet, userinfo):
-	var pid = multiplayer.get_remote_sender_id()	
+	var pid = multiplayer.get_remote_sender_id()
 	if server: return
 	client.recieve_puppet(pid, puppet, userinfo)
 
