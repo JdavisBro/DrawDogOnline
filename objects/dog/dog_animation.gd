@@ -6,6 +6,7 @@ extends Node2D
 
 var animation: DogAnimation
 var animation_name: String
+var prev_animation_name: String
 
 var puppet = true
 
@@ -37,6 +38,7 @@ var sprites_ear := []
 @onready var body_2_hat = $body_2_hat
 @onready var ear = $ear
 @onready var hat = $hat
+@onready var sfx = $SoundManager
 
 const FLIP_TIME = 0.08
 
@@ -54,6 +56,7 @@ func _set_flip(value):
 			flip_tween(-1)
 		elif scale.x != 1:
 			flip_tween(1)
+		sfx.turn_around()
 
 func _set_big(value):
 	big = value
@@ -201,9 +204,11 @@ func play(anim):
 	if anim != "idle" and big:
 		return
 	animation = ResourceLoader.load("res://data/animations/" + anim + ".tres")
+	prev_animation_name = animation_name
 	animation_name = anim
 	frame = 0
 	previous_f = -1
+	
 	for i in [B, A, ear]:
 		if anim == "idle" and not big:
 			i.offset = Vector2(-animation.origin.x / 5, -animation.origin.y / 5)
@@ -228,7 +233,24 @@ func play(anim):
 	frames = load_frames(anim, "ear", Global.loaded_sprites_ear)
 	sprites_ear = frames
 	ear.texture = frames[0] # All animations have an ear, thank god
+	
+	play_sounds_on_state_change()
 
 func play_if_not(anim):
 	if animation_name != anim:
 		play(anim)
+
+
+func play_sounds_on_state_change():
+	if animation_name == "jump":
+		sfx.jump()
+	if animation_name == "idle" and (prev_animation_name=="run" or prev_animation_name =="runup"):
+		sfx.play_sound("sfx_stop")
+	if animation_name != "jump" and prev_animation_name=="jump":
+		sfx.play_sound("sfx_land")
+	if animation_name == "run" or animation_name == "runup":
+		sfx.start_running()
+	else:
+		sfx.stop_running()
+
+
