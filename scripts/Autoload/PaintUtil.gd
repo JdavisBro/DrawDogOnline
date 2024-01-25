@@ -17,11 +17,11 @@ func ensure_rect_bounds(size: Vector2, rect: Rect2):
 
 func update_pos(paint, color: int, position: Vector2, me=true, diff=false):
 	position = ensure_bounds(paint.size, position)
-	if me and not diff:
-		update_diff(paint, color, position)
 	undo_diff(paint, color, position, me, diff)
 	if paint.paint.at(position.x, position.y) == color:
 		return
+	if me and not diff:
+		update_diff(paint, color, position)
 	paint.paint.put(position.x, position.y, color)
 	paint.updated.set_bit(position.x, position.y, false)
 	if position.x > 0:
