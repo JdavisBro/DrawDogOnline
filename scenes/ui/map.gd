@@ -31,7 +31,6 @@ func set_paint(level, paint, palette):
 		return
 	var node = paint_node.instantiate()
 	node.force_update()
-	node.paint.array = paint
 	node.palette = palette
 	node.pause_process = true
 	node.diffs_enabled = false
@@ -39,6 +38,7 @@ func set_paint(level, paint, palette):
 	node.name = "%d,%d" % [level.x, level.y]
 	paints[level] = node
 	mapviewport.add_child(node)
+	node.paint.array = paint
 
 func update_paint(level, diff, rect):
 	if level not in paints:
