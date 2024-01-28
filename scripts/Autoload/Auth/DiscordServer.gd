@@ -1,3 +1,4 @@
+class_name DiscordServer
 extends Node
 
 const token_url = "https://discord.com/api/oauth2/token" 
@@ -57,11 +58,16 @@ func get_token_from_code(code):
 		push_error("Token Request Failed: %s" % err)
 	
 	var response = await http_req.request_completed
+	if response[1] != 200:
+		push_error("Token Request HTTP Error: %s" % [response[1]])
 	response = JSON.parse_string(response[3].get_string_from_utf8())
 	
 	http_req.queue_free()
 	
-	return response["access_token"]
+	return {"access_token": response["access_token"], "refresh_token": response["refresh_token"]}
+
+func refresh_token(access_token, refresh_token):
+	pass
 
 func get_user_from_token(token):
 	var headers = PackedStringArray(["Authorization: Bearer %s" % token])
@@ -74,9 +80,7 @@ func get_user_from_token(token):
 		push_error("@me Request Failed: %s" % err)
 	
 	var response = await http_req.request_completed
+	if response[1] != 200:
+		push_error("Token Request HTTP Error: %s" % [response[1]])
 	response = JSON.parse_string(response[3].get_string_from_utf8())
 	return response
-
-func get_user_from_code(code):
-	var token = await get_token_from_code(code)
-	return await get_user_from_token(token)

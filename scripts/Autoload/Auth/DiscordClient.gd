@@ -1,3 +1,4 @@
+class_name DiscordClient
 extends Node
 
 const auth_url = "https://discord.com/oauth2/authorize"
@@ -9,6 +10,33 @@ const REDIRECT_PORT = 38493
 
 var redirect_uri = ("http://%s:%s/" % [REDIRECT_IP, REDIRECT_PORT])
 var redirect_server = TCPServer.new()
+
+const redirect_response = """HTTP/1.1 200 OK
+Content-Type: text/html
+
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+:root {margin: 0;}
+body {
+	font-family: sans-serif;
+	margin: 0;
+	width: 100vw;
+	height: 100vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+</style>
+</head>
+<body>
+<h1>Login Completed!</h1>
+<h2>You Can Close This Page</h2>
+</body>
+</html>
+"""
 
 func _init(nclient_id):
 	client_id = nclient_id
@@ -32,13 +60,13 @@ func _process(_delta):
 		return
 	var connection = redirect_server.take_connection()
 	var request = connection.get_string(connection.get_available_bytes())
-	connection.put_data("HTTP/1.1 200\n".to_ascii_buffer())
-	connection.put_data("<!DOCTYPE HTML><html><head></head><body><script>window.close()</script></body></html>".to_ascii_buffer())
+	connection.put_data(redirect_response.to_ascii_buffer())
 	if not request:
 		return
 	var query := request.split("\n")
 	for i in query:
 		if i.begins_with("GET /?code="):
 			var value = i.split("code=")[1].split(" HTTP/")[0]
-			MultiplayerManager.complete_auth.rpc_id(1, value)
+			MultiplayerManager.auth_get_tokens.rpc_id(1, value)
+			DisplayServer.window_request_attention()
 			break

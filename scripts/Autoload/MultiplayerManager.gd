@@ -108,6 +108,8 @@ func decompress_paint(inb, size):
 
 # RPC
 
+## Auth
+
 @rpc("authority", "call_remote", "reliable")
 func request_auth(server_auth_type, client_id):
 	var pid = multiplayer.get_remote_sender_id()
@@ -115,10 +117,30 @@ func request_auth(server_auth_type, client_id):
 	client.request_auth(pid, server_auth_type, client_id)
 
 @rpc("any_peer", "call_remote", "reliable")
-func complete_auth(code):
+func auth_get_tokens(code):
 	var pid = multiplayer.get_remote_sender_id()
 	if !server: return
-	client.complete_auth(pid, code)
+	client.auth_get_tokens(pid, code)
+
+@rpc("any_peer", "call_remote", "reliable")
+func auth_login(tokens):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	client.auth_login(pid, tokens)
+
+@rpc("authority", "call_remote", "reliable")
+func auth_logged_in(tokens, userinfo):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	client.auth_logged_in(pid, tokens, userinfo)
+
+@rpc("authority", "call_remote", "reliable")
+func auth_failed(client_id):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	client.auth_failed(pid, client_id)
+
+## Paint
 
 @rpc("any_peer", "call_remote", "reliable", PAINT_CHANNEL)
 func draw_diff_to_server(size, diff, rect, level):
@@ -136,6 +158,8 @@ func draw_diff(size, diff, rect, level):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
 	client.draw_diff(pid, size, diff, rect, level)
+
+## Level
 
 @rpc("any_peer", "call_remote", "reliable", 3)
 func request_move_to_level(userinfo, level):
@@ -165,6 +189,8 @@ func recieve_level_paint(newpaint, size, level, palette):
 	if server: return
 	client.recieve_level_paint(pid, newpaint, size, level, palette)
 
+## Puppets
+
 @rpc("authority", "call_remote", "reliable", 3)
 func kill_puppets():
 	var pid = multiplayer.get_remote_sender_id()
@@ -176,6 +202,8 @@ func recieve_puppet(puppet, userinfo):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
 	client.recieve_puppet(pid, puppet, userinfo)
+
+## Dog
 
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func brush_update(position, drawing, color, size):
@@ -201,6 +229,8 @@ func dog_update_dog(dog):
 func dog_update_playerstatus(playerstatus):
 	var pid = multiplayer.get_remote_sender_id()
 	client.dog_update_playerstatus(pid, playerstatus)
+
+## Chat
 
 @rpc("any_peer", "call_local", "reliable", CHAT_CHANNEL)
 func chat_message(username, level, message):

@@ -16,7 +16,7 @@ var auth_type :
 	get:
 		return MultiplayerManager.auth_type
 
-var auth = null
+var auth: DiscordServer = null
 
 # Builtin
 
@@ -119,9 +119,26 @@ func start():
 	
 # RPC
 
-func complete_auth(pid, code):
+## Auth
+
+func auth_get_tokens(pid, code):
 	if auth:
-		print(await auth.get_user_from_code(code))
+		var tokens = await auth.get_token_from_code(code)
+		var discorduser = (await auth.get_user_from_token(tokens["access_token"]))["user"]
+		MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser)
+
+func auth_login(pid, tokens):
+	# refresh token
+	var newtokens = auth.refresh_token(tokens["access_token"], tokens["refresh_token"])
+	# if refresh failed MultiplayerManager.auth_failed.rpc_id(pid, client_id)
+	if newtokens == null:
+		MultiplayerManager.auth_failed.rpc_id(pid, auth_type, auth.client_id)
+		return
+	# discorduser = (await auth.get_user_from_token(tokens["access_token"]))["user"]
+	# MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser)
+	pass
+
+## Paint
 
 func draw_diff_to_server(pid, size, diff, rect, level):
 	MultiplayerManager.draw_diff_from_server.rpc(size, diff, rect, level, pid)
@@ -156,6 +173,8 @@ func set_palette(_pid, palette, level):
 		palettes[level] = palette
 		save_required = true
 
+## Dog
+
 func brush_update(pid, position, drawing, color, size):
 	if pid in player_location:
 		players[player_location[pid]][pid].brush.position = position
@@ -178,6 +197,8 @@ func dog_update_dog(pid, dog):
 func dog_update_playerstatus(pid, playerstatus):
 	if pid in player_location:
 		players[player_location[pid]][pid].playerstatus = playerstatus
+
+## Chat
 
 func chat_message(_pid, username, level, message):
 	print("ROOM %s (%d,%d,%d)> %s" % [username, level.x, level.y, level.z, message])

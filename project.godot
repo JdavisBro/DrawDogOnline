@@ -39,6 +39,10 @@ window/size/window_width_override=1280
 window/size/window_height_override=720
 window/stretch/mode="canvas_items"
 
+[editor]
+
+run/main_run_args="join-server 127.0.0.1 --winpos 0,0 --winsize 959,511"
+
 [editor_plugins]
 
 enabled=PackedStringArray("res://addons/multirun/plugin.cfg")

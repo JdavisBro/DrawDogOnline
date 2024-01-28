@@ -22,7 +22,7 @@ const TIMEOUT_TIME = 10.0
 var timeout = 0.0
 var timeout_enable = false
 
-var auth = null
+var auth: DiscordClient = null
 
 # Signal
 
@@ -101,6 +101,22 @@ func add_puppet(pid, userinfo):
 	puppet.brush.handle.modulate = userinfo.dog.color.brush_handle
 	puppet.playerstatus = userinfo.playerstatus
 
+func get_server_auth_tokens(ip):
+	if FileAccess.file_exists("user://auth.json"):
+		var auth_tokens = JSON.parse_string(FileAccess.open("user://auth.json", FileAccess.READ).get_line())
+		if ip in auth_tokens: # another method of matching servers?
+			return auth_tokens[ip]
+	return null
+
+func set_server_auth_tokens(ip, tokens):
+	var auth_tokens = {}
+	if FileAccess.file_exists("user://auth.json"):
+		auth_tokens = JSON.parse_string(FileAccess.open("user://auth.json", FileAccess.READ).get_line())
+		if not auth_tokens:
+			auth_tokens = {}
+	auth_tokens[ip] = tokens
+	FileAccess.open("user://auth.json", FileAccess.WRITE_READ).store_string(JSON.stringify(auth_tokens))
+
 # for other nodes
 
 func change_level(level, position):
@@ -114,6 +130,9 @@ func change_level(level, position):
 	set_loading(true)
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 	get_tree().paused = true
+
+func get_ip():
+	return "%s%s:%s" % [MultiplayerManager.protocol, MultiplayerManager.ip, MultiplayerManager.port]
 
 # Start
 
@@ -131,10 +150,29 @@ func start():
 
 # RPC
 
+## Auth
+
 func request_auth(_pid, auth_type, client_id):
 	if auth_type == "discord":
-		auth = load("res://scripts/Autoload/Auth/DiscordClient.gd").new(client_id)
-		add_child(auth)
+		var tokens = get_server_auth_tokens(get_ip())
+		if tokens:
+			MultiplayerManager.auth_login.rpc_id(1, tokens)
+		else:
+			auth = DiscordClient.new(client_id)
+			add_child(auth)
+
+func auth_logged_in(_pid, tokens, userinfo):
+	set_server_auth_tokens(get_ip(), tokens)
+	print("im %s" % userinfo)
+
+func auth_failed(_pid, auth_type, client_id):
+	set_server_auth_tokens(get_ip(), null)
+	if auth:
+		auth.queue_free()
+	if auth_type == "discord":
+		auth = DiscordClient.new(client_id)
+
+## Paint
 
 func draw_diff(_pid, size, diff, rect, level, user):
 	diff = MultiplayerManager.decode_diff(diff, size)
@@ -151,6 +189,8 @@ func recieve_level_paint(_pid, newpaint, size, level, palette):
 	elif player_list:
 		player_list.set_paint(level, MultiplayerManager.decompress_paint(newpaint, size), palette)
 
+## Puppets
+
 func kill_puppets(_pid):
 	level_puppets = {}
 	get_tree().call_group("dogpuppets", "queue_free")
@@ -158,6 +198,8 @@ func kill_puppets(_pid):
 func recieve_puppet(_pid, puppet, userinfo):
 	if puppet != MultiplayerManager.uid:
 		add_puppet(puppet, userinfo)
+
+## Level
 
 func complete_level_move(_pid, level):
 	timeout_enable = false
@@ -186,6 +228,8 @@ func set_palette(_pid, palette, level):
 		dog.brush.color_index = min(dog.brush.color_index, len(Global.palette)-1)
 	elif player_list:
 		player_list.update_palette(level, palette)
+
+## Dogs
 
 func brush_update(pid, position, drawing, color, size):
 	if pid in level_puppets:
@@ -229,6 +273,8 @@ func dog_update_playerstatus(pid, playerstatus):
 			level_puppets[pid].animation.speed_scale = 0
 		else:
 			level_puppets[pid].animation.speed_scale = 1
+
+## Chat
 
 func chat_message(_pid, username, level, message):
 	if level == Global.current_level:
