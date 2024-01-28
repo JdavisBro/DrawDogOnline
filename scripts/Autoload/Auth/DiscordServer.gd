@@ -38,16 +38,8 @@ func _ready():
 		push_error("Discord Setup Failed. Client ID: %s  | Client Secret: %s" % [client_id>0, client_secret != ""])
 		#get_tree().quit()
 
-func get_token_from_code(code):
+func get_token_with_query(query):
 	var headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])
-	
-	var query = [
-		"code=%s" % code,
-		"client_id=%s" % client_id,
-		"client_secret=%s" % client_secret,
-		"redirect_uri=%s" % redirect_uri,
-		"grant_type=authorization_code"
-	]
 	query = query.reduce(func(accum, new): return accum + "&" + new)
 	
 	var http_req = HTTPRequest.new()
@@ -66,10 +58,28 @@ func get_token_from_code(code):
 	
 	return {"access_token": response["access_token"], "refresh_token": response["refresh_token"]}
 
-func refresh_token(access_token, refresh_token):
-	pass
+func get_token_from_code(code):
+	var query = [
+		"code=%s" % code,
+		"client_id=%s" % client_id,
+		"client_secret=%s" % client_secret,
+		"redirect_uri=%s" % redirect_uri,
+		"grant_type=authorization_code"
+	]
+	return await get_token_with_query(query)
+	
 
-func get_user_from_token(token):
+func refresh_token(token):
+	var query = [
+		"refresh_token=%s" % token,
+		"client_id=%s" % client_id,
+		"client_secret=%s" % client_secret,
+		"redirect_uri=%s" % redirect_uri,
+		"grant_type=refresh_token"
+	]
+	return await get_token_with_query(query)
+
+func get_user_from_token(token, return_err=false):
 	var headers = PackedStringArray(["Authorization: Bearer %s" % token])
 	
 	var http_req = HTTPRequest.new()
@@ -81,6 +91,21 @@ func get_user_from_token(token):
 	
 	var response = await http_req.request_completed
 	if response[1] != 200:
+		if return_err:
+			return null
 		push_error("Token Request HTTP Error: %s" % [response[1]])
 	response = JSON.parse_string(response[3].get_string_from_utf8())
-	return response
+
+	http_req.queue_free()
+
+	return response.user
+
+func get_user_from_token_or_refresh(tokens):
+	var userinfo = await get_user_from_token(tokens["access_token"], true)
+	if userinfo:
+		return [tokens, userinfo]
+	tokens = await refresh_token(tokens["refresh_token"])
+	if tokens == null:
+		return null
+	userinfo = await get_user_from_token(tokens["access_token"])
+	return [tokens, userinfo]

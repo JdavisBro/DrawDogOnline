@@ -6,8 +6,6 @@ var save_required = true
 var players = {} # level: {pid: userinfo}
 var player_location = {} # pid: level
 
-var authenticated_players = {} # pid: discorduserinfo
-
 const SAVE_INTERVAL = 5.0
 
 var save_timer = 0.0
@@ -128,15 +126,12 @@ func auth_get_tokens(pid, code):
 		MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser)
 
 func auth_login(pid, tokens):
-	# refresh token
-	var newtokens = auth.refresh_token(tokens["access_token"], tokens["refresh_token"])
-	# if refresh failed MultiplayerManager.auth_failed.rpc_id(pid, client_id)
+	var newtokens = await auth.get_user_from_token_or_refresh(tokens)
 	if newtokens == null:
 		MultiplayerManager.auth_failed.rpc_id(pid, auth_type, auth.client_id)
 		return
-	# discorduser = (await auth.get_user_from_token(tokens["access_token"]))["user"]
-	# MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser)
-	pass
+	MultiplayerManager.auth_logged_in.rpc_id(pid, newtokens[0], newtokens[1])
+	print("User %s logged in" % newtokens[1].username)
 
 ## Paint
 
