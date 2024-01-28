@@ -21,6 +21,7 @@ var client
 var uid = 0
 
 var auth_type = null
+var authenticated_players = {} # pid: discorduserinfo
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
@@ -106,9 +107,22 @@ func decompress_paint(inb, size):
 		array.append(i.hex_to_int())
 	return array
 
+func is_authenticated(pid):
+	if auth_type == null:
+		return true
+	if pid in authenticated_players:
+		return true
+	return pid == 1 # server is good
+
 # RPC
 
 ## Auth
+
+@rpc("authority", "call_remote", "reliable")
+func welcome():
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	client.welcome(pid)
 
 @rpc("authority", "call_remote", "reliable")
 func request_auth(server_auth_type, client_id):
@@ -140,11 +154,20 @@ func auth_failed(client_id):
 	if server: return
 	client.auth_failed(pid, client_id)
 
+@rpc("authority", "call_local", "reliable")
+func auth_user_add(target_pid, user):
+	authenticated_players[target_pid] = user
+
+@rpc("authority", "call_local", "reliable")
+func auth_user_remove(target_pid):
+	authenticated_players.erase(target_pid)
+
 ## Paint
 
 @rpc("any_peer", "call_remote", "reliable", PAINT_CHANNEL)
 func draw_diff_to_server(size, diff, rect, level):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.draw_diff_to_server(pid, size, diff, rect, level)
 
 @rpc("authority", "call_remote", "reliable", PAINT_CHANNEL)
@@ -164,6 +187,7 @@ func draw_diff(size, diff, rect, level):
 @rpc("any_peer", "call_remote", "reliable", 3)
 func request_move_to_level(userinfo, level):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	return client.request_move_to_level(pid, userinfo, level)
 
 @rpc("authority", "call_remote", "reliable", 3)
@@ -176,11 +200,13 @@ func complete_level_move(level):
 func client_level_moved(userinfo, level):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
+	if not is_authenticated(pid): return
 	client.client_level_moved(pid, userinfo, level)
 
 @rpc("any_peer", "call_local", "reliable")
 func set_palette(palette, level):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.set_palette(pid, palette, level)
 
 @rpc("authority", "call_remote", "reliable", 3)
@@ -208,26 +234,31 @@ func recieve_puppet(puppet, userinfo):
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func brush_update(position, drawing, color, size):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.brush_update(pid, position, drawing, color, size)
 
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func dog_update_position(position):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.dog_update_position(pid, position)
 
 @rpc("any_peer", "call_remote", "unreliable_ordered")
 func dog_update_animation(animation):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.dog_update_animation(pid, animation)
 
 @rpc("any_peer", "call_local", "reliable")
 func dog_update_dog(dog):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.dog_update_dog(pid, dog)
 
 @rpc("any_peer", "call_local", "reliable")
 func dog_update_playerstatus(playerstatus):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.dog_update_playerstatus(pid, playerstatus)
 
 ## Chat
@@ -235,23 +266,27 @@ func dog_update_playerstatus(playerstatus):
 @rpc("any_peer", "call_local", "reliable", CHAT_CHANNEL)
 func chat_message(username, level, message):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.chat_message(pid, username, level, message)
 	
 @rpc("any_peer", "call_local", "reliable", CHAT_CHANNEL)
 func global_chat_message(username, level, message):
 	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
 	client.global_chat_message(pid, username, level, message)
 
 @rpc("authority", "call_remote", "reliable", CHAT_CHANNEL)
 func join_leave_message(username, joined):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
+	if not is_authenticated(pid): return
 	client.join_leave_message(pid, username, joined)
 
 @rpc("any_peer", "call_remote", "reliable")
 func get_map_player_list():
 	var pid = multiplayer.get_remote_sender_id()
 	if not server: return
+	if not is_authenticated(pid): return
 	client.get_map_player_list(pid)
 
 @rpc("authority", "call_remote", "reliable")
@@ -264,6 +299,7 @@ func recieve_player_list(playerlist):
 func request_map_paint(level):
 	var pid = multiplayer.get_remote_sender_id()
 	if not server: return
+	if not is_authenticated(pid): return
 	client.request_map_paint(pid, level)
 
 func start(nserver=false):

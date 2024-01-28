@@ -45,6 +45,7 @@ func _process(delta):
 
 func on_player_connected(id):
 	if auth_type == null:
+		MultiplayerManager.welcome.rpc_id(id)
 		return
 	MultiplayerManager.request_auth.rpc_id(id, auth_type, auth.client_id)
 
@@ -53,6 +54,8 @@ func on_player_disconnected(id):
 		MultiplayerManager.join_leave_message.rpc(players[player_location[id]][id].username, false)
 		players[player_location[id]].erase(id)
 		player_location.erase(id)
+	if auth_type != null:
+		MultiplayerManager.auth_user_remove.rpc(id)
 
 # Utils
 
@@ -99,6 +102,12 @@ func load_paint():
 			for col in leveldata.palette:
 				palettes[level].append(Color(col))
 
+func id_logged_in(discordid):
+	for user in MultiplayerManager.authenticated_players.values():
+		if user.id == discordid:
+			return true
+	return false
+
 # Start
 
 func start():
@@ -130,8 +139,14 @@ func auth_login(pid, tokens):
 	if newtokens == null:
 		MultiplayerManager.auth_failed.rpc_id(pid, auth_type, auth.client_id)
 		return
-	MultiplayerManager.auth_logged_in.rpc_id(pid, newtokens[0], newtokens[1])
-	print("User %s logged in" % newtokens[1].username)
+	tokens = newtokens[0]
+	var user = newtokens[1]
+	if id_logged_in(user.id):
+		# when doing UI probably come back here and tell the user they're already logged in
+		return
+	MultiplayerManager.auth_user_add.rpc(pid, user)
+	MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, user)
+	print("User %s logged in" % user.username)
 
 ## Paint
 

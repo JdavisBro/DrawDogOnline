@@ -37,7 +37,6 @@ func on_player_disconnected(id):
 func on_connected_ok():
 	me.position = dog.position
 	me.username = Global.username
-	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 
 func on_connected_fail():
 	set_loading(false)
@@ -152,6 +151,9 @@ func start():
 
 ## Auth
 
+func welcome(_pid):
+	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
+
 func request_auth(_pid, auth_type, client_id):
 	if auth_type == "discord":
 		var tokens = get_server_auth_tokens(get_ip())
@@ -164,6 +166,7 @@ func request_auth(_pid, auth_type, client_id):
 func auth_logged_in(_pid, tokens, userinfo):
 	set_server_auth_tokens(get_ip(), tokens)
 	print("im %s" % userinfo)
+	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 
 func auth_failed(_pid, auth_type, client_id):
 	set_server_auth_tokens(get_ip(), null)
