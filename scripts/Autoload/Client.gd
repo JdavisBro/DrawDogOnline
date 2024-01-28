@@ -22,6 +22,8 @@ const TIMEOUT_TIME = 10.0
 var timeout = 0.0
 var timeout_enable = false
 
+var auth = null
+
 # Signal
 
 func on_player_disconnected(id):
@@ -45,6 +47,9 @@ func on_server_disconnected():
 	if reconnect:
 		start()
 	else:
+		if auth:
+			auth.queue_free()
+			auth = null
 		set_loading(false)
 		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
@@ -125,6 +130,11 @@ func start():
 	print("Connection Started")
 
 # RPC
+
+func request_auth(_pid, auth_type, client_id):
+	if auth_type == "discord":
+		auth = load("res://scripts/Autoload/Auth/DiscordClient.gd").new(client_id)
+		add_child(auth)
 
 func draw_diff(_pid, size, diff, rect, level, user):
 	diff = MultiplayerManager.decode_diff(diff, size)

@@ -1,12 +1,25 @@
 extends Node
 
-const VALUE_REQUIRED = ["join-server", "server-start", "--winpos", "--winsize"]
+const VALUE_REQUIRED = ["join-server", "server-start", "--winpos", "--winsize", "--authtype"]
 
 var scene_changed = false
 
+var start_connection = false
+var server = false
+
 func process_arg(key, value=""):
 	match key:
+		"--authtype":
+			if value in ["discord"]:
+				MultiplayerManager.auth_type = value
+			elif value == "none":
+				MultiplayerManager.auth_type = null
+			else:
+				push_warning("Invalid Auth Type")
+				get_tree().quit()
 		"server-start":
+			start_connection = true
+			server = true
 			MultiplayerManager.port = MultiplayerManager.DEFAULT_PORT
 			if value != "default":
 				if value.is_valid_int():
@@ -15,12 +28,12 @@ func process_arg(key, value=""):
 					print("Port Invalid")
 					get_tree().quit()
 			get_tree().change_scene_to_file.call_deferred("res://scenes/server.tscn")
-			MultiplayerManager.start(true)
 			scene_changed = true
 		"join-server":
+			start_connection = true
+			server = false
 			MultiplayerManager.get_ip_port(value)
 			get_tree().change_scene_to_file.call_deferred("res://scenes/level.tscn")
-			MultiplayerManager.start(false)
 			scene_changed = true
 		"--winpos":
 			var val = value.split(",")
@@ -47,5 +60,7 @@ func _ready():
 		else:
 			process_arg(key, value)
 			getting_value = false
+	if start_connection:
+		MultiplayerManager.start(server)
 	if not scene_changed:
 		get_tree().change_scene_to_file.call_deferred("res://scenes/ui/title.tscn")

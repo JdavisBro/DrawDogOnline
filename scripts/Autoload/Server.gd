@@ -6,9 +6,17 @@ var save_required = true
 var players = {} # level: {pid: userinfo}
 var player_location = {} # pid: level
 
+var authenticated_players = {} # pid: discorduserinfo
+
 const SAVE_INTERVAL = 5.0
 
 var save_timer = 0.0
+
+var auth_type :
+	get:
+		return MultiplayerManager.auth_type
+
+var auth = null
 
 # Builtin
 
@@ -36,6 +44,11 @@ func _process(delta):
 			save_levels()
 
 # Signals
+
+func on_player_connected(id):
+	if auth_type == null:
+		return
+	MultiplayerManager.request_auth.rpc_id(id, auth_type, auth.client_id)
 
 func on_player_disconnected(id):
 	if id in player_location:
@@ -94,6 +107,8 @@ func start():
 	DisplayServer.window_set_size(Vector2(10, 10))
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)
 	load_paint()
+	auth = preload("res://scripts/Autoload/Auth/DiscordServer.gd").new()
+	add_child(auth)
 	var peer = WebSocketMultiplayerPeer.new()
 	peer.supported_protocols = ["ludus"]
 	var error = peer.create_server(MultiplayerManager.port)
@@ -103,6 +118,10 @@ func start():
 	print("Server Started")
 	
 # RPC
+
+func complete_auth(pid, code):
+	if auth:
+		print(await auth.get_user_from_code(code))
 
 func draw_diff_to_server(pid, size, diff, rect, level):
 	MultiplayerManager.draw_diff_from_server.rpc(size, diff, rect, level, pid)

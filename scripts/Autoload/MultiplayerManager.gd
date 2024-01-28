@@ -20,6 +20,7 @@ var server
 var client
 var uid = 0
 
+var auth_type = null
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
@@ -106,6 +107,18 @@ func decompress_paint(inb, size):
 	return array
 
 # RPC
+
+@rpc("authority", "call_remote", "reliable")
+func request_auth(server_auth_type, client_id):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	client.request_auth(pid, server_auth_type, client_id)
+
+@rpc("any_peer", "call_remote", "reliable")
+func complete_auth(code):
+	var pid = multiplayer.get_remote_sender_id()
+	if !server: return
+	client.complete_auth(pid, code)
 
 @rpc("any_peer", "call_remote", "reliable", PAINT_CHANNEL)
 func draw_diff_to_server(size, diff, rect, level):
