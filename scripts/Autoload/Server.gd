@@ -131,7 +131,8 @@ func start():
 func auth_get_tokens(pid, code):
 	if auth:
 		var tokens = await auth.get_token_from_code(code)
-		var discorduser = (await auth.get_user_from_token(tokens["access_token"]))["user"]
+		var discorduser = (await auth.get_user_from_token(tokens["access_token"]))
+		MultiplayerManager.auth_user_add.rpc(pid, discorduser)
 		MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser)
 
 func auth_login(pid, tokens):
@@ -141,7 +142,7 @@ func auth_login(pid, tokens):
 		return
 	tokens = newtokens[0]
 	var user = newtokens[1]
-	if id_logged_in(user.id):
+	if id_logged_in(user.id) and not OS.is_debug_build():
 		# when doing UI probably come back here and tell the user they're already logged in
 		return
 	MultiplayerManager.auth_user_add.rpc(pid, user)

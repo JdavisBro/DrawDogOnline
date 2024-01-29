@@ -14,6 +14,9 @@ const SAVED_PROPERTIES = [
 	"fill_bucket_do_corners",
 	"eyestrain_mode",
 	"title_paint_custom_enabled",
+	"show_auth_names",
+	"show_avatars_level",
+	"show_avatars_map",
 ]
 
 # Not in settings UI
@@ -26,7 +29,10 @@ const SETTING_INFO = { # info for settings ui
 	"hold_brushburst": {"type": SettingType.BOOL, "name": "Holding paint fills screen", "desc": "If holding paint in one spot fills the screen with paint."},
 	"fill_bucket_do_corners": {"type": SettingType.BOOL, "name": "Fill bucket fills through corners", "desc": "Fill bucket can fill through corners. This can make it slower but prevent accidental changes."},
 	"eyestrain_mode": {"type": SettingType.INT_LIST, "value_names": ["None", "Default", "Lots"], "name": "Eyestrain Mode", "desc": ""},
-	"title_paint_custom_enabled": {"type": SettingType.BOOL, "name": "Use Custom Title Screen Paint", "desc": "Requires setting on the pause screen in game. Automatically set to on when set in game."}
+	"title_paint_custom_enabled": {"type": SettingType.BOOL, "name": "Use Custom Title Screen Paint", "desc": "Requires setting on the pause screen in game. Automatically set to on when set in game."},
+	"show_auth_names": {"type": SettingType.BOOL, "name": "Show Discord Username In Game", "desc": "Shows Discord usernames on authenticated servers."},
+	"show_avatars_level": {"type": SettingType.BOOL, "name": "Show Avatars In Game", "desc": "Shows Discord avatars next to a username on authenticated servers (requires Show Discord Usernames In Game on)."},
+	"show_avatars_map": {"type": SettingType.BOOL, "name": "Show Avatars In Player List", "desc": "Shows Discord avatars next to a username in the player list/map on authenticated servers."},
 }
 
 # In Settings UI
@@ -34,6 +40,9 @@ var hold_brushburst = true
 var fill_bucket_do_corners = true
 var eyestrain_mode = 1
 var title_paint_custom_enabled = false
+var show_auth_names = true
+var show_avatars_level = true
+var show_avatars_map = true
 
 func save():
 	var file = FileAccess.open("user://settings.json", FileAccess.WRITE)

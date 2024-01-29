@@ -54,6 +54,8 @@ var current_level = Vector3(0, 0, 0)
 var paintable = true
 var screenshot = null
 
+const PROFILE_IMAGE_SIZE = 160 # width & height in pixels
+
 func load_username():
 	if FileAccess.file_exists("user://username.txt"):
 		var file = FileAccess.open("user://username.txt", FileAccess.READ)
@@ -94,6 +96,33 @@ func save_screenshot(status: bool, paths: PackedStringArray, _selected_filter_in
 	Settings.last_save_location = "/".join(path.split("/").slice(0, -1)) + "/"
 	Settings.save()
 	screenshot = null
+
+func get_discord_profile(discord_user):
+	var http_req = HTTPRequest.new()
+	add_child(http_req)
+	
+	var discord_id = discord_user.id
+	var avatar = discord_user.avatar
+
+	var image
+	if FileAccess.file_exists("user://profile_cache/%s.png" % avatar):
+		image = Image.new()
+		var file = FileAccess.open("user://profile_cache/%s.png" % avatar, FileAccess.READ)
+		image.load_png_from_buffer(file.get_buffer(file.get_length()))
+		return image
+
+	http_req.request("https://cdn.discordapp.com/avatars/%s/%s.png?size=%s" % [discord_id, avatar, PROFILE_IMAGE_SIZE])
+
+	var response = await http_req.request_completed
+
+	if response[1] != 200:
+		return # can't get it, whatever
+	FileAccess.open("user://profile_cache/%s.png" % avatar, FileAccess.WRITE_READ).put_data(response[3])
+	image = Image.new()
+	image.load_png_from_buffer(response[3])
+	http_req.queue_free()
+	return image
+
 
 func _process(delta):
 	randomize()

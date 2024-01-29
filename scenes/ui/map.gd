@@ -56,6 +56,7 @@ func add_player(pid, userdata, level, adding_self=false):
 	var node = player_node.instantiate() # player list
 	node.username = userdata.username
 	node.level = level
+	node.pid = pid
 	node.dog_dict = userdata.dog
 	node.connect("gui_input", head_input.bind(pid))
 	playercontainer.add_child(node)

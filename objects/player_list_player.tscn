@@ -38,6 +38,22 @@ text = "Default"
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="Auth" type="HBoxContainer" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+alignment = 1
+
+[node name="Profile" type="TextureRect" parent="MarginContainer/HBoxContainer/VBoxContainer/Auth"]
+layout_mode = 2
+expand_mode = 2
+
+[node name="AuthName" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer/Auth"]
+layout_mode = 2
+size_flags_vertical = 10
+theme_override_font_sizes/font_size = 30
+text = "(Default)"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="Level" type="Label" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3

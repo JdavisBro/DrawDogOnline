@@ -1,8 +1,9 @@
-[gd_scene load_steps=5 format=3 uid="uid://c06eh5ixn3h81"]
+[gd_scene load_steps=6 format=3 uid="uid://c06eh5ixn3h81"]
 
 [ext_resource type="Script" path="res://objects/dog/dog_puppet.gd" id="1_cqfht"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="2_k5r5l"]
 [ext_resource type="Texture2D" uid="uid://dug4l5oigimba" path="res://assets/playerstatus/1.png" id="4_0ybph"]
+[ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="4_g3imx"]
 [ext_resource type="PackedScene" uid="uid://wvf60gr2lk61" path="res://objects/brush/brush_prop.tscn" id="9_opc51"]
 
 [node name="DogPuppet" type="Node2D" groups=["dogpuppets"]]
@@ -20,15 +21,40 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -100.0
-offset_top = 19.0
+offset_top = 20.0
 offset_right = 95.0
-offset_bottom = 72.0
+offset_bottom = 73.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+theme = ExtResource("4_g3imx")
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 36
 text = "USERNAME"
+horizontal_alignment = 1
+
+[node name="Auth" type="HBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 56.0
+offset_right = 61.0
+offset_bottom = 96.0
+grow_horizontal = 2
+theme = ExtResource("4_g3imx")
+alignment = 1
+
+[node name="Profile" type="TextureRect" parent="Auth"]
+layout_mode = 2
+expand_mode = 2
+
+[node name="AuthName" type="Label" parent="Auth"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "username"
 horizontal_alignment = 1
 
 [node name="PlayerStatus" type="Sprite2D" parent="."]
