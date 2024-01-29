@@ -42,10 +42,10 @@ func _init(nclient_id):
 	client_id = nclient_id
 
 func _ready():
-	var _err = redirect_server.listen(REDIRECT_PORT, REDIRECT_IP)
-	
 	if OS.has_feature("web"):
-		redirect_uri = JavaScriptBridge.eval("window.location.href").split("?")[0]
+		var window = JavaScriptBridge.eval("window.location.href")
+		window = "/".join(window.split("/").slice(0, -1)) + "/auth.html"
+		redirect_uri = "%s" % window
 	
 	var query = [
 		"client_id=%s" % client_id,
@@ -57,12 +57,22 @@ func _ready():
 	var url = auth_url + "?" + query.reduce(func(accum, new): return accum + "&" + new)
 	
 	if OS.has_feature("web"):
-		print("window.location = \"%s\"" % url)
-		JavaScriptBridge.eval("window.location = \"%s\"" % url)
+		JavaScriptBridge.eval("window.localStorage['authcode'] = null")
+		JavaScriptBridge.eval("popup = window.open('%s', 'popup', 'popup')" % url, true)
 	else:
+		var _err = redirect_server.listen(REDIRECT_PORT, REDIRECT_IP)
 		OS.shell_open(url)
 
 func _process(_delta):
+	if OS.has_feature("web"):
+		var window_url = JavaScriptBridge.eval("window.localStorage['authcode']")
+		if window_url and window_url.begins_with(redirect_uri):
+			var authcode = window_url.split("?")[1].split("code=")[1]
+			MultiplayerManager.auth_get_tokens.rpc_id(1, authcode, redirect_uri)
+			JavaScriptBridge.eval("window.localStorage['authcode'] = null")
+			JavaScriptBridge.eval("popup.close()", true)
+			set_process(false)
+		return
 	if not redirect_server.is_connection_available():
 		return
 	var connection = redirect_server.take_connection()

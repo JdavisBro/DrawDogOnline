@@ -22,7 +22,6 @@ var uid = 0
 
 var auth_type = null
 var authenticated_players = {} # pid: discorduserinfo
-var auth_code = null
 
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)

@@ -44,15 +44,6 @@ func _ready():
 			elif i[0] == "secure":
 				if i[1] == "true":
 					protocolselect.select(1)
-			elif i[0] == "code":
-				JavaScriptBridge.eval("history.pushState({path: '?'},'','?')")
-				MultiplayerManager.auth_code = i[1]
-				MultiplayerManager.protocol = Settings.last_server_protocol
-				MultiplayerManager.get_ip_port(Settings.last_server_ip)
-				await get_tree().process_frame
-				get_tree().change_scene_to_file("res://scenes/level.tscn")
-				MultiplayerManager.start()
-				
 
 func _process(_delta):
 	if Settings.title_paint_custom_enabled != paintset:

@@ -183,9 +183,6 @@ func request_auth(_pid, auth_type, client_id):
 		var tokens = get_server_auth_tokens(get_ip())
 		if tokens:
 			MultiplayerManager.auth_login.rpc_id(1, tokens)
-		elif MultiplayerManager.auth_code:
-			MultiplayerManager.auth_get_tokens.rpc_id(1, MultiplayerManager.auth_code, JavaScriptBridge.eval("window.location.href").split("?")[0])
-			MultiplayerManager.auth_code = null
 		else:
 			auth = DiscordClient.new(client_id)
 			add_child(auth)

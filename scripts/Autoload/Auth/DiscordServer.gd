@@ -68,6 +68,10 @@ func get_token_from_code(code: String, uri=redirect_uri):
 	regex.compile(r"[^\w\d]")
 	if regex.search(code):
 		return
+	print(uri)
+	regex.compile(r"&")
+	if regex.search(uri):
+		return
 	var query = [
 		"code=%s" % code,
 		"client_id=%s" % client_id,
