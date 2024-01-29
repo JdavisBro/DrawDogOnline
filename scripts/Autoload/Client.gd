@@ -163,6 +163,8 @@ func welcome(_pid):
 	dog.get_authnames()
 	
 func request_auth(_pid, auth_type, client_id):
+	if auth_type != null and not (MultiplayerManager.protocol == "wss://" or Settings.allow_insecure_server_auth or OS.is_debug_build()):
+		multiplayer.multiplayer_peer.close()
 	MultiplayerManager.auth_type = auth_type
 	if auth_type == "discord":
 		var tokens = get_server_auth_tokens(get_ip())

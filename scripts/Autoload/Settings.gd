@@ -8,10 +8,13 @@ enum SettingType {
 }
 
 const SAVED_PROPERTIES = [
+	# No UI
 	"last_save_location",
 	"title_paint_custom",
 	"title_paint_custom_size",
 	"title_paint_custom_palette",
+	"allow_insecure_server_auth",
+	# UI
 	"hold_brushburst",
 	"fill_bucket_do_corners",
 	"eyestrain_mode",
@@ -26,6 +29,7 @@ var last_save_location = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 var title_paint_custom = ""
 var title_paint_custom_size = 7371
 var title_paint_custom_palette = []
+var allow_insecure_server_auth = false
 
 const SETTING_INFO = { # info for settings ui
 	"hold_brushburst": {"type": SettingType.BOOL, "name": "Holding paint fills screen", "desc": "If holding paint in one spot fills the screen with paint."},
