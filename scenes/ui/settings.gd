@@ -55,5 +55,5 @@ func _on_cancel_button_pressed():
 func _on_confirm_button_pressed():
 	for prop in newvalues:
 		Settings.set(prop, newvalues[prop])
-		Settings.save()
+	Settings.save()
 	queue_free()
