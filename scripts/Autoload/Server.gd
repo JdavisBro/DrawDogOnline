@@ -146,7 +146,7 @@ func auth_login(pid, tokens):
 		# when doing UI probably come back here and tell the user they're already logged in
 		return
 	MultiplayerManager.auth_user_add.rpc(pid, user)
-	MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, user)
+	MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, user, MultiplayerManager.authenticated_players)
 	print("User %s logged in" % user.username)
 
 ## Paint

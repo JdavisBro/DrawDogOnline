@@ -117,7 +117,8 @@ func get_discord_profile(discord_user):
 
 	if response[1] != 200:
 		return # can't get it, whatever
-	FileAccess.open("user://profile_cache/%s.png" % avatar, FileAccess.WRITE_READ).put_data(response[3])
+	if not DirAccess.dir_exists_absolute("user://profile_cache"): DirAccess.make_dir_absolute("user://profile_cache")
+	FileAccess.open("user://profile_cache/%s.png" % avatar, FileAccess.WRITE_READ).store_buffer(response[3])
 	image = Image.new()
 	image.load_png_from_buffer(response[3])
 	http_req.queue_free()

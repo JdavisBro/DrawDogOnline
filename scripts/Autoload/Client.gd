@@ -166,7 +166,9 @@ func welcome(_pid):
 func request_auth(_pid, auth_type, client_id):
 	if auth_type != null and not (MultiplayerManager.protocol == "wss://" or Settings.allow_insecure_server_auth or OS.is_debug_build()):
 		MultiplayerManager.connection_status = "Insecure Server"
+		reconnect = false
 		multiplayer.multiplayer_peer.close()
+		return
 	timeout_enable = false
 	MultiplayerManager.auth_type = auth_type
 	if auth_type == "discord":
@@ -177,7 +179,8 @@ func request_auth(_pid, auth_type, client_id):
 			auth = DiscordClient.new(client_id)
 			add_child(auth)
 
-func auth_logged_in(_pid, tokens, userinfo):
+func auth_logged_in(_pid, tokens, userinfo, authenticated):
+	MultiplayerManager.authenticated_players = authenticated
 	set_server_auth_tokens(get_ip(), tokens)
 	print("im %s" % userinfo)
 	dog.get_authnames()
