@@ -41,6 +41,7 @@ func _ready():
 func get_token_with_query(query):
 	var headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])
 	query = query.reduce(func(accum, new): return accum + "&" + new)
+	print(query)
 	
 	var http_req = HTTPRequest.new()
 	add_child(http_req)
@@ -56,9 +57,12 @@ func get_token_with_query(query):
 	
 	http_req.queue_free()
 	
-	return {"access_token": response["access_token"], "refresh_token": response["refresh_token"]}
+	if "access_token" not in response:
+		return null
+	
+	return {"access_token": response.access_token, "refresh_token": response.refresh_token}
 
-func get_token_from_code(code: String):
+func get_token_from_code(code: String, uri=redirect_uri):
 	code = code.strip_edges()
 	var regex = RegEx.new()
 	regex.compile(r"[^\w\d]")
@@ -68,7 +72,7 @@ func get_token_from_code(code: String):
 		"code=%s" % code,
 		"client_id=%s" % client_id,
 		"client_secret=%s" % client_secret,
-		"redirect_uri=%s" % redirect_uri,
+		"redirect_uri=%s" % uri,
 		"grant_type=authorization_code"
 	]
 	return await get_token_with_query(query)

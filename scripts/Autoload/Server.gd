@@ -128,9 +128,13 @@ func start():
 
 ## Auth
 
-func auth_get_tokens(pid, code):
+func auth_get_tokens(pid, code, uri):
 	if auth:
-		var tokens = await auth.get_token_from_code(code)
+		var tokens
+		if uri:
+			tokens = await auth.get_token_from_code(code, uri)
+		else:
+			tokens = await auth.get_token_from_code(code)
 		if not tokens:
 			return
 		var discorduser = (await auth.get_user_from_token(tokens["access_token"]))

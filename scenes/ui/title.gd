@@ -49,6 +49,7 @@ func _ready():
 				MultiplayerManager.auth_code = i[1]
 				MultiplayerManager.protocol = Settings.last_server_protocol
 				MultiplayerManager.get_ip_port(Settings.last_server_ip)
+				await get_tree().process_frame
 				get_tree().change_scene_to_file("res://scenes/level.tscn")
 				MultiplayerManager.start()
 				

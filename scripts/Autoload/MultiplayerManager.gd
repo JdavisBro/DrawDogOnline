@@ -132,10 +132,10 @@ func request_auth(server_auth_type, client_id):
 	client.request_auth(pid, server_auth_type, client_id)
 
 @rpc("any_peer", "call_remote", "reliable")
-func auth_get_tokens(code):
+func auth_get_tokens(code, uri=null):
 	var pid = multiplayer.get_remote_sender_id()
 	if !server: return
-	client.auth_get_tokens(pid, code)
+	client.auth_get_tokens(pid, code, uri)
 
 @rpc("any_peer", "call_remote", "reliable")
 func auth_login(tokens):
