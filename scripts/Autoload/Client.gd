@@ -81,9 +81,6 @@ func set_loading(loading):
 	get_tree().paused = loading
 	Global.loading_screen.visible = loading
 
-func set_puppet_profile(puppet, discord_user):
-	puppet.get_node("Auth/Profile").texture = ImageTexture.create_from_image(await Global.get_discord_profile(discord_user))
-
 func add_puppet(pid, userinfo):
 	if pid in level_puppets:
 		if is_instance_valid(level_puppets[pid]):
@@ -96,13 +93,8 @@ func add_puppet(pid, userinfo):
 	level_puppets[pid] = puppet
 	level_scene.add_child(puppet)
 	puppet.get_node("username").text = userinfo.username
-	if Settings.show_auth_names:
-		if MultiplayerManager.auth_type != null:
-			puppet.get_node("Auth/AuthName").text = MultiplayerManager.authenticated_players[pid].username
-			if Settings.show_avatars_level:
-				set_puppet_profile(puppet, MultiplayerManager.authenticated_players[pid])
-	else:
-		puppet.get_node("Auth").visible = false
+	puppet.discord_user = MultiplayerManager.authenticated_players[pid]
+	puppet.update_auth()
 	puppet.brush_position = userinfo.brush.position
 	puppet.brush_drawing = userinfo.brush.drawing
 	puppet.brush_color = userinfo.brush.color
@@ -168,6 +160,7 @@ func start():
 func welcome(_pid):
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 	MultiplayerManager.auth_type = null
+	dog.get_authnames()
 	
 func request_auth(_pid, auth_type, client_id):
 	MultiplayerManager.auth_type = auth_type
@@ -182,6 +175,7 @@ func request_auth(_pid, auth_type, client_id):
 func auth_logged_in(_pid, tokens, userinfo):
 	set_server_auth_tokens(get_ip(), tokens)
 	print("im %s" % userinfo)
+	dog.get_authnames()
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 
 func auth_failed(_pid, auth_type, client_id):

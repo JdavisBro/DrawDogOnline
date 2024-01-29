@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bebdv4x8a47fm"]
+[gd_scene load_steps=4 format=3 uid="uid://bebdv4x8a47fm"]
 
 [ext_resource type="Script" path="res://objects/dog/dog.gd" id="1_0su5j"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="2_ovtlf"]
+[ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="3_5ypnp"]
 
 [node name="Dog" type="Node2D"]
 script = ExtResource("1_0su5j")
@@ -21,9 +22,34 @@ offset_bottom = 72.0
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
+theme = ExtResource("3_5ypnp")
 theme_override_colors/font_color = Color(0.360784, 0.478431, 1, 1)
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 36
 text = "USERNAME"
+horizontal_alignment = 1
+
+[node name="Auth" type="HBoxContainer" parent="."]
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -60.0
+offset_top = 56.0
+offset_right = 61.0
+offset_bottom = 96.0
+grow_horizontal = 2
+theme = ExtResource("3_5ypnp")
+alignment = 1
+
+[node name="Profile" type="TextureRect" parent="Auth"]
+layout_mode = 2
+expand_mode = 2
+
+[node name="AuthName" type="Label" parent="Auth"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_colors/font_color = Color(0, 0, 0, 1)
+theme_override_font_sizes/font_size = 24
+text = "username"
 horizontal_alignment = 1

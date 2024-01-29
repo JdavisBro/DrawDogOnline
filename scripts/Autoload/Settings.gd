@@ -1,5 +1,7 @@
 extends Node
 
+signal settings_changed
+
 enum SettingType {
 	BOOL = 0,
 	INT_LIST = 1,
@@ -50,6 +52,7 @@ func save():
 	for i in SAVED_PROPERTIES:
 		out[i] = get(i)
 	file.store_line(JSON.stringify(out))
+	emit_signal("settings_changed")
 
 func _ready():
 	if not FileAccess.file_exists("user://settings.json"):
