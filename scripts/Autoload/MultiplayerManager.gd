@@ -111,7 +111,7 @@ func decompress_paint(inb, size):
 func is_authenticated(pid):
 	if auth_type == null:
 		return true
-	if pid in authenticated_players:
+	if pid in authenticated_players and authenticated_players[pid]:
 		return true
 	return pid == 1 # server is good
 

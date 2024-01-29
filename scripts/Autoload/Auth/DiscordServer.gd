@@ -58,7 +58,12 @@ func get_token_with_query(query):
 	
 	return {"access_token": response["access_token"], "refresh_token": response["refresh_token"]}
 
-func get_token_from_code(code):
+func get_token_from_code(code: String):
+	code = code.strip_edges()
+	var regex = RegEx.new()
+	regex.compile(r"[^\w\d]")
+	if regex.search(code):
+		return
 	var query = [
 		"code=%s" % code,
 		"client_id=%s" % client_id,
