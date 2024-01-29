@@ -33,6 +33,7 @@ var undo_diff_changed = false
 var pause_process = false
 
 @onready var map = $PaintViewport/TileMap
+@onready var paintviewport = $PaintViewport
 
 func get_texture():
 	$ScreenshotViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
@@ -104,8 +105,6 @@ func _ready():
 	if not Global.paint_target and set_paint_target:
 		Global.paint_target = self
 
-var hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", "X"]
-
 func connected():
 	if not paint_diff_drawing:
 		clear_paint_diff()
@@ -155,28 +154,38 @@ func _process(_delta):
 	randomize()
 	
 	if update_needed:
-		$PaintViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
-		var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
-		if not newrect.encloses(update_rect):
-			update_rect = newrect
-		for y in range(update_rect.position.y, update_rect.end.y):
-			for x in range(update_rect.position.x, update_rect.end.x):
-				if updated.get_bit(x, y):
+		update_paint()
+
+func update_paint(defer=false):
+	var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
+	if not newrect.encloses(update_rect):
+		update_rect = newrect
+	for y in range(update_rect.position.y, update_rect.end.y):
+		for x in range(update_rect.position.x, update_rect.end.x):
+			if updated.get_bit(x, y):
+				continue
+			for i in range(len(palette)):
+				map.set_cell(i, Vector2(x, y))
+			var donecol = []
+			var v1 = paint.at(x, y)
+			var v2 = paint.at(x+1, y)
+			var v3 = paint.at(x+1, y+1)
+			var v4 = paint.at(x, y+1)
+			for color in [v1, v2, v3, v4]:
+				if color in donecol or color == 0 or color > map.get_layers_count():
 					continue
-				for i in range(len(palette)):
-					map.set_cell(i, Vector2(x, y))
-				var donecol = []
-				var v1 = paint.at(x, y)
-				var v2 = paint.at(x+1, y)
-				var v3 = paint.at(x+1, y+1)
-				var v4 = paint.at(x, y+1)
-				for color in [v1, v2, v3, v4]:
-					if color in donecol or color == 0 or color > map.get_layers_count():
-						continue
-					donecol.append(color)
-					var val = int(v1 == color) + (int(v2 == color) << 1) + (int(v3 == color) << 2) + (int(v4 == color) << 3) 
-					if val > 0:
+				donecol.append(color)
+				var val = int(v1 == color) + (int(v2 == color) << 1) + (int(v3 == color) << 2) + (int(v4 == color) << 3) 
+				if val > 0:
+					if defer:
+						@warning_ignore("integer_division")
+						map.call_deferred("set_cell", color-1, Vector2(x, y), 0, Vector2((val) % 4, (val) / 4))
+					else:
 						@warning_ignore("integer_division")
 						map.set_cell(color-1, Vector2(x, y), 0, Vector2((val) % 4, (val) / 4))
-				updated.set_bit(x, y, true)
-		update_needed = false
+			updated.set_bit(x, y, true)
+	update_needed = false
+	if defer:
+		paintviewport.call_deferred("set_update_mode", SubViewport.UPDATE_ONCE)
+	else:
+		paintviewport.render_target_update_mode = SubViewport.UPDATE_ONCE

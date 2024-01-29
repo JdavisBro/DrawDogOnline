@@ -12,6 +12,8 @@ var paint_node = preload("res://objects/paint.tscn")
 
 var screen = Vector2(1920, 1080)
 
+var threads = []
+
 @onready var teleport = $VBoxContainer/MarginContainer/HBoxContainer/Teleport
 var teleport_level = null
 var teleport_position = null
@@ -32,13 +34,16 @@ func set_paint(level, paint, palette):
 	var node = paint_node.instantiate()
 	node.force_update()
 	node.palette = palette
-	node.pause_process = true
 	node.diffs_enabled = false
 	node.position = screen * Vector2(level.x, level.y)
 	node.name = "%d,%d" % [level.x, level.y]
 	paints[level] = node
 	mapviewport.add_child(node)
 	node.paint.array = paint
+	node.update_needed = false
+	var thread = Thread.new()
+	threads.append(thread)
+	var _err = thread.start(node.update_paint.bind(true))
 
 func update_paint(level, diff, rect):
 	if level not in paints:
@@ -127,6 +132,9 @@ func _ready():
 	MultiplayerManager.get_map_player_list.rpc_id(1)
 
 func before_close():
+	for thread in threads:
+		if thread.is_started():
+			thread.wait_to_finish()
 	MultiplayerManager.client.player_list = null
 	Global.paint_target.pause_process = false
 
