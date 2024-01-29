@@ -44,6 +44,9 @@ func _init(nclient_id):
 func _ready():
 	var _err = redirect_server.listen(REDIRECT_PORT, REDIRECT_IP)
 	
+	if OS.has_feature("web"):
+		redirect_uri = "https://%s/" % JavaScriptBridge.eval("window.location.hostname")
+	
 	var query = [
 		"client_id=%s" % client_id,
 		"response_type=code",
@@ -53,7 +56,10 @@ func _ready():
 	
 	var url = auth_url + "?" + query.reduce(func(accum, new): return accum + "&" + new)
 	
-	OS.shell_open(url)
+	if OS.has_feature("web"):
+		JavaScriptBridge.eval("window.loaction = '%s'" % redirect_uri)
+	else:
+		OS.shell_open(url)
 
 func _process(_delta):
 	if not redirect_server.is_connection_available():
@@ -69,4 +75,5 @@ func _process(_delta):
 			var value = i.split("code=")[1].split(" HTTP/")[0]
 			MultiplayerManager.auth_get_tokens.rpc_id(1, value)
 			DisplayServer.window_request_attention()
+			set_process(false)
 			break
