@@ -57,7 +57,7 @@ func _ready():
 	var url = auth_url + "?" + query.reduce(func(accum, new): return accum + "&" + new)
 	
 	if OS.has_feature("web"):
-		JavaScriptBridge.eval("window.loaction = \"%s\"" % redirect_uri)
+		JavaScriptBridge.eval("window.location = \"%s\"" % redirect_uri)
 	else:
 		OS.shell_open(url)
 
