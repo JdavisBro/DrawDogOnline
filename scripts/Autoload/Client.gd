@@ -153,6 +153,14 @@ func start():
 		print(error)
 	multiplayer.multiplayer_peer = peer
 	print("Connection Started")
+	if MultiplayerManager.protocol == "wss://" and MultiplayerManager.port == MultiplayerManager.DEFAULT_WSS_PORT:
+		Settings.last_server_ip = MultiplayerManager.ip
+	elif MultiplayerManager.protocol == "ws://" and MultiplayerManager.port == MultiplayerManager.DEFAULT_PORT:
+		Settings.last_server_ip = MultiplayerManager.ip
+	else:
+		Settings.last_server_ip = "%s:%d" % [MultiplayerManager.ip, MultiplayerManager.port]
+	Settings.last_server_protocol = MultiplayerManager.protocol
+	Settings.save()
 
 # RPC
 

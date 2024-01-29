@@ -14,6 +14,8 @@ const SAVED_PROPERTIES = [
 	"title_paint_custom_size",
 	"title_paint_custom_palette",
 	"allow_insecure_server_auth",
+	"last_server_ip",
+	"last_server_protocol",
 	# UI
 	"hold_brushburst",
 	"fill_bucket_do_corners",
@@ -30,6 +32,8 @@ var title_paint_custom = ""
 var title_paint_custom_size = 7371
 var title_paint_custom_palette = []
 var allow_insecure_server_auth = false
+var last_server_ip = MultiplayerManager.DEFAULT_IP
+var last_server_protocol = "ws://"
 
 const SETTING_INFO = { # info for settings ui
 	"hold_brushburst": {"type": SettingType.BOOL, "name": "Holding paint fills screen", "desc": "If holding paint in one spot fills the screen with paint."},

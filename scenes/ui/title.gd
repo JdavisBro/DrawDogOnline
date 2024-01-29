@@ -25,9 +25,14 @@ func _ready():
 	get_tree().paused = false
 	Global.pause_enable = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
-	ipenter.text = "%s:%d" % [MultiplayerManager.DEFAULT_IP, MultiplayerManager.DEFAULT_PORT]
 	status.text = MultiplayerManager.connection_status
 	usernameenter.text = Global.username
+	
+	ipenter.text = Settings.last_server_ip
+	protocolselect.select(0)
+	if Settings.last_server_protocol == "wss://":
+		protocolselect.select(1)
+	
 	if OS.has_feature("web"):
 		var search = JavaScriptBridge.eval("window.location.search")
 		search = search.lstrip("?").split("&")
@@ -55,6 +60,7 @@ func _process(_delta):
 		submenu = null
 
 func _on_join_button_pressed():
+	Global.current_level = Vector3.ZERO
 	MultiplayerManager.protocol = protocolselect.text
 	if not MultiplayerManager.get_ip_port(ipenter.text):
 		iptitle.text = "IP - Invalid:"
