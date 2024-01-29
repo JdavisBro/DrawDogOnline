@@ -33,15 +33,15 @@ func on_player_disconnected(id):
 		if is_instance_valid(level_puppets[id]):
 			level_puppets[id].queue_free()
 		level_puppets.erase(id)
-
 func on_connected_ok():
 	me.position = dog.position
 	me.username = Global.username
-
+		
 func on_connected_fail():
 	if auth:
 		auth.queue_free()
 		auth = null
+	timeout_enable = false
 	get_tree().paused = false
 	set_loading(false)
 	get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
@@ -67,6 +67,7 @@ func _process(delta):
 		multiplayer.multiplayer_peer.close()
 		MultiplayerManager.connection_status = "Connection Timed Out"
 		set_loading(false)
+		timeout_enable = false
 		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
 # Util
@@ -164,7 +165,9 @@ func welcome(_pid):
 	
 func request_auth(_pid, auth_type, client_id):
 	if auth_type != null and not (MultiplayerManager.protocol == "wss://" or Settings.allow_insecure_server_auth or OS.is_debug_build()):
+		MultiplayerManager.connection_status = "Insecure Server"
 		multiplayer.multiplayer_peer.close()
+	timeout_enable = false
 	MultiplayerManager.auth_type = auth_type
 	if auth_type == "discord":
 		var tokens = get_server_auth_tokens(get_ip())

@@ -22,6 +22,7 @@ func load_custom_paint():
 
 func _ready():
 	load_custom_paint()
+	get_tree().paused = false
 	Global.pause_enable = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	ipenter.text = "%s:%d" % [MultiplayerManager.DEFAULT_IP, MultiplayerManager.DEFAULT_PORT]

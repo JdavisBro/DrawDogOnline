@@ -113,7 +113,7 @@ func get_avatar(discord_user):
 	$Auth/Profile.texture = ImageTexture.create_from_image(await Global.get_discord_profile(discord_user))
 
 func get_authnames():
-	if MultiplayerManager.uid == 0: return
+	if MultiplayerManager.uid == 0 or MultiplayerManager.auth_type == null: return
 	if Settings.show_auth_names:
 		$Auth.visible = true
 		$Auth/AuthName.text = MultiplayerManager.authenticated_players[MultiplayerManager.uid].username
