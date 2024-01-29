@@ -37,7 +37,8 @@ func _ready():
 		var search = JavaScriptBridge.eval("window.location.search")
 		search = search.lstrip("?").split("&")
 		for i in search:
-			i = i.to_lower().split("=")
+			i = i.split("=")
+			i[0] = i[0].to_lower()
 			if i[0] == "ip":
 				ipenter.text = i[1]
 			elif i[0] == "secure":
@@ -46,8 +47,8 @@ func _ready():
 			elif i[0] == "code":
 				JavaScriptBridge.eval("history.pushState({path: '?'},'','?')")
 				MultiplayerManager.auth_code = i[1]
-				MultiplayerManager.get_ip_port(Settings.last_server_ip)
 				MultiplayerManager.protocol = Settings.last_server_protocol
+				MultiplayerManager.get_ip_port(Settings.last_server_ip)
 				get_tree().change_scene_to_file("res://scenes/level.tscn")
 				MultiplayerManager.start()
 				

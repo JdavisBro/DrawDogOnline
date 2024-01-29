@@ -181,10 +181,11 @@ func request_auth(_pid, auth_type, client_id):
 	MultiplayerManager.auth_type = auth_type
 	if auth_type == "discord":
 		var tokens = get_server_auth_tokens(get_ip())
-		if MultiplayerManager.auth_code:
-			MultiplayerManager.auth_get_tokens.rpc_id(1, MultiplayerManager.auth_code)
-		elif tokens:
+		if tokens:
 			MultiplayerManager.auth_login.rpc_id(1, tokens)
+		elif MultiplayerManager.auth_code:
+			MultiplayerManager.auth_get_tokens.rpc_id(1, MultiplayerManager.auth_code)
+			MultiplayerManager.auth_code = null
 		else:
 			auth = DiscordClient.new(client_id)
 			add_child(auth)

@@ -133,7 +133,7 @@ func auth_get_tokens(pid, code):
 		var tokens = await auth.get_token_from_code(code)
 		var discorduser = (await auth.get_user_from_token(tokens["access_token"]))
 		MultiplayerManager.auth_user_add.rpc(pid, discorduser)
-		MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser)
+		MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser, MultiplayerManager.authenticated_players)
 
 func auth_login(pid, tokens):
 	var newtokens = await auth.get_user_from_token_or_refresh(tokens)
