@@ -7,7 +7,7 @@ var queue = []
 var dist = 0.0
 var speed = 0.0
 var accel = 0.0
-var done = []
+var done = BitMap.new()
 var farthest_dist = 0
 
 var color = 0
@@ -27,11 +27,7 @@ func _ready():
 	add_to_group("paintbursts")
 	process_mode = PROCESS_MODE_PAUSABLE
 	queue.append(position.round())
-	for y in range(paint.size.y):
-		for x in range(paint.size.x):
-			if x == 0:
-				done.append([])
-			done[y].append(false)
+	done.create(Vector2i(paint.size))
 
 func _process(delta):
 	dist += speed*60*delta
@@ -41,7 +37,7 @@ func _process(delta):
 	var checked = 0
 	var end_time = Time.get_ticks_msec() + 1 # this is in the base game. time cap of 2ms
 	if len(get_tree().get_nodes_in_group("paintbursts")) <= 5:
-		end_time += 3
+		end_time += 2
 	while queue and checked < CHECKED_CAP and Time.get_ticks_msec() < end_time:
 		var pos = queue.pop_front()
 		if color_collide > -1:
@@ -66,6 +62,6 @@ func _process(delta):
 func add_newpos(newpos):
 	if newpos.x > paint.size.x-1 or newpos.x < 0 or newpos.y > paint.size.y-1 or newpos.y < 0:
 		return
-	if not done[newpos.y][newpos.x]:
-		done[newpos.y][newpos.x] = true
+	if not done.get_bitv(newpos):
+		done.set_bitv(newpos, true)
 		queue.append(newpos)

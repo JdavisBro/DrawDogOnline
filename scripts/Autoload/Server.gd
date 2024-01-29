@@ -155,8 +155,8 @@ func draw_diff_to_server(pid, size, diff, rect, level):
 	MultiplayerManager.draw_diff_from_server.rpc(size, diff, rect, level, pid)
 	diff = MultiplayerManager.decode_diff(diff, size)
 	var i = 0
-	for x in range(rect.size.x):
-		for y in range(rect.size.y):
+	for y in range(rect.size.y):
+		for x in range(rect.size.x):
 			if diff[i] != 255:
 				var target_pos = rect.position + Vector2(x, y)
 				paint[level].put(target_pos.x, target_pos.y, diff[i])

@@ -26,7 +26,7 @@ const UNDO_LENGTH = 10
 var undo_queue = []
 var redo_queue = []
 
-var undo_diff := PackedByteArray2D.new()
+var undo_diff := PackedByteArray2D.new(paint.size, 255)
 var undo_diff_rect = Rect2(Vector2.ZERO, Vector2.ZERO)
 var undo_diff_changed = false
 
@@ -111,27 +111,20 @@ func connected():
 		clear_paint_diff()
 	paint_diff_drawing = true
 	if paint_diff_changed:
-		var newdiff = PackedByteArray()
 		var newrect = Rect2(Vector2.ZERO, size)
 		if not newrect.encloses(paint_diff_rect):
 			paint_diff_rect = newrect
-		for x in range(paint_diff_rect.position.x, paint_diff_rect.end.x):
-			for y in range(paint_diff_rect.position.y, paint_diff_rect.end.y):
-				newdiff.append(paint_diff.at(x, y))
-		#MultiplayerManager.draw_diff.rpc(newdiff, paint_diff_rect, Global.current_level)
+		var newdiff = paint_diff.slice(paint_diff_rect).array
 		var diffs = MultiplayerManager.encode_diff(newdiff)
 		MultiplayerManager.draw_diff_to_server.rpc_id(1, diffs[0], diffs[1], paint_diff_rect, Global.current_level)
 		clear_paint_diff()
 
 func apply_undo(diff, rect):
 	get_tree().call_group("paintbursts", "stop")
-	var newdiff = ""
 	var newrect = Rect2(Vector2.ZERO, size)
 	if not newrect.encloses(rect):
 		rect = newrect
-	for x in range(rect.position.x, rect.end.x):
-		for y in range(rect.position.y, rect.end.y):
-			newdiff += hex[diff[y][x]]
+	var newdiff = diff.slice(rect).array
 	var diffs = MultiplayerManager.encode_diff(newdiff)
 	if diffs[0] > 0:
 		PaintUtil.apply_diff(Global.paint_target, newdiff, rect, MultiplayerManager.uid, false)

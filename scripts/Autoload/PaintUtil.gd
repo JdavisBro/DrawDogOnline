@@ -62,7 +62,7 @@ func undo_diff(paint, _color, position, me, diff):
 				if i.diff.at(position.x, position.y) != -1:
 					i.diff.put(position.x, position.y, -1)
 		return
-	if paint.undo_diff.at(position.x, position.y) != -1:
+	if paint.undo_diff.at(position.x, position.y) != 255:
 		return
 	paint.undo_diff.put(position.x, position.y, paint.paint.at(position.x, position.y))
 	if not paint.undo_diff_changed:
@@ -74,8 +74,8 @@ func undo_diff(paint, _color, position, me, diff):
 
 func apply_diff(paint, diff, rect, pid=0, multiplayer_diff=true):
 	var i = 0
-	for x in range(rect.size.x):
-		for y in range(rect.size.y):
+	for y in range(rect.size.y):
+		for x in range(rect.size.x):
 			if diff[i] != 255:
 				var target_pos = rect.position + Vector2(x, y)
 				update_pos(paint, diff[i], target_pos, pid == MultiplayerManager.uid, multiplayer_diff)
