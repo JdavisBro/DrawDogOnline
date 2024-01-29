@@ -10,23 +10,27 @@ var selecting = false
 var ZOOM_MIN = 0.018
 var ZOOM_MAX = 10.0
 
+func get_teleport(event):
+	var viewcorner = camera.get_screen_center_position() - (Vector2(viewport.size)/camera.zoom/2.0)
+	var pos = viewcorner + (event.position/camera.zoom)
+	var screen_pos = pos.posmodv(Vector2(1920, 1080))
+	var screen = (pos / Vector2(1920, 1080)).floor().clamp(Vector2(-20,-20), Vector2(20, 20))
+	screen = Vector3(screen.x, screen.y, 0)
+	map.set_teleport(screen, screen_pos)
+
 func _gui_input(event):
 	if event is InputEventMouseMotion:
 		if moving:
 			camera.position = camera.get_screen_center_position()
 			camera.position -= event.relative/(camera.zoom.x)
 		if selecting:
-			var viewcorner = camera.get_screen_center_position() - (Vector2(viewport.size)/camera.zoom/2.0)
-			var pos = viewcorner + (event.position/camera.zoom)
-			var screen_pos = pos.posmodv(Vector2(1920, 1080))
-			var screen = (pos / Vector2(1920, 1080)).floor().clamp(Vector2(-20,-20), Vector2(20, 20))
-			screen = Vector3(screen.x, screen.y, 0)
-			map.set_teleport(screen, screen_pos)
+			get_teleport(event)
 	elif event is InputEventMouseButton:
 		var scroll := 0.0
 		match event.button_index:
 			MOUSE_BUTTON_RIGHT:
 				selecting = event.pressed
+				get_teleport(event)
 			MOUSE_BUTTON_LEFT:
 				moving = event.pressed
 			MOUSE_BUTTON_WHEEL_DOWN:

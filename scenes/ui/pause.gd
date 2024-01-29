@@ -3,7 +3,7 @@ extends Control
 var submenu = null
 
 func _process(_delta):
-	if Global.pause_enable == false:
+	if !Global.pause_enable:
 		return
 	if Input.is_action_just_pressed("pause", true) and not get_tree().paused:
 		get_tree().paused = true

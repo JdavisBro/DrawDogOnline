@@ -68,7 +68,8 @@ func change_sprite_by_velocity():
 			animation.play_if_not("run")
 
 func _physics_process(delta):
-	do_movement(delta)
+	if !Global.chat:
+		do_movement(delta)
 	
 	z_index = int(global_position.y)
 	

@@ -61,8 +61,7 @@ func _process(delta):
 		redtab[tab.current_tab] = false
 	if Input.is_action_just_pressed("chat", true) and not lineedit.has_focus():
 		lineedit.grab_focus()
-		process_mode = PROCESS_MODE_ALWAYS
-		get_tree().paused = true
+		Global.chat = true
 		Global.pause_enable = false
 	if Input.is_action_just_pressed("ui_text_clear_carets_and_selection", true) and lineedit.has_focus():
 		display_timer = DISPLAY_TIME
@@ -108,13 +107,13 @@ func _ready():
 	orange_tex.gradient.set_color(0, Color.ORANGE)
 	orange_tex.height = 10
 	orange_tex.width = 10
-	
 
 func reset_lineedit():
 	lineedit.release_focus()
 	lineedit.text = ""
-	process_mode = Node.PROCESS_MODE_INHERIT
-	get_tree().paused = false
+	Global.chat = false
+	await get_tree().process_frame
+	await get_tree().process_frame # uhhh
 	Global.pause_enable = true
 
 func _on_line_edit_focus_exited():

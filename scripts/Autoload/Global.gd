@@ -51,6 +51,7 @@ var paint_res: int = 12
 
 var current_level = Vector3(0, 0, 0)
 
+var chat = false
 var paintable = true
 var screenshot = null
 

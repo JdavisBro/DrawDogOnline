@@ -121,7 +121,7 @@ func _physics_process(delta):
 	prev_paint_pos = paint_pos
 	paint_pos = pos / Global.paint_res
 	
-	if dog.is_physics_processing(): # Chatting
+	if !Global.chat:
 		if Input.is_action_just_pressed("brush_size_next", true):
 			size = BRUSH_SIZES[(BRUSH_SIZES.find(size)+1) % len(BRUSH_SIZES)]
 			reset_flood()
