@@ -44,7 +44,7 @@ func _ready():
 				if i[1] == "true":
 					protocolselect.select(1)
 			elif i[0] == "code":
-				JavaScriptBridge.eval("window.location.search = ''")
+				JavaScriptBridge.eval("history.pushState({path: '?'},'','?')")
 				MultiplayerManager.auth_code = i[1]
 				MultiplayerManager.get_ip_port(Settings.last_server_ip)
 				MultiplayerManager.protocol = Settings.last_server_protocol

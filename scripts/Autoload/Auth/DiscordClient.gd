@@ -45,7 +45,7 @@ func _ready():
 	var _err = redirect_server.listen(REDIRECT_PORT, REDIRECT_IP)
 	
 	if OS.has_feature("web"):
-		redirect_uri = "https://%s/" % JavaScriptBridge.eval("window.location.hostname")
+		redirect_uri = JavaScriptBridge.eval("window.location.href")
 	
 	var query = [
 		"client_id=%s" % client_id,
@@ -57,7 +57,7 @@ func _ready():
 	var url = auth_url + "?" + query.reduce(func(accum, new): return accum + "&" + new)
 	
 	if OS.has_feature("web"):
-		JavaScriptBridge.eval("window.loaction = '%s'" % redirect_uri)
+		JavaScriptBridge.eval("window.loaction = \"%s\"" % redirect_uri)
 	else:
 		OS.shell_open(url)
 
