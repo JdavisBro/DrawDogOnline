@@ -27,13 +27,11 @@ func process_arg(key, value=""):
 				else:
 					print("Port Invalid")
 					get_tree().quit()
-			get_tree().change_scene_to_file.call_deferred("res://scenes/server.tscn")
 			scene_changed = true
 		"join-server":
 			start_connection = true
 			server = false
 			MultiplayerManager.get_ip_port(value)
-			get_tree().change_scene_to_file.call_deferred("res://scenes/level.tscn")
 			scene_changed = true
 		"--winpos":
 			var val = value.split(",")

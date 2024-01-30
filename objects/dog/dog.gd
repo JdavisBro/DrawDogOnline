@@ -108,6 +108,7 @@ func _ready():
 	get_node("..").add_child.call_deferred(brush)
 	animation.set_dog_dict(Global.dog_dict)
 	$username.text = Global.username
+	get_authnames()
 	Settings.connect("settings_changed", settings_changed)
 
 func get_avatar(discord_user):

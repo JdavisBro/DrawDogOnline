@@ -40,8 +40,9 @@ body {
 
 func _init(nclient_id):
 	client_id = nclient_id
+	process_mode = PROCESS_MODE_ALWAYS
 
-func _ready():
+func login():
 	if OS.has_feature("web"):
 		var window = JavaScriptBridge.eval("window.location.href")
 		window = "/".join(window.split("/").slice(0, -1)) + "/auth.html"
@@ -84,6 +85,7 @@ func _process(_delta):
 	for i in query:
 		if i.begins_with("GET /?code="):
 			var value = i.split("code=")[1].split(" HTTP/")[0]
+			# value = "a" # invalid code test
 			MultiplayerManager.auth_get_tokens.rpc_id(1, value)
 			DisplayServer.window_request_attention()
 			set_process(false)

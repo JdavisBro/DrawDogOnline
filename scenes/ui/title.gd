@@ -69,7 +69,6 @@ func _on_join_button_pressed():
 	if Global.username != usernameenter.text.strip_edges():
 		Global.username = usernameenter.text.strip_edges()
 		Global.save_username()
-	get_tree().change_scene_to_file("res://scenes/level.tscn")
 	MultiplayerManager.start()
 
 func _on_settings_button_pressed():

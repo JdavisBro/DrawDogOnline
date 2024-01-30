@@ -22,7 +22,8 @@ const TIMEOUT_TIME = 10.0
 var timeout = 0.0
 var timeout_enable = false
 
-var auth: DiscordClient = null
+var auth_error: String = ""
+var client_id
 
 # Signal
 
@@ -33,14 +34,12 @@ func on_player_disconnected(id):
 		if is_instance_valid(level_puppets[id]):
 			level_puppets[id].queue_free()
 		level_puppets.erase(id)
+
 func on_connected_ok():
-	me.position = dog.position
+	me.position = Vector2.ZERO
 	me.username = Global.username
-		
+
 func on_connected_fail():
-	if auth:
-		auth.queue_free()
-		auth = null
 	timeout_enable = false
 	get_tree().paused = false
 	set_loading(false)
@@ -50,9 +49,6 @@ func on_server_disconnected():
 	if reconnect:
 		start()
 	else:
-		if auth:
-			auth.queue_free()
-			auth = null
 		set_loading(false)
 		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
@@ -167,39 +163,45 @@ func start():
 ## Auth
 
 func welcome(_pid):
+	get_tree().change_scene_to_file("res://scenes/level.tscn")
+	await get_tree().node_added
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 	MultiplayerManager.auth_type = null
-	dog.get_authnames()
 	
-func request_auth(_pid, auth_type, client_id):
+func request_auth(_pid, auth_type, server_client_id):
 	if auth_type != null and not (MultiplayerManager.protocol == "wss://" or Settings.allow_insecure_server_auth or OS.is_debug_build()):
 		MultiplayerManager.connection_status = "Insecure Server"
 		reconnect = false
 		multiplayer.multiplayer_peer.close()
 		return
+	client_id = server_client_id
 	timeout_enable = false
 	MultiplayerManager.auth_type = auth_type
 	if auth_type == "discord":
 		var tokens = get_server_auth_tokens(get_ip())
 		if tokens:
+			# tokens = {"access_token": "a", "refresh_token": "a"} # invalid token test
 			MultiplayerManager.auth_login.rpc_id(1, tokens)
 		else:
-			auth = DiscordClient.new(client_id)
-			add_child(auth)
+			get_tree().change_scene_to_file("res://scenes/ui/login.tscn")
 
 func auth_logged_in(_pid, tokens, userinfo, authenticated):
 	MultiplayerManager.authenticated_players = authenticated
 	set_server_auth_tokens(get_ip(), tokens)
 	print("im %s" % userinfo)
-	dog.get_authnames()
+	get_tree().change_scene_to_file("res://scenes/level.tscn")
+	await get_tree().node_added
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 
-func auth_failed(_pid, auth_type, client_id):
+func auth_failed(_pid, error_message):
 	set_server_auth_tokens(get_ip(), null)
-	if auth:
-		auth.queue_free()
-	if auth_type == "discord":
-		auth = DiscordClient.new(client_id)
+	auth_error = error_message
+	print(auth_error)
+	var login = get_node("/root/Login")
+	if login:
+		login.update_error(error_message)
+	else:
+		get_tree().change_scene_to_file("res://scenes/ui/login.tscn")
 
 ## Paint
 

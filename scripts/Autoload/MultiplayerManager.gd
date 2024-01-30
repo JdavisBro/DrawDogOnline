@@ -149,10 +149,10 @@ func auth_logged_in(tokens, userinfo, authenticated):
 	client.auth_logged_in(pid, tokens, userinfo, authenticated)
 
 @rpc("authority", "call_remote", "reliable")
-func auth_failed(client_id):
+func auth_failed(error_message):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
-	client.auth_failed(pid, client_id)
+	client.auth_failed(pid, error_message)
 
 @rpc("authority", "call_local", "reliable")
 func auth_user_add(target_pid, user):

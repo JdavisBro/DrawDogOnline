@@ -53,6 +53,7 @@ func get_token_with_query(query):
 	var response = await http_req.request_completed
 	if response[1] != 200:
 		push_error("Token Request HTTP Error: %s" % [response[1]])
+		return null
 	response = JSON.parse_string(response[3].get_string_from_utf8())
 	
 	http_req.queue_free()
@@ -92,7 +93,7 @@ func refresh_token(token):
 	]
 	return await get_token_with_query(query)
 
-func get_user_from_token(token, return_err=false):
+func get_user_from_token(token):
 	var headers = PackedStringArray(["Authorization: Bearer %s" % token])
 	
 	var http_req = HTTPRequest.new()
@@ -101,12 +102,12 @@ func get_user_from_token(token, return_err=false):
 	var err = http_req.request(me_url, headers, HTTPClient.METHOD_GET)
 	if err != OK:
 		push_error("@me Request Failed: %s" % err)
+		return null
 	
 	var response = await http_req.request_completed
 	if response[1] != 200:
-		if return_err:
-			return null
 		push_error("Token Request HTTP Error: %s" % [response[1]])
+		return null
 	response = JSON.parse_string(response[3].get_string_from_utf8())
 
 	http_req.queue_free()
@@ -114,11 +115,13 @@ func get_user_from_token(token, return_err=false):
 	return response.user
 
 func get_user_from_token_or_refresh(tokens):
-	var userinfo = await get_user_from_token(tokens["access_token"], true)
+	var userinfo = await get_user_from_token(tokens["access_token"])
 	if userinfo:
 		return [tokens, userinfo]
 	tokens = await refresh_token(tokens["refresh_token"])
 	if tokens == null:
 		return null
 	userinfo = await get_user_from_token(tokens["access_token"])
+	if userinfo == null:
+		return null
 	return [tokens, userinfo]

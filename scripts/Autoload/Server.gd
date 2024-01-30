@@ -145,15 +145,16 @@ func auth_get_tokens(pid, code, uri):
 
 func auth_login(pid, tokens):
 	var newtokens = await auth.get_user_from_token_or_refresh(tokens)
+	print(newtokens)
 	if newtokens == null:
-		MultiplayerManager.auth_failed.rpc_id(pid, auth_type, auth.client_id)
+		print("Player %s login failed" % pid)
+		MultiplayerManager.auth_failed.rpc_id(pid, "Login failed. Try again")
 		return
 	tokens = newtokens[0]
 	var user = newtokens[1]
-	if user == {} or user == null:
-		return
 	if id_logged_in(user.id) and not OS.is_debug_build():
-		# when doing UI probably come back here and tell the user they're already logged in
+		print("User %s kicked, already logged in." % user.username)
+		MultiplayerManager.auth_failed.rpc_id(pid, "Account already logged into server.")
 		return
 	MultiplayerManager.auth_user_add.rpc(pid, user)
 	MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, user, MultiplayerManager.authenticated_players)
