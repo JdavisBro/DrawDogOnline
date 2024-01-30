@@ -27,7 +27,7 @@ make an application at https://discord.com/developers/applications
 Go to OAuth2 -> General. Copy client id and put it in a file named `client_id` in below dir. Do the same with the secret in `client_secret`
 
 - Windows: `%appdata%\Godot\app_userdata\Draw Dog Online\`
-- Linux: `~.local/share/Godot/app_userdata/Draw Dog Online/`
+- Linux: `~/.local/share/Godot/app_userdata/Draw Dog Online/`
 
 Add `http://127.0.0.1:38493/` to the redirect url
 
