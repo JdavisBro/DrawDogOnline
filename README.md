@@ -18,6 +18,23 @@ Run the executable with arguments as follows (example uses linux executable)
 
 You can replace default with a port number.
 
+## Discord Authentication
+
+add `--authtype discord` to your launch arguments
+
+make an application at https://discord.com/developers/applications
+
+Go to OAuth2 -> General. Copy client id and put it in a file named `client_id` in below dir. Do the same with the secret in `client_secret`
+
+- Windows: `%appdata%\Godot\app_userdata\Draw Dog Online\`
+- Linux: `~.local/share/Godot/app_userdata/Draw Dog Online/`
+
+Add `http://127.0.0.1:38493/` to the redirect url
+
+Also add `WebVersionHost/auth.html` (e.g. `https://jdavisbro.github.io/DrawDogOnline/auth.html`) to support web version
+
+> if you're hosting this web version make sure to include the auth.html in the root of the respository
+
 ## Contributing/Exporting
 
 Requires
