@@ -6,6 +6,8 @@ var save_required = true
 var players = {} # level: {pid: userinfo}
 var player_location = {} # pid: level
 
+var saved_players = {} # players saved dogs & usernames {authid: {dog: dog, username: string}}
+
 const SAVE_INTERVAL = 5.0
 
 var save_timer = 0.0
@@ -17,6 +19,15 @@ var auth_type :
 var auth: DiscordServer = null
 
 # Builtin
+
+func save_players():
+	if auth:
+		var outplayers = saved_players
+		for user in outplayers:
+			for i in outplayers[user].dog.color:
+				if not typeof(outplayers[user].dog.color[i]) == TYPE_STRING:
+					outplayers[user].dog.color[i] = "#" + outplayers[user].dog.color[i].to_html(false)
+		FileAccess.open("user://players.json", FileAccess.WRITE_READ).store_line(JSON.stringify(outplayers))
 
 func save_levels():
 	var levelsout = {}
@@ -31,6 +42,7 @@ func save_levels():
 	var file = FileAccess.open("user://levels.json", FileAccess.WRITE)
 	file.store_line(JSON.stringify(levelsout))	
 	file.close()
+	save_players()
 	print("Saved")
 	save_required = false
 
@@ -71,6 +83,16 @@ func check_server_level(level):
 	if level not in palettes:
 		palettes[level] = Global.palette
 	return level
+
+func load_players():
+	if auth and FileAccess.file_exists("user://players.json"):
+		saved_players = JSON.parse_string(FileAccess.open("user://players.json", FileAccess.READ).get_line())
+		for user in saved_players:
+			var player = saved_players[user]
+			for i in player.dog.color:
+				player.dog.color[i] = Color(player.dog.color[i])
+			saved_players[user] = player
+
 
 func load_paint():
 	if FileAccess.file_exists("user://paint.txt"):
@@ -114,8 +136,10 @@ func start():
 	DisplayServer.window_set_size(Vector2(10, 10))
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_MINIMIZED)
 	load_paint()
-	auth = preload("res://scripts/Autoload/Auth/DiscordServer.gd").new()
-	add_child(auth)
+	if auth_type == "discord":
+		auth = preload("res://scripts/Autoload/Auth/DiscordServer.gd").new()
+		add_child(auth)
+		load_players()
 	var peer = WebSocketMultiplayerPeer.new()
 	peer.supported_protocols = ["ludus"]
 	var error = peer.create_server(MultiplayerManager.port)
@@ -136,12 +160,16 @@ func auth_get_tokens(pid, code, uri):
 		else:
 			tokens = await auth.get_token_from_code(code)
 		if not tokens:
+			MultiplayerManager.auth_failed.rpc_id(pid, "Login failed. Try again")
 			return
 		var discorduser = (await auth.get_user_from_token(tokens["access_token"]))
 		if discorduser == {} or discorduser == null:
+			MultiplayerManager.auth_failed.rpc_id(pid, "Login failed. Try again")
 			return
+		var prev_user = null
+		if discorduser.id in saved_players: prev_user = saved_players[discorduser.id]
 		MultiplayerManager.auth_user_add.rpc(pid, discorduser)
-		MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser, MultiplayerManager.authenticated_players)
+		MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, discorduser, MultiplayerManager.authenticated_players, prev_user)
 
 func auth_login(pid, tokens):
 	var newtokens = await auth.get_user_from_token_or_refresh(tokens)
@@ -156,8 +184,11 @@ func auth_login(pid, tokens):
 		print("User %s kicked, already logged in." % user.username)
 		MultiplayerManager.auth_failed.rpc_id(pid, "Account already logged into server.")
 		return
+	var prev_user = null
+	if user.id in saved_players: prev_user = saved_players[user.id]
+	prints(user.id in saved_players, saved_players[user.id])
 	MultiplayerManager.auth_user_add.rpc(pid, user)
-	MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, user, MultiplayerManager.authenticated_players)
+	MultiplayerManager.auth_logged_in.rpc_id(pid, tokens, user, MultiplayerManager.authenticated_players, prev_user)
 	print("User %s logged in" % user.username)
 
 ## Paint
@@ -180,6 +211,9 @@ func request_move_to_level(pid, userinfo, level):
 		player_location.erase(pid)
 	else:
 		MultiplayerManager.join_leave_message.rpc(userinfo.username, true)
+	if auth:
+		saved_players[MultiplayerManager.authenticated_players[pid].id] = {"dog": userinfo.dog, "username": userinfo.username}
+		save_required = true
 	level = check_server_level(level)
 	var newpaint = MultiplayerManager.compress_paint(paint[level])
 	MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])
@@ -215,6 +249,9 @@ func dog_update_animation(pid, animation):
 func dog_update_dog(pid, dog):
 	if pid in player_location:
 		players[player_location[pid]][pid].dog = dog
+	if auth:
+		saved_players[MultiplayerManager.authenticated_players[pid].id]["dog"] = dog
+		save_required = true
 
 func dog_update_playerstatus(pid, playerstatus):
 	if pid in player_location:

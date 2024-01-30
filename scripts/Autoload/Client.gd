@@ -24,6 +24,7 @@ var timeout_enable = false
 
 var auth_error: String = ""
 var client_id
+var server_player = {"dog": null, "username": null}
 
 # Signal
 
@@ -136,6 +137,11 @@ func change_level(level, position):
 func get_ip():
 	return "%s%s:%s" % [MultiplayerManager.protocol, MultiplayerManager.ip, MultiplayerManager.port]
 
+func enter_level():
+	get_tree().change_scene_to_file("res://scenes/level.tscn")
+	await get_tree().node_added
+	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
+
 # Start
 
 func start():
@@ -185,13 +191,19 @@ func request_auth(_pid, auth_type, server_client_id):
 		else:
 			get_tree().change_scene_to_file("res://scenes/ui/login.tscn")
 
-func auth_logged_in(_pid, tokens, userinfo, authenticated):
+func auth_logged_in(_pid, tokens, userinfo, authenticated, prev_users):
 	MultiplayerManager.authenticated_players = authenticated
 	set_server_auth_tokens(get_ip(), tokens)
-	print("im %s" % userinfo)
-	get_tree().change_scene_to_file("res://scenes/level.tscn")
-	await get_tree().node_added
-	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
+	print("Logged in as %s" % userinfo.username)
+	var login = get_node_or_null("/root/Login")
+	if not login:
+		get_tree().change_scene_to_file("res://scenes/ui/login.tscn")
+		await get_tree().node_added
+		login = get_node("/root/Login")
+		await login.ready
+	if prev_users and prev_users.dog:
+		login.server_user(prev_users.dog, prev_users.username)
+	login.logged_in()
 
 func auth_failed(_pid, error_message):
 	set_server_auth_tokens(get_ip(), null)

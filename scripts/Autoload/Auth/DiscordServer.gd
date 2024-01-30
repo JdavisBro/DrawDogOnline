@@ -41,7 +41,6 @@ func _ready():
 func get_token_with_query(query):
 	var headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])
 	query = query.reduce(func(accum, new): return accum + "&" + new)
-	print(query)
 	
 	var http_req = HTTPRequest.new()
 	add_child(http_req)
@@ -69,7 +68,6 @@ func get_token_from_code(code: String, uri=redirect_uri):
 	regex.compile(r"[^\w\d]")
 	if regex.search(code):
 		return
-	print(uri)
 	regex.compile(r"&")
 	if regex.search(uri):
 		return
