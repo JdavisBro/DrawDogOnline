@@ -1,8 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://wvf60gr2lk61"]
 
 [ext_resource type="Script" path="res://objects/brush/brush_prop.gd" id="1_ntqfr"]
-[ext_resource type="Texture2D" uid="uid://cfacn8d5kbpll" path="res://assets/chicory/brush/1.png" id="2_ff08e"]
-[ext_resource type="Texture2D" uid="uid://d0xaan28amdkd" path="res://assets/chicory/brush/0.png" id="3_38tn2"]
+[ext_resource type="Texture2D" uid="uid://c3hr4jgavv4gi" path="res://assets/chicory/brush/1.png" id="2_ff08e"]
+[ext_resource type="Texture2D" uid="uid://pbkl033dypdf" path="res://assets/chicory/brush/0.png" id="3_38tn2"]
 
 [node name="prop" type="Node2D"]
 script = ExtResource("1_ntqfr")

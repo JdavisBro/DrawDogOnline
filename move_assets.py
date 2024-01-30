@@ -156,7 +156,11 @@ im.resize((150, 150)).save(out / "expression" / "0.png")
 sounds = [
     "fly_pizza_dirt",
     "sfx_jump",
-    "sfx_paint"
+    "sfx_paint_colour_change",
+    "sfx_paint_size_change",
+    "sfx_paint_medium",
+    "sfx_erase_loop",
+    #"sfx_paint"
     #"fly_pizza_sit",
     #"vo_pizza"
 ]
@@ -171,7 +175,7 @@ if not (export_sfx / ".gdignore").exists() or list(export_sfx.glob("*.import")):
         i.unlink()
 
 for sound in sounds:
-    for fp in export_sfx.glob(f"{sound}_*.wav"):
+    for fp in export_sfx.glob(f"{sound}*.wav"):
         split = fp.stem.split("_")
         cat = split[0]
 

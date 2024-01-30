@@ -1,0 +1,51 @@
+[gd_scene load_steps=12 format=3 uid="uid://bfo442g8sgahl"]
+
+[ext_resource type="AudioStream" uid="uid://dm03u4xq73ik1" path="res://assets/chicory/sounds/sfx/paint/colour_change/01.wav" id="1_ao0n3"]
+[ext_resource type="Script" path="res://objects/brush/brush_sounds.gd" id="1_qjowx"]
+[ext_resource type="AudioStream" uid="uid://dp1ibljgwg50w" path="res://assets/chicory/sounds/sfx/paint/colour_change/02.wav" id="2_ojc3w"]
+[ext_resource type="AudioStream" uid="uid://covpx5ig7u4x5" path="res://assets/chicory/sounds/sfx/paint/colour_change/03.wav" id="3_eg6qn"]
+[ext_resource type="AudioStream" uid="uid://dhpek5gfgv5qu" path="res://assets/chicory/sounds/sfx/paint/colour_change/04.wav" id="4_ulbcx"]
+[ext_resource type="AudioStream" uid="uid://dasuhoftheccw" path="res://assets/chicory/sounds/sfx/paint/size_change/01.wav" id="5_q0hdp"]
+[ext_resource type="AudioStream" uid="uid://bpodvfy25nlby" path="res://assets/chicory/sounds/sfx/paint/size_change/02.wav" id="6_6dswh"]
+[ext_resource type="AudioStream" uid="uid://bsrtag7bikgub" path="res://assets/chicory/sounds/sfx/paint/size_change/03.wav" id="7_1gh8f"]
+[ext_resource type="AudioStream" uid="uid://cplnuba70rh2a" path="res://assets/chicory/sounds/sfx/paint/medium_loop.wav" id="9_rqbwd"]
+[ext_resource type="AudioStream" uid="uid://5teyg3m6h6ce" path="res://assets/chicory/sounds/sfx/erase/loop/mono.wav" id="10_lyltl"]
+
+[sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fbgic"]
+streams_count = 4
+stream_0/stream = ExtResource("1_ao0n3")
+stream_0/weight = 1.0
+stream_1/stream = ExtResource("2_ojc3w")
+stream_1/weight = 1.0
+stream_2/stream = ExtResource("3_eg6qn")
+stream_2/weight = 1.0
+stream_3/stream = ExtResource("4_ulbcx")
+stream_3/weight = 1.0
+
+[node name="brush_sounds" type="Node2D"]
+script = ExtResource("1_qjowx")
+
+[node name="color_switch" type="AudioStreamPlayer" parent="."]
+stream = SubResource("AudioStreamRandomizer_fbgic")
+bus = &"BrushSounds"
+
+[node name="size_small" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_q0hdp")
+bus = &"BrushSounds"
+
+[node name="size_medium" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("6_6dswh")
+bus = &"BrushSounds"
+
+[node name="size_big" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("7_1gh8f")
+bus = &"BrushSounds"
+
+[node name="paint_medium" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("9_rqbwd")
+panning_strength = 3.0
+bus = &"BrushSounds"
+
+[node name="erase" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_lyltl")
+panning_strength = 3.0

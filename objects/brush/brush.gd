@@ -40,6 +40,7 @@ var camera
 
 @onready var circle = $circle
 @onready var prop = $prop
+@onready var sfx = $SoundManager
 
 const FLOOD_START = 1.0
 const BRUSH_SIZES = [24, 72, 6]
@@ -125,14 +126,16 @@ func _physics_process(delta):
 		if Input.is_action_just_pressed("brush_size_next", true):
 			size = BRUSH_SIZES[(BRUSH_SIZES.find(size)+1) % len(BRUSH_SIZES)]
 			reset_flood()
+			sfx.play_sound_on_size_change(size)
 			
 		if Input.is_action_just_pressed("brush_color_next", true):
 			color_index = (color_index+1) % len(Global.palette)
 			reset_flood()
+			sfx.play_sound("sfx_colorswitch")
 		elif Input.is_action_just_pressed("brush_color_prev", true):
 			color_index = posmod(color_index-1, len(Global.palette))
 			reset_flood()
-		
+			sfx.play_sound("sfx_colorswitch")
 		process_style_inputs()
 	
 	var drawing = false
@@ -189,12 +192,24 @@ func _physics_process(delta):
 	
 	if draw_col == null:
 		draw_col = color_index + 1
+		
+	if prev_drawing == true and drawing == false:
+		sfx.stop_painting()
+	elif drawing == true:
+		if draw_col == 0:
+			sfx.erase()
+		else:
+			sfx.paint()
+
+			
 	MultiplayerManager.client.brush_me_update(pos, drawing, draw_col, size)
 	if (pos != prev_position and (not brush_return_timer > 0.5)) or prev_draw_col != draw_col or prev_size != size or prev_drawing != drawing:
 		MultiplayerManager.brush_update.rpc(pos, drawing, draw_col, size)
 	prev_draw_col = draw_col
 	prev_drawing = drawing
 	prev_size = size
+	
+	
 
 func setup_styles():
 	# add a ui and loading and stuff when there are more than 4 brush styles. or before, whatever.

@@ -1,14 +1,15 @@
-[gd_scene load_steps=12 format=3 uid="uid://d21m8qkv2atq5"]
+[gd_scene load_steps=13 format=3 uid="uid://d21m8qkv2atq5"]
 
 [ext_resource type="Script" path="res://objects/brush/brush.gd" id="1_e6fv8"]
 [ext_resource type="Script" path="res://objects/brush/brush_circle.gd" id="2_lvilv"]
 [ext_resource type="PackedScene" uid="uid://wvf60gr2lk61" path="res://objects/brush/brush_prop.tscn" id="3_46ldi"]
 [ext_resource type="Script" path="res://objects/brush/ColorSelectorCircle.gd" id="4_hdasc"]
 [ext_resource type="FontFile" uid="uid://oksyowjco4fg" path="res://assets/Domigorgon_Plus.ttf" id="5_5x5o1"]
-[ext_resource type="Texture2D" uid="uid://bcprn6a7r6qcd" path="res://assets/chicory/stamp/00.png" id="6_lk76n"]
+[ext_resource type="Texture2D" uid="uid://dwy7w176301bm" path="res://assets/chicory/stamp/00.png" id="6_lk76n"]
 [ext_resource type="Shader" path="res://shaders/invert.gdshader" id="7_17kxd"]
 [ext_resource type="Script" path="res://objects/brush/ruler.gd" id="7_ych26"]
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="9_eoc43"]
+[ext_resource type="PackedScene" uid="uid://bfo442g8sgahl" path="res://objects/brush/brush_sounds.tscn" id="10_lf6s8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eylrg"]
 shader = ExtResource("7_17kxd")
@@ -71,3 +72,5 @@ offset_bottom = 23.0
 theme = ExtResource("9_eoc43")
 theme_override_font_sizes/font_size = 32
 text = "(1, 1)"
+
+[node name="SoundManager" parent="." instance=ExtResource("10_lf6s8")]
