@@ -20,6 +20,8 @@ You can replace default with a port number.
 
 ## Discord Authentication
 
+> Note: Using Discord authentication requires SSL / using the wss:// protocol
+
 add `--authtype discord` to your launch arguments
 
 make an application at https://discord.com/developers/applications
