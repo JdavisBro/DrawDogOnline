@@ -2,6 +2,7 @@ extends Control
 
 var auth = DiscordClient.new(MultiplayerManager.client.client_id)
 
+var local_dog_dict = null
 var server_dog_dict = null
 
 @onready var local_username = $VBoxContainer/CenterContainer/VBoxContainer/HBoxContainer/Local/Username
@@ -27,10 +28,14 @@ func _ready():
 	local_user(Global.dog_dict, Global.username)
 
 func local_user(dog, username):
+	local_dog_dict = dog
 	local_dog.set_dog_dict(dog)
 	local_username.text = username
 
 func server_user(dog, username):
+	if username == local_username.text and dog == local_dog_dict:
+		MultiplayerManager.client.enter_level.call_deferred()
+		return
 	server_dog.set_dog_dict(dog)
 	server_dog_dict = dog
 	server_username.text = username
@@ -49,4 +54,5 @@ func _on_use_local_dog_pressed():
 func _on_use_server_dog_pressed():
 	Global.username = server_username.text
 	Global.dog_dict = server_dog_dict
+	MultiplayerManager.client.me.dog = server_dog_dict
 	MultiplayerManager.client.enter_level()

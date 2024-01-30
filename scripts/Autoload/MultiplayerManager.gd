@@ -146,7 +146,6 @@ func auth_login(tokens):
 func auth_logged_in(tokens, userinfo, authenticated, prev_users):
 	var pid = multiplayer.get_remote_sender_id()
 	if server: return
-	print(prev_users)
 	client.auth_logged_in(pid, tokens, userinfo, authenticated, prev_users)
 
 @rpc("authority", "call_remote", "reliable")
