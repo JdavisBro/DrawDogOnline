@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=15 format=3]
+[gd_resource type="Resource" script_class="DogAnimation" load_steps=15 format=3 uid="uid://cbrdnryr2knl4"]
 
 [ext_resource type="Script" path="res://scripts/DogAnimationFrame.gd" id="1_6mh5u"]
 [ext_resource type="Script" path="res://scripts/DogAnimation.gd" id="2_rjre2"]
@@ -73,3 +73,4 @@ loop = "0"
 bounce = 0.0
 head = [SubResource("Resource_n73x6"), SubResource("Resource_r1sj0"), SubResource("Resource_6ln5p"), SubResource("Resource_n346r"), SubResource("Resource_6tc8x"), SubResource("Resource_hcrrd")]
 body = [SubResource("Resource_bor8n"), SubResource("Resource_a8tuh"), SubResource("Resource_ogx3o"), SubResource("Resource_lpmnu"), SubResource("Resource_5nkxe"), SubResource("Resource_61ncp")]
+speed_scale = 1.0
