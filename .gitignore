@@ -7,4 +7,6 @@ export/
 
 Exported_Sounds/
 Export_Sprites/
-assets/chicory/
+
+assets/chicory/**/*.wav
+assets/chicory/**/*.png
