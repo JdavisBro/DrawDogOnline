@@ -35,8 +35,11 @@ func load_client_info():
 func _ready():
 	set_process(false)
 	if not load_client_info():
-		push_error("Discord Setup Failed. Client ID: %s  | Client Secret: %s" % [client_id>0, client_secret != ""])
-		#get_tree().quit()
+		if OS.is_debug_build():
+			MultiplayerManager.auth_type = null
+		else:
+			push_error("Discord Setup Failed. Client ID: %s  | Client Secret: %s" % [client_id>0, client_secret != ""])
+			get_tree().quit()
 
 func get_token_with_query(query):
 	var headers = PackedStringArray(["Content-Type: application/x-www-form-urlencoded"])

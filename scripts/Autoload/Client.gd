@@ -91,7 +91,8 @@ func add_puppet(pid, userinfo):
 	level_puppets[pid] = puppet
 	level_scene.add_child(puppet)
 	puppet.get_node("username").text = userinfo.username
-	puppet.discord_user = MultiplayerManager.authenticated_players[pid]
+	if MultiplayerManager.auth_type:
+		puppet.discord_user = MultiplayerManager.authenticated_players[pid]
 	puppet.update_auth()
 	puppet.brush_position = userinfo.brush.position
 	puppet.brush_drawing = userinfo.brush.drawing
@@ -169,11 +170,8 @@ func start():
 ## Auth
 
 func welcome(_pid):
-	get_tree().change_scene_to_file("res://scenes/level.tscn")
-	await get_tree().node_added
-	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
-	MultiplayerManager.auth_type = null
-	
+	enter_level()
+
 func request_auth(_pid, auth_type, server_client_id):
 	if auth_type != null and not (MultiplayerManager.protocol == "wss://" or Settings.allow_insecure_server_auth or OS.is_debug_build()):
 		MultiplayerManager.connection_status = "Insecure Server"
