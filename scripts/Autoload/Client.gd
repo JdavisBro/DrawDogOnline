@@ -148,6 +148,7 @@ func enter_level():
 func start():
 	timeout_enable = true
 	set_loading(true)
+	MultiplayerManager.auth_type = null
 	var peer = WebSocketMultiplayerPeer.new()
 	peer.supported_protocols = ["ludus"]
 	#var error = peer.create_client(ip, port)
