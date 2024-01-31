@@ -52,5 +52,6 @@ bus = &"BrushSounds"
 
 [node name="erase" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_lyltl")
+volume_db = -5.0
 panning_strength = 3.0
 bus = &"EraseBus"
