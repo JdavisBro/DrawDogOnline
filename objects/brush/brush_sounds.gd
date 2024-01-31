@@ -9,6 +9,8 @@ extends Node2D
 	"sfx_erase": $erase
 }
 
+var erase_pitch = AudioServer.get_bus_effect(AudioServer.get_bus_index("EraseBus"), 0)
+
 func play_sound(sound):
 	sfx[sound].play()
 	
@@ -23,7 +25,7 @@ func play_sound_on_size_change(size):
 func erase(speed):
 	if not sfx["sfx_erase"].playing and not sfx["sfx_erase"].stream_paused:
 		sfx["sfx_erase"].play()
-	AudioServer.get_bus_effect(AudioServer.get_bus_index("EraseBus"), 0).pitch_scale = speed + 0.5
+	erase_pitch.pitch_scale = speed + 1
 	sfx["sfx_erase"].stream_paused = false
 
 	
