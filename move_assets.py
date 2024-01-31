@@ -12,6 +12,18 @@ export_sprites = Path("Export_Sprites/")
 export_sfx = Path("Exported_Sounds/")
 out = Path("assets/chicory/")
 
+notfound = False
+if not export_sprites.is_dir():
+    print("Export_Sprites/ not found")
+    notfound = True
+
+if not export_sfx.is_dir():
+    print("Exported_Sounds/ not found")
+    notfound = True
+
+if notfound:
+    exit()
+
 dog_animations = [
     "idle",
     "run", 
