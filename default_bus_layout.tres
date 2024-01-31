@@ -1,6 +1,10 @@
-[gd_resource type="AudioBusLayout" format=3 uid="uid://cnddg85qdcks"]
+[gd_resource type="AudioBusLayout" load_steps=2 format=3 uid="uid://cnddg85qdcks"]
+
+[sub_resource type="AudioEffectPitchShift" id="AudioEffectPitchShift_i1x11"]
+resource_name = "PitchShift"
 
 [resource]
+bus/0/send = &"PaintSounds"
 bus/1/name = &"DogSounds"
 bus/1/solo = false
 bus/1/mute = false
@@ -11,11 +15,19 @@ bus/2/name = &"PuppetSounds"
 bus/2/solo = false
 bus/2/mute = false
 bus/2/bypass_fx = false
-bus/2/volume_db = 0.267241
+bus/2/volume_db = 0.0672607
 bus/2/send = &"Master"
 bus/3/name = &"BrushSounds"
 bus/3/solo = false
 bus/3/mute = false
 bus/3/bypass_fx = false
-bus/3/volume_db = -5.04224
-bus/3/send = &"Master"
+bus/3/volume_db = -2.51026
+bus/3/send = &"DogSounds"
+bus/4/name = &"EraseBus"
+bus/4/solo = false
+bus/4/mute = false
+bus/4/bypass_fx = false
+bus/4/volume_db = 0.0
+bus/4/send = &"BrushSounds"
+bus/4/effect/0/effect = SubResource("AudioEffectPitchShift_i1x11")
+bus/4/effect/0/enabled = true

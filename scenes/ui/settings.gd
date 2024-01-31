@@ -1,6 +1,6 @@
 extends Control
 
-const TITLE_NEEDED = [Settings.SettingType.INT_LIST]
+const TITLE_NEEDED = [Settings.SettingType.INT_LIST, Settings.SettingType.FLOAT_RANGE]
 
 @onready var container = $VBoxContainer/PanelContainer/VBoxContainer
 
@@ -27,6 +27,25 @@ func _ready():
 					value_node.add_item(i)
 				value_node.select(Settings.get(prop))
 				value_node.connect("item_selected", int_list_changed.bind(prop))
+			Settings.SettingType.FLOAT_RANGE:
+				value_node = HBoxContainer.new()
+				value_node.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				value_node.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+				var slider = HSlider.new()
+				slider.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+				slider.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+				var label = Label.new()
+				label.size_flags_horizontal = Control.SIZE_FILL
+				label.size_flags_vertical = Control.SIZE_SHRINK_CENTER
+				label.custom_minimum_size.x = 55
+				label.horizontal_alignment = HORIZONTAL_ALIGNMENT_RIGHT
+				value_node.add_child(slider)
+				value_node.add_child(label)
+				slider.value = Settings.get(prop)
+				label.text = "%d%%" % Settings.get(prop)
+				slider.min_value = val.min
+				slider.max_value = val.max
+				slider.connect("value_changed", float_range_changed.bind(prop, label))
 			_:
 				push_warning("Non Implemented Setting Type.")
 				continue
@@ -48,6 +67,10 @@ func bool_setting_changed(value, property):
 
 func int_list_changed(value, property):
 	newvalues[property] = value
+
+func float_range_changed(value, property, label):
+	newvalues[property] = value
+	label.text = "%d%%" % value
 
 func _on_cancel_button_pressed():
 	queue_free()

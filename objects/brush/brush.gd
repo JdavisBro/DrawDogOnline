@@ -154,8 +154,9 @@ func _physics_process(delta):
 	if (not prev_drawing) and drawing and (not get_tree().get_nodes_in_group("paintbursts")): # If im drawing new and there are no brushbursts
 		Global.paint_target.clear_undo_diff()
 	
+	var move_speed = prev_position.distance_to(pos)
 	if drawing:
-		if prev_position.distance_to(pos) <= 1:
+		if move_speed <= 1:
 			flood_start_timer += delta
 		else:
 			reset_flood()
@@ -196,11 +197,13 @@ func _physics_process(delta):
 	if prev_drawing == true and drawing == false:
 		sfx.stop_painting()
 	elif drawing == true:
-		if draw_col == 0:
-			sfx.erase()
+		if pos != prev_position:
+			if draw_col == 0:
+				sfx.erase(min(1, move_speed / 50))
+			else:
+				sfx.paint()
 		else:
-			sfx.paint()
-
+			sfx.stop_painting()
 			
 	MultiplayerManager.client.brush_me_update(pos, drawing, draw_col, size)
 	if (pos != prev_position and (not brush_return_timer > 0.5)) or prev_draw_col != draw_col or prev_size != size or prev_drawing != drawing:

@@ -27,18 +27,22 @@ script = ExtResource("1_qjowx")
 
 [node name="color_switch" type="AudioStreamPlayer" parent="."]
 stream = SubResource("AudioStreamRandomizer_fbgic")
+volume_db = -12.0
 bus = &"BrushSounds"
 
 [node name="size_small" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("5_q0hdp")
+volume_db = -12.0
 bus = &"BrushSounds"
 
 [node name="size_medium" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("6_6dswh")
+volume_db = -12.0
 bus = &"BrushSounds"
 
 [node name="size_big" type="AudioStreamPlayer" parent="."]
 stream = ExtResource("7_1gh8f")
+volume_db = -12.0
 bus = &"BrushSounds"
 
 [node name="paint_medium" type="AudioStreamPlayer2D" parent="."]
@@ -49,4 +53,4 @@ bus = &"BrushSounds"
 [node name="erase" type="AudioStreamPlayer2D" parent="."]
 stream = ExtResource("10_lyltl")
 panning_strength = 3.0
-bus = &"BrushSounds"
+bus = &"EraseBus"

@@ -57,6 +57,13 @@ var screenshot = null
 
 const PROFILE_IMAGE_SIZE = 160 # width & height in pixels
 
+var master_bus = AudioServer.get_bus_index("Master")
+var playerdog_bus = AudioServer.get_bus_index("DogSounds")
+var otherdog_bus = AudioServer.get_bus_index("PuppetSounds")
+var master_bus_volume = AudioServer.get_bus_volume_db(master_bus)
+var playerdog_bus_volume = AudioServer.get_bus_volume_db(playerdog_bus)
+var otherdog_bus_volume = AudioServer.get_bus_volume_db(otherdog_bus)
+
 func load_username():
 	if FileAccess.file_exists("user://username.txt"):
 		var file = FileAccess.open("user://username.txt", FileAccess.READ)
@@ -125,6 +132,13 @@ func get_discord_profile(discord_user):
 	http_req.queue_free()
 	return image
 
+func set_volume(bus, percent, default_volume):
+	AudioServer.set_bus_volume_db(bus, default_volume + linear_to_db(percent/100.0))
+
+func settings_changed():
+	set_volume(master_bus, Settings.master_volume, master_bus_volume)
+	set_volume(playerdog_bus, Settings.player_volume, playerdog_bus_volume)
+	set_volume(otherdog_bus, Settings.other_player_volume, otherdog_bus_volume)
 
 func _process(delta):
 	randomize()
@@ -149,6 +163,8 @@ func _process(delta):
 
 func _ready():
 	process_mode = PROCESS_MODE_ALWAYS
+	Settings.connect("settings_changed", settings_changed)
+	settings_changed()
 	loading_screen.visible = false
 	get_parent().add_child.call_deferred(loading_screen)
 	pause_screen.visible = false

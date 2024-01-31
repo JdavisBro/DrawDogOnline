@@ -5,6 +5,7 @@ signal settings_changed
 enum SettingType {
 	BOOL = 0,
 	INT_LIST = 1,
+	FLOAT_RANGE = 2,
 }
 
 const SAVED_PROPERTIES = [
@@ -17,6 +18,9 @@ const SAVED_PROPERTIES = [
 	"last_server_ip",
 	"last_server_protocol",
 	# UI
+	"master_volume",
+	"player_volume",
+	"other_player_volume",
 	"hold_brushburst",
 	"fill_bucket_do_corners",
 	"eyestrain_mode",
@@ -36,6 +40,9 @@ var last_server_ip = MultiplayerManager.DEFAULT_IP
 var last_server_protocol = "ws://"
 
 const SETTING_INFO = { # info for settings ui
+	"master_volume": {"type": SettingType.FLOAT_RANGE, "min": 0.0, "max": 100.0, "name": "Master Volume", "desc": "Volume of everything in the game."},
+	"player_volume": {"type": SettingType.FLOAT_RANGE, "min": 0.0, "max": 100.0,  "name": "Player Volume", "desc": "Volume of your dog and brush."},
+	"other_player_volume": {"type": SettingType.FLOAT_RANGE, "min": 0.0, "max": 100.0,  "name": "Other Player Volume", "desc": "Volume of other dogs and brushes."},
 	"hold_brushburst": {"type": SettingType.BOOL, "name": "Holding paint fills screen", "desc": "If holding paint in one spot fills the screen with paint."},
 	"fill_bucket_do_corners": {"type": SettingType.BOOL, "name": "Fill bucket fills through corners", "desc": "Fill bucket can fill through corners. This can make it slower but prevent accidental changes."},
 	"eyestrain_mode": {"type": SettingType.INT_LIST, "value_names": ["None", "Default", "Lots"], "name": "Eyestrain Mode", "desc": ""},
@@ -46,6 +53,9 @@ const SETTING_INFO = { # info for settings ui
 }
 
 # In Settings UI
+var master_volume = 100
+var player_volume = 100
+var other_player_volume = 80
 var hold_brushburst = true
 var fill_bucket_do_corners = true
 var eyestrain_mode = 1
