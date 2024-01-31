@@ -1,5 +1,5 @@
 # DrawDogOnline
- 
+
 Recreating Chicory: A Colorful Tale drawing in Godot and adding online functionality
 
 ## Playing
@@ -40,16 +40,19 @@ Also add `WebVersionHost/auth.html` (e.g. `https://jdavisbro.github.io/DrawDogOn
 ## Contributing/Exporting
 
 Requires
+
 - [Godot 4.2](https://godotengine.org/download/archive/4.2-stable/)
 - [UndertaleModTool](https://github.com/krzys-h/UndertaleModTool/)
 
-First (before opening the repo in Godot) create an Export_Sprites with UndertaleModTool and move it to this repo dir.
+First (before opening the repo in Godot) create an Export_Sprites and Exported_Sounds with UndertaleModTool and move it to this repo dir.
 
 Add a file named `.gdignore` to Export_Sprites/
 
 In the base dir run `py -m pip install -r requirements.txt` and `py move_assets.py`
 
 Now you can open it (and export if you want) in Godot :D
+
+To import the brush sounds properly, find sfx/erase/loop/mono.wav and sfx/paint/medium_loop.wav in the assets folder. Select them and, from the import tab (top left), select Loop Mode > Forward and Reimport.
 
 ## Credits
 

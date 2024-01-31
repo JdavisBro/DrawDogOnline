@@ -40,7 +40,7 @@ var camera
 
 @onready var circle = $circle
 @onready var prop = $prop
-@onready var sfx = $SoundManager
+@onready var sfx = $prop/SoundManager
 
 const FLOOD_START = 1.0
 const BRUSH_SIZES = [24, 72, 6]
