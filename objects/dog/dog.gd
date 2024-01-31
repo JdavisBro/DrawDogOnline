@@ -38,10 +38,12 @@ func do_movement(delta):
 		if animation.animation_name != "jump":
 			jumping = false
 			velocity = move * MAX_SPEED
+			
 		elif (animation.frame / 10) > 9:
 			if jump_buffered:
 				jumping = false
 			velocity = Vector2.ZERO
+			
 		else:
 			velocity = jump_dir * JUMP_MAX_SPEED
 		if (animation.frame / 10) > 3 and Input.is_action_just_pressed("jump"):
@@ -103,6 +105,7 @@ func _physics_process(delta):
 
 func _ready():
 	animation.puppet = false
+	animation.sfx.set_not_puppet()
 	brush = preload("res://objects/brush/brush.tscn").instantiate()
 	brush.dog = self
 	get_node("..").add_child.call_deferred(brush)
