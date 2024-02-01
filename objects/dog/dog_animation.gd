@@ -42,6 +42,8 @@ var sprites_ear := []
 
 const FLIP_TIME = 0.08
 
+signal animation_complete
+
 func flip_tween(val):
 	if scale.x != val:
 		if tween:
@@ -95,6 +97,7 @@ func _process(delta):
 		return
 	previous_f = f
 	if f >= len(sprites_ear): # All animations have an ear so checking this is best
+		animation_complete.emit()
 		if animation.loop == "1":
 			frame = 0
 			f = 0

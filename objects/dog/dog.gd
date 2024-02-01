@@ -4,7 +4,7 @@ const ACCEL = 6000
 const MAX_SPEED = 600
 const JUMP_MAX_SPEED = 800
 
-var velocity = Vector2.ONE
+var velocity = Vector2.ZERO
 var prev_position
 
 var jumping = false
@@ -15,7 +15,10 @@ var brush
 
 var facing = false : set = _set_facing
 var anim = 0
-var anims = ["idle", "run", "runup", "walk", "walkup", "jump", "hop_up", "hop_down", "sit"]
+
+var emoting = false
+var emote_ending = false
+var emote = {} # {start: "startanim", end: "endanim"}
 
 @onready var animation = $AnimationManager
 
@@ -27,6 +30,8 @@ func do_movement(delta):
 	prev_position = position
 	
 	var move = Input.get_vector("left", "right", "up", "down").limit_length() # this is weird compared to usual but idk how to fix it maybe later?
+	if emoting:
+		return not move.is_zero_approx()
 	
 	if not jumping and (Input.is_action_just_pressed("jump") or jump_buffered):
 		jumping = true
@@ -52,6 +57,7 @@ func do_movement(delta):
 		velocity = move * MAX_SPEED
 	
 	position += velocity*delta
+	return not velocity.is_zero_approx()
 
 func change_sprite_by_velocity():
 	if velocity.x != 0:
@@ -69,9 +75,28 @@ func change_sprite_by_velocity():
 		else:
 			animation.play_if_not("run")
 
+func do_emote(nemote):
+	emote = nemote
+	animation.play(emote.start)
+	emoting = true
+	emote_ending = false
+
+func end_emote():
+	animation.play(emote.end)
+	emote_ending = true
+	await animation.animation_complete
+	emoting = false
+
 func _physics_process(delta):
+	var moving = false
 	if !Global.chat:
-		do_movement(delta)
+		moving = do_movement(delta)
+	
+	if Input.is_action_just_pressed("ruler") and not emoting:
+		do_emote({"start": "hop_up", "end": "hop_down"})
+	
+	if emoting and moving and not emote_ending:
+		end_emote()
 	
 	z_index = int(global_position.y)
 	
