@@ -194,17 +194,14 @@ func _physics_process(delta):
 	if draw_col == null:
 		draw_col = color_index + 1
 		
-	if prev_drawing == true and drawing == false:
+	if drawing == false or pos == prev_position:
 		sfx.stop_painting()
-	elif drawing == true:
-		if pos != prev_position:
-			if draw_col == 0:
-				sfx.erase(min(1, move_speed / 50))
-			else:
-				sfx.paint()
+	else:
+		if draw_col == 0:
+			sfx.erase(min(1, move_speed / 50))
 		else:
-			sfx.stop_painting()
-			
+			sfx.paint()
+	
 	MultiplayerManager.client.brush_me_update(pos, drawing, draw_col, size)
 	if (pos != prev_position and (not brush_return_timer > 0.5)) or prev_draw_col != draw_col or prev_size != size or prev_drawing != drawing:
 		MultiplayerManager.brush_update.rpc(pos, drawing, draw_col, size)
