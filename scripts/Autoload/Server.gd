@@ -246,6 +246,10 @@ func dog_update_animation(pid, animation):
 	if pid in player_location:
 		players[player_location[pid]][pid].animation = animation
 
+func dog_update_expression(pid, expression):
+	if pid in player_location:
+		players[player_location[pid]][pid].expression = expression
+
 func dog_update_dog(pid, dog):
 	if pid in player_location:
 		players[player_location[pid]][pid].dog = dog

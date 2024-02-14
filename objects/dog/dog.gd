@@ -78,13 +78,25 @@ func change_sprite_by_velocity():
 func do_emote(nemote):
 	emote = nemote
 	animation.play(emote.start)
+	if "start_expression" in emote:
+		animation.set_expression(emote.start_expression)
 	emoting = true
 	emote_ending = false
+	if "loop" in emote:
+		await animation.animation_complete
+		animation.play(emote.loop)
+		if "loop_expression" in emote:
+			animation.set_expression(emote.loop_expression)
 
 func end_emote():
-	animation.play(emote.end)
-	emote_ending = true
-	await animation.animation_complete
+	if "end" in emote:
+		animation.play(emote.end)
+		if "end_expression" in emote:
+			animation.set_expression(emote.end_expression)
+		emote_ending = true
+		await animation.animation_complete
+	animation.play("idle")
+	animation.set_expression("normal")
 	emoting = false
 
 func _physics_process(delta):
@@ -92,8 +104,8 @@ func _physics_process(delta):
 	if !Global.chat:
 		moving = do_movement(delta)
 	
-	if Input.is_action_just_pressed("ruler") and not emoting:
-		do_emote({"start": "hop_up", "end": "hop_down"})
+	if Input.is_action_just_pressed("ruler") and not emoting and not moving:
+		do_emote(Global.emotes.knockdown)
 	
 	if emoting and moving and not emote_ending:
 		end_emote()

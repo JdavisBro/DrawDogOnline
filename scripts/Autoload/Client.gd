@@ -1,7 +1,7 @@
 extends Node
 
 var USER_INFO = {
-	"username": "Default", "position": Vector2.ZERO, "animation": "idle", "facing": false, "playerstatus": Global.PlayerStatus.Normal,
+	"username": "Default", "position": Vector2.ZERO, "animation": "idle", "expression": "normal", "facing": false, "playerstatus": Global.PlayerStatus.Normal,
 	"brush": {
 		"position": Vector2.ZERO, "drawing": false, "color": 1, "size": 24
 	},
@@ -99,6 +99,7 @@ func add_puppet(pid, userinfo):
 	puppet.brush_color = userinfo.brush.color
 	puppet.brush_size = userinfo.brush.size
 	puppet.animation.play(userinfo.animation)
+	puppet.animation.set_expression(userinfo.expression)
 	puppet.animation.flip = userinfo.facing
 	puppet.facing = userinfo.facing
 	puppet.animation.set_dog_dict(userinfo.dog)
@@ -292,6 +293,10 @@ func dog_update_position(pid, position):
 func dog_update_animation(pid, animation):
 	if pid in level_puppets:
 		level_puppets[pid].animation.play(animation)
+
+func dog_update_expression(pid, expression):
+	if pid in level_puppets:
+		level_puppets[pid].animation.set_expression(expression)
 
 func dog_update_dog(pid, newdog):
 	if player_list:

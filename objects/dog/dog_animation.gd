@@ -132,6 +132,47 @@ func _process(delta):
 					ear.texture = sprites_ear[f]
 	frame += 60 * delta * animation.speed_scale * speed_scale
 
+const expressions = [
+	"small",
+	"closed",
+	"grin",
+	"angry",
+	"nervous",
+	"gasp",
+	"heee",
+	"whoa",
+	"sorry",
+	"stop",
+	"ouch",
+	"worry",
+	"knockdown",
+	"smit",
+	"smile",
+	"cheeky",
+	"hmpf",
+	"okay",
+	"evil",
+	"depressed",
+	"embarrass",
+	"closed sad"
+]
+func set_expression(expression):
+	var im
+	if expression == "normal":
+		if big:
+			im = load("res://assets/chicory/expression/0_big.png")
+		else:
+			im = load("res://assets/chicory/expression/0.png")
+	else:
+		var ex = expressions.find(expression) 
+		if ex == -1:
+			push_error("Expression not found %s" % expression)
+			return
+		im = load("res://assets/chicory/expression/%02d.png" % (ex + 1))
+	if MultiplayerManager.connected and not puppet:
+		MultiplayerManager.dog_update_expression.rpc(expression)
+	head.texture = im
+
 func reset_fit_textures():
 	body_0.texture = null
 	body.texture = null
@@ -235,7 +276,13 @@ func play(anim):
 		A.visible = true
 	frames = load_frames(anim, "ear", Global.loaded_sprites_ear)
 	sprites_ear = frames
-	ear.texture = frames[0] # All animations have an ear, thank god
+	if frames.is_empty():
+		push_error("No frames for animation %s" % anim)
+		ear.texture = null
+		ear.visible = false
+	else:
+		ear.texture = frames[0]
+		ear.visible = true
 	
 	play_sounds_on_state_change()
 

@@ -249,6 +249,13 @@ func dog_update_animation(animation):
 	if not is_authenticated(pid): return
 	client.dog_update_animation(pid, animation)
 
+@rpc("any_peer", "call_remote", "unreliable_ordered")
+func dog_update_expression(expression):
+	var pid = multiplayer.get_remote_sender_id()
+	if not is_authenticated(pid): return
+	print(expression)
+	client.dog_update_expression(pid, expression)
+
 @rpc("any_peer", "call_local", "reliable")
 func dog_update_dog(dog):
 	var pid = multiplayer.get_remote_sender_id()

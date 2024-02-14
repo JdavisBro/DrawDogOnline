@@ -20,6 +20,24 @@ var pause_enable = false
 var boil_timer := 0.0
 var boil = randf()
 
+const emotes = {
+	"sit": {"name": "Sit", "start": "hop_up", "end": "hop_down"},
+	"phone": {"name": "Phone Call", "start": "phone"},
+	"hero": {"name": "Hero", "start": "hero"},
+	"hug": {"name": "Hug", "start": "hug_chicory"},
+	"item": {"name": "Item Get", "start": "item"},
+	"knockdown": {"name": "Knockdown",
+		"start": "knockdown", "start_expression": "knockdown",
+		"end": "assist", "end_expression": "okay",
+	},
+	"lean": {"name": "Lean", "start": "lean"},
+	"lay": {"name": "Lay Down", "start": "lay"},
+	"think": {"name": "Think", "start": "think"},
+	"smit": {"name": "Smit", "start": "smit", "start_expression": "smit"},
+	"toes": {"name": "On Toes", "start": "toes"},
+	"pet": {"name": "Pet", "start": "pet"},
+}
+
 const body_ims = {'Overalls': 0, 'Flower Dress': 1, 'Hoodie': 2, 'Pocket Jacket': 3, 'Starry Tee': 4, 'Stripey Tee': 5, 'Sunny Tee': 6, 'Bolt Tee': 7, 'Moon Tee': 8, 'Big Star': 9, 'Black Tee': 10, 'Kerchief': 10, 'Scarf': 10, 'Shawl': 10, 'Spike': 10, 'Bee': 11, 'Big Flower': 12, 'High Nooner': 13, 'Dot Dress': 14, 'Cord Coat': 15, 'Puffy Jacket': 16, 'Dorky': 17, 'Woven': 18, 'Rex Bod': 19, 'Wielder Cloak': 20, 'Hotneck': 21, 'Gothy': 22, 'Nice Shirt': 23, 'Smock': 24, 'Island': 25, 'Splashpants': 26, 'Splash Onesie': 27, 'College': 28, 'Biker Jacket': 29, 'Mascot Bod': 30, 'Avast': 31, 'Mailbag': 32, 'Bard': 33, 'Tux': 34, 'Scientist': 35, 'Fuzzy Jacket': 36, 'Sailor': 37, 'Sequins': 38, 'Black Dress': 39, 'Leafy': 40, 'Pajamas': 41, 'Cute Dress': 42, 'Pilot': 43, 'Shell Tee': 44, 'Big Heart': 45, 'Robo': 46, 'Ski Jacket': 47, 'Gorgeous': 48, 'Royal': 49, 'Hiker': 50}
 const body0_ims = {'Gorgeous': 13, 'Hiker': 15}
 const body1_ims = {'Kerchief': 1, 'Scarf': 2, 'Wielder Cloak': 4, 'Neck_Headphones': 7, 'Sailor': 8, 'Shawl': 9, 'Spike': 10, 'Studs': 11}
