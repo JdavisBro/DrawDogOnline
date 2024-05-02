@@ -26,7 +26,7 @@ func _ready():
 	Global.pause_enable = false
 	Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 	status.text = MultiplayerManager.connection_status
-	usernameenter.text = Global.username
+	usernameenter.text = Settings.username
 	
 	ipenter.text = Settings.last_server_ip
 	protocolselect.select(0)
@@ -66,9 +66,9 @@ func _on_join_button_pressed():
 	if not MultiplayerManager.get_ip_port(ipenter.text):
 		iptitle.text = "IP - Invalid:"
 		return
-	if Global.username != usernameenter.text.strip_edges():
-		Global.username = usernameenter.text.strip_edges()
-		Global.save_username()
+	if Settings.username != usernameenter.text.strip_edges():
+		Settings.username = usernameenter.text.strip_edges()
+		Settings.save()
 	MultiplayerManager.start()
 
 func _on_settings_button_pressed():

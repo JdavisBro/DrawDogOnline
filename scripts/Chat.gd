@@ -30,7 +30,7 @@ func add_message(chat, message, tab_ind):
 	if tab_ind == tab.current_tab:
 		display_timer = 0.0
 	else:
-		if ("@%s" % Global.username.to_lower()) in message.to_lower():
+		if ("@%s" % Settings.username.to_lower()) in message.to_lower():
 			tab.set_tab_icon(tab_ind, orange_tex)
 		elif not redtab[tab_ind]:
 			tab.set_tab_icon(tab_ind, red_tex)
@@ -124,7 +124,7 @@ func _on_line_edit_text_submitted(new_text):
 		return
 	match tab.current_tab:
 		0:
-			MultiplayerManager.chat_message.rpc(Global.username, Global.current_level, new_text)
+			MultiplayerManager.chat_message.rpc(Settings.username, Global.current_level, new_text)
 		1:
-			MultiplayerManager.global_chat_message.rpc(Global.username, Global.current_level, new_text)
+			MultiplayerManager.global_chat_message.rpc(Settings.username, Global.current_level, new_text)
 	reset_lineedit()

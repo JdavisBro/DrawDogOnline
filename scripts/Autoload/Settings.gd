@@ -17,6 +17,7 @@ const SAVED_PROPERTIES = [
 	"allow_insecure_server_auth",
 	"last_server_ip",
 	"last_server_protocol",
+	"username",
 	# UI
 	"master_volume",
 	"player_volume",
@@ -38,6 +39,7 @@ var title_paint_custom_palette = []
 var allow_insecure_server_auth = false
 var last_server_ip = MultiplayerManager.DEFAULT_IP
 var last_server_protocol = "ws://"
+var username = "Default"
 
 const SETTING_INFO = { # info for settings ui
 	"master_volume": {"type": SettingType.FLOAT_RANGE, "min": 0.0, "max": 100.0, "name": "Master Volume", "desc": "Volume of everything in the game."},

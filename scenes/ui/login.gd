@@ -25,7 +25,7 @@ func _ready():
 	add_child(auth)
 	MultiplayerManager.client.set_loading(false)
 	update_error(MultiplayerManager.client.auth_error)
-	local_user(Global.dog_dict, Global.username)
+	local_user(Global.dog_dict, Settings.username)
 
 func local_user(dog, username):
 	local_dog_dict = dog
@@ -48,11 +48,13 @@ func logged_in():
 	$VBoxContainer/CenterContainer/VBoxContainer/HBoxContainer/Server/UseServerDog.disabled = false
 
 func _on_use_local_dog_pressed():
-	Global.username = local_username.text
+	Settings.username = local_username.text
+	Settings.save()
 	MultiplayerManager.client.enter_level()
 
 func _on_use_server_dog_pressed():
-	Global.username = server_username.text
+	Settings.username = server_username.text
+	Settings.save()
 	Global.dog_dict = server_dog_dict
 	MultiplayerManager.client.me.dog = server_dog_dict
 	MultiplayerManager.client.enter_level()

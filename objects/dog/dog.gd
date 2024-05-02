@@ -147,7 +147,7 @@ func _ready():
 	brush.dog = self
 	get_node("..").add_child.call_deferred(brush)
 	animation.set_dog_dict(Global.dog_dict)
-	$username.text = Global.username
+	$username.text = Settings.username
 	get_authnames()
 	Settings.connect("settings_changed", settings_changed)
 

@@ -38,7 +38,7 @@ func on_player_disconnected(id):
 
 func on_connected_ok():
 	me.position = Vector2.ZERO
-	me.username = Global.username
+	me.username = Settings.username
 
 func on_connected_fail():
 	timeout_enable = false

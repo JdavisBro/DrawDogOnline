@@ -58,8 +58,6 @@ var loaded_sprites_ear := {}
 
 var loaded_brush = []
 
-var username = "Default"
-
 var palette = [
 	Color("#00f3dd"), Color("#d8ff55"), Color("#ffa694"), Color("#b69aff")
 ]
@@ -81,17 +79,6 @@ var otherdog_bus = AudioServer.get_bus_index("PuppetSounds")
 var master_bus_volume = AudioServer.get_bus_volume_db(master_bus)
 var playerdog_bus_volume = AudioServer.get_bus_volume_db(playerdog_bus)
 var otherdog_bus_volume = AudioServer.get_bus_volume_db(otherdog_bus)
-
-func load_username():
-	if FileAccess.file_exists("user://username.txt"):
-		var file = FileAccess.open("user://username.txt", FileAccess.READ)
-		Global.username = file.get_line().strip_edges()
-		file.close()
-
-func save_username():
-	var file = FileAccess.open("user://username.txt", FileAccess.WRITE)
-	file.store_line(Global.username)
-	file.close()
 
 func load_dog():
 	if not FileAccess.file_exists("user://dog.json"):
@@ -187,5 +174,4 @@ func _ready():
 	get_parent().add_child.call_deferred(loading_screen)
 	pause_screen.visible = false
 	get_parent().add_child.call_deferred(pause_screen)
-	load_username()
 	load_dog()
