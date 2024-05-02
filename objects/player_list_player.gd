@@ -19,13 +19,17 @@ func setup():
 	level_label.text = "%d,%d,%d" % [level.x, level.y, level.z]
 	if MultiplayerManager.auth_type == "discord":
 		if pid in MultiplayerManager.authenticated_players and MultiplayerManager.authenticated_players[pid].username == username:
-			auth.queue_free()
+			if auth:
+				auth.queue_free()
+				auth = null
 		else:
 			auth.get_node("AuthName").text = MultiplayerManager.authenticated_players[pid].username
 			if Settings.show_avatars_map:
 				get_profile()
 	else:
-		auth.queue_free()
+		if auth:
+			auth.queue_free()
+			auth = null
 
 func _ready():
 	dog = load("res://objects/dog/dog_animation.tscn").instantiate() # Preloading or instantiating in the scene tree for some reason breaks dog_animation for all nodes
