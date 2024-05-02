@@ -27,9 +27,9 @@ func _process(_delta):
 	if get_tree().paused and not pause_process:
 		return
 	if update_needed:
-		update_paint(false)
+		update_paint()
 
-func update_paint(defer):
+func update_paint():
 	var newrect = Rect2(Vector2.ZERO, size)
 	if not newrect.encloses(update_rect):
 		update_rect = newrect
@@ -44,7 +44,4 @@ func update_paint(defer):
 				image.set_pixel(x, y, palette[(col-1) % palette.size()])
 			updated.set_bit(x, y, true)
 	update_needed = false
-	if defer:
-		sprite.texture.update.call_deferred(image)
-	else:
-		sprite.texture.update(image)
+	sprite.texture.update(image)

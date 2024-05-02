@@ -156,7 +156,7 @@ func _process(_delta):
 	if update_needed:
 		update_paint()
 
-func update_paint(defer=false):
+func update_paint():
 	var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
 	if not newrect.encloses(update_rect):
 		update_rect = newrect
@@ -177,15 +177,8 @@ func update_paint(defer=false):
 				donecol.append(color)
 				var val = int(v1 == color) + (int(v2 == color) << 1) + (int(v3 == color) << 2) + (int(v4 == color) << 3) 
 				if val > 0:
-					if defer:
-						@warning_ignore("integer_division")
-						map.call_deferred("set_cell", color-1, Vector2(x, y), 0, Vector2((val) % 4, (val) / 4))
-					else:
-						@warning_ignore("integer_division")
-						map.set_cell(color-1, Vector2(x, y), 0, Vector2((val) % 4, (val) / 4))
+					@warning_ignore("integer_division")
+					map.set_cell(color-1, Vector2(x, y), 0, Vector2((val) % 4, (val) / 4))
 			updated.set_bit(x, y, true)
 	update_needed = false
-	if defer:
-		paintviewport.call_deferred("set_update_mode", SubViewport.UPDATE_ONCE)
-	else:
-		paintviewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	paintviewport.render_target_update_mode = SubViewport.UPDATE_ONCE

@@ -7,13 +7,11 @@ var player_node = preload("res://objects/player_list_player.tscn")
 var head_node = preload("res://objects/map_dog_head.tscn")
 
 var paints = {}
+var update_needed = []
 
-var paint_node = load("res://objects/paint.tscn")
 var minimal_paint_node = load("res://objects/minimal_paint.tscn")
 
 var screen = Vector2(1920, 1080)
-
-var threads = []
 
 var updating = true
 
@@ -35,11 +33,7 @@ func set_paint(level, paint, palette):
 	if level == Global.current_level:
 		return
 	var node
-	if Settings.minimal_map:
-		node = minimal_paint_node.instantiate()
-	else:
-		node = paint_node.instantiate()
-		node.diffs_enabled = false
+	node = minimal_paint_node.instantiate()
 	node.pause_process = updating
 	node.force_update()
 	node.palette = palette
@@ -49,15 +43,18 @@ func set_paint(level, paint, palette):
 	mapviewport.add_child(node)
 	node.paint.array = paint
 	node.update_needed = false
-	var thread = Thread.new()
-	threads.append(thread)
-	var _err = thread.start(node.update_paint.bind(true))
+	update_needed.append(node)
 
 func update_paint(level, diff, rect):
 	if level not in paints:
 		MultiplayerManager.request_map_paint.rpc_id(1, level)
 		return
 	PaintUtil.apply_diff(paints[level], diff, rect)
+
+func _process(_delta):
+	if update_needed:
+		var node = update_needed.pop_front()
+		node.update_paint()
 
 func update_palette(level, palette):
 	paints[level].palette = palette
@@ -140,9 +137,6 @@ func _ready():
 	MultiplayerManager.get_map_player_list.rpc_id(1)
 
 func before_close():
-	for thread in threads:
-		if thread.is_started():
-			thread.wait_to_finish()
 	MultiplayerManager.client.player_list = null
 	Global.paint_target.pause_process = false
 	MultiplayerManager.map_closed.rpc_id(0)

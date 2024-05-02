@@ -28,7 +28,6 @@ const SAVED_PROPERTIES = [
 	"show_auth_names",
 	"show_avatars_level",
 	"show_avatars_map",
-	"minimal_map",
 ]
 
 # Not in settings UI
@@ -51,7 +50,6 @@ const SETTING_INFO = { # info for settings ui
 	"show_auth_names": {"type": SettingType.BOOL, "name": "Show Discord Username In Game", "desc": "Shows Discord usernames on authenticated servers."},
 	"show_avatars_level": {"type": SettingType.BOOL, "name": "Show Avatars In Game", "desc": "Shows Discord avatars next to a username on authenticated servers (requires Show Discord Usernames In Game on)."},
 	"show_avatars_map": {"type": SettingType.BOOL, "name": "Show Avatars In Player List", "desc": "Shows Discord avatars next to a username in the player list/map on authenticated servers."},
-	"minimal_map": {"type": SettingType.BOOL, "name": "Minimal Map Paint", "desc": "Doesn't do marching squares on map to save performance."},
 }
 
 # In Settings UI
@@ -65,7 +63,6 @@ var title_paint_custom_enabled = false
 var show_auth_names = true
 var show_avatars_level = true
 var show_avatars_map = true
-var minimal_map = true
 
 func save():
 	var file = FileAccess.open("user://settings.json", FileAccess.WRITE)

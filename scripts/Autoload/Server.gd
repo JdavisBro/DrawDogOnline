@@ -303,7 +303,6 @@ var map_timer = 0
 func process_send_levels(delta):
 	map_timer += delta
 	var count = floor(map_timer / (1 / MAP_LEVEL_PER_SECOND))
-	prints(map_timer, count)
 	if count == 0:
 		return
 	map_timer = fmod(map_timer, (1.0 / MAP_LEVEL_PER_SECOND))
