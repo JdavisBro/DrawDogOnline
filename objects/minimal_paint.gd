@@ -29,6 +29,9 @@ func _process(_delta):
 	if update_needed:
 		update_paint()
 
+func update_palette():
+	force_update()
+
 func update_paint():
 	var newrect = Rect2(Vector2.ZERO, size)
 	if not newrect.encloses(update_rect):

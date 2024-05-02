@@ -77,7 +77,7 @@ func add_undo_to(undo=true, clear_redo=true):
 	if len(queue) > UNDO_LENGTH:
 		queue.remove_at(len(queue)-1)
 
-func setup_tilemap_layers():
+func update_palette():
 	while map.get_layers_count() > len(palette):
 		map.remove_layer(map.get_layers_count()-1)
 	var i = 0
@@ -86,6 +86,7 @@ func setup_tilemap_layers():
 			map.add_layer(i)
 		map.set_layer_modulate(i, col)
 		i += 1
+	paintviewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 
 func set_init_paint():
 	if init_paint_string:
@@ -101,7 +102,7 @@ func _ready():
 	clear_paint()
 	clear_undo_diff()
 	set_init_paint()
-	setup_tilemap_layers()
+	update_palette()
 	if not Global.paint_target and set_paint_target:
 		Global.paint_target = self
 

@@ -58,7 +58,7 @@ func _process(_delta):
 
 func update_palette(level, palette):
 	paints[level].palette = palette
-	paints[level].setup_tilemap_layers()
+	paints[level].update_palette()
 
 func add_player(pid, userdata, level, adding_self=false):
 	if pid == MultiplayerManager.uid and not adding_self:

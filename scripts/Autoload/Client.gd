@@ -267,7 +267,7 @@ func set_palette(_pid, palette, level):
 	if level == Global.current_level:
 		Global.palette = palette
 		Global.paint_target.palette = palette
-		Global.paint_target.setup_tilemap_layers()
+		Global.paint_target.update_palette()
 		dog.brush.color_index = min(dog.brush.color_index, len(Global.palette)-1)
 	elif player_list:
 		player_list.update_palette(level, palette)
