@@ -34,6 +34,7 @@ func save_players():
 		FileAccess.open("user://players.json", FileAccess.WRITE_READ).store_line(JSON.stringify(outplayers))
 
 func save_levels():
+	saved_levels["version"] = MultiplayerManager.CURRENT_PAINT_VERSION
 	for level in paint_changed:
 		check_server_level(level)
 		var levelstr = "%s,%s,%s" % [level.x, level.y, level.z]
@@ -50,13 +51,13 @@ func save_levels():
 	print("Saved")
 	save_required = false
 
-func _process(delta):
+func _physics_process(delta):
 	if save_required:
 		save_timer += delta
 		if save_timer > SAVE_INTERVAL:
 			save_timer = 0.0
 			save_levels()
-	process_send_levels()
+	process_send_levels(delta)
 
 # Signals
 
@@ -99,7 +100,9 @@ func load_players():
 			saved_players[user] = player
 
 func load_paint():
+	var version = 0
 	if FileAccess.file_exists("user://paint.txt"):
+		print("Upgrading Paint From Version %s to %s" % [version, MultiplayerManager.CURRENT_PAINT_VERSION])
 		var file = FileAccess.open("user://paint.txt", FileAccess.READ)
 		if not file:
 			return
@@ -110,7 +113,7 @@ func load_paint():
 			var paintstr = file.get_line()
 			paintstr = Marshalls.base64_to_raw(paintstr)
 			paint[level] = PackedByteArray2D.new()
-			paint[level].array = MultiplayerManager.decompress_paint(paintstr, size)
+			paint[level].array = MultiplayerManager.decompress_paint_v1(paintstr, size)
 		save_levels()
 		file.close()
 		DirAccess.open("user://").remove("paint.txt")
@@ -118,15 +121,25 @@ func load_paint():
 		var file = FileAccess.open("user://levels.json", FileAccess.READ)
 		saved_levels = JSON.parse_string(file.get_line())
 		file.close()
+		version = 1
+		if "version" in saved_levels:
+			version = saved_levels["version"]
+		if version < MultiplayerManager.CURRENT_PAINT_VERSION:
+			print("Upgrading Paint From Version %s to %s" % [version, MultiplayerManager.CURRENT_PAINT_VERSION])
 		for level in saved_levels:
+			if level == "version":
+				continue
 			var leveldata = saved_levels[level]
 			level = level.split(",")
 			level = Vector3(int(level[0]), int(level[1]), int(level[2]))
 			paint[level] = PackedByteArray2D.new()
-			paint[level].array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(leveldata.paint), leveldata.paintsize)
+			paint[level].array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(leveldata.paint), leveldata.paintsize, version)
 			palettes[level] = []
 			for col in leveldata.palette:
 				palettes[level].append(Color(col))
+	if version < MultiplayerManager.CURRENT_PAINT_VERSION:
+		paint_changed = paint.keys()
+		save_levels()
 
 func id_logged_in(discordid):
 	for user in MultiplayerManager.authenticated_players.values():
@@ -284,18 +297,30 @@ func get_map_player_list(pid):
 	map_paint_requests[pid] = paint.keys()
 	map_paint_requests[pid].sort_custom(sort_by_distance.bind(player_location[pid]))
 
-const LEVEL_PER_PROCESS = 4
+const MAP_LEVEL_PER_SECOND = 20.0
+var map_timer = 0
 
-func process_send_levels():
+func process_send_levels(delta):
+	map_timer += delta
+	var count = floor(map_timer / (1 / MAP_LEVEL_PER_SECOND))
+	prints(map_timer, count)
+	if count == 0:
+		return
+	map_timer = fmod(map_timer, (1.0 / MAP_LEVEL_PER_SECOND))
 	for pid in map_paint_requests:
-		for i in range(LEVEL_PER_PROCESS):
+		if pid not in player_location:
+			map_paint_requests.erase(pid)
+			continue
+		for i in range(count):
 			var level = map_paint_requests[pid].pop_front()
+			if level not in paint:
+				continue
 			if player_location[pid] == level: continue
 			var newpaint = MultiplayerManager.compress_paint(paint[level])
 			MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])
 
 func map_closed(pid):
-	map_paint_requests[pid] = null
+	map_paint_requests.erase(pid)
 
 func request_map_paint(pid, level):
 	var newpaint = MultiplayerManager.compress_paint(paint[level])

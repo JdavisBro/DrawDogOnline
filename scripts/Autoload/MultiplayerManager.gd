@@ -92,20 +92,27 @@ func decode_diff(diff, size):
 
 var hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
 
-func compress_paint(inpaint):
-	var out = ""
-	for y in range(inpaint.size.y):
-		for x in range(inpaint.size.x):
-			out += hex[inpaint.at(x,y)]
-	var buffer = out.hex_decode()
-	return [buffer.size(), buffer.compress()]
+const COMPRESSION = FileAccess.COMPRESSION_DEFLATE
 
-func decompress_paint(inb, size):
+func compress_paint(inpaint):
+	return [inpaint.array.size(), inpaint.array.compress(COMPRESSION)]
+
+const CURRENT_PAINT_VERSION = 2
+
+func decompress_paint_v2(inbuffer, size):
+	return inbuffer.decompress(size, COMPRESSION)
+
+func decompress_paint_v1(inb, size):
 	var hexstr = inb.decompress(size).hex_encode()
 	var array = PackedByteArray()
 	for i in hexstr:
 		array.append(i.hex_to_int())
 	return array
+
+func decompress_paint(inbuffer, size, version=CURRENT_PAINT_VERSION):
+	if version == 1:
+		return decompress_paint_v1(inbuffer, size)
+	return decompress_paint_v2(inbuffer, size)
 
 func is_authenticated(pid):
 	if auth_type == null:
