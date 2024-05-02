@@ -11,7 +11,13 @@ var paintset = false
 
 func load_custom_paint():
 	if Settings.title_paint_custom_enabled and Settings.title_paint_custom:
-		$paint.paint.array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(Settings.title_paint_custom), Settings.title_paint_custom_size)
+		$paint.paint.array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(Settings.title_paint_custom), Settings.title_paint_custom_size, Settings.title_paint_custom_version)
+		if Settings.title_paint_custom_version != MultiplayerManager.CURRENT_PAINT_VERSION:
+			var data = MultiplayerManager.compress_paint($paint.paint.array)
+			Settings.title_paint_custom = data[1]
+			Settings.title_paint_custom_size = data[0]
+			Settings.title_paint_custom_version = MultiplayerManager.CURRENT_PAINT_VERSION
+			Settings.save()
 		var pal = []
 		for i in Settings.title_paint_custom_palette:
 			pal.append(Color(i))

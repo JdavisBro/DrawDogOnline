@@ -54,6 +54,7 @@ func _on_set_title_pressed():
 	var paint = MultiplayerManager.compress_paint(Global.paint_target.paint)
 	Settings.title_paint_custom_size = paint[0]
 	Settings.title_paint_custom = Marshalls.raw_to_base64(paint[1])
+	Settings.title_paint_custom_version = MultiplayerManager.CURRENT_PAINT_VERSION
 	var pal = []
 	for i in Global.paint_target.palette:
 		pal.append(i.to_html(false))

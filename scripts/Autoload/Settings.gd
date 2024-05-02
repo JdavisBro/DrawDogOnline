@@ -14,6 +14,7 @@ const SAVED_PROPERTIES = [
 	"title_paint_custom",
 	"title_paint_custom_size",
 	"title_paint_custom_palette",
+	"title_paint_custom_version",
 	"allow_insecure_server_auth",
 	"last_server_ip",
 	"last_server_protocol",
@@ -36,6 +37,7 @@ var last_save_location = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
 var title_paint_custom = ""
 var title_paint_custom_size = 7371
 var title_paint_custom_palette = []
+var title_paint_custom_version = 1
 var allow_insecure_server_auth = false
 var last_server_ip = MultiplayerManager.DEFAULT_IP
 var last_server_protocol = "ws://"
