@@ -7,6 +7,9 @@ var update_needed := true
 var update_rect := Rect2(Vector2.ZERO, size-Vector2.ONE)
 var updated: BitMap = BitMap.new()
 var palette = Global.palette
+var diffs_enabled = false
+
+var pause_process = true
 
 @onready var sprite = $Sprite2D
 var image = Image.create(size.x, size.y, false, Image.FORMAT_RGB8)
@@ -19,6 +22,12 @@ func force_update():
 func _ready():
 	image.fill(Color.WHITE)
 	sprite.texture = ImageTexture.create_from_image(image)
+
+func _process(_delta):
+	if get_tree().paused and not pause_process:
+		return
+	if update_needed:
+		update_paint(false)
 
 func update_paint(defer):
 	var newrect = Rect2(Vector2.ZERO, size)

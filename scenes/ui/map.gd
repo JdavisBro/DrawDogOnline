@@ -40,7 +40,7 @@ func set_paint(level, paint, palette):
 	else:
 		node = paint_node.instantiate()
 		node.diffs_enabled = false
-		node.pause_process = updating
+	node.pause_process = updating
 	node.force_update()
 	node.palette = palette
 	node.position = screen * Vector2(level.x, level.y)
