@@ -38,6 +38,7 @@ func save_levels():
 	for level in paint_changed:
 		check_server_level(level)
 		var levelstr = "%s,%s,%s" % [level.x, level.y, level.z]
+		print("Saving %s" % levelstr)
 		var lpaint = MultiplayerManager.compress_paint(paint[level])
 		var palette = []
 		for col in palettes[level]:
@@ -220,7 +221,8 @@ func draw_diff_to_server(pid, size, diff, rect, level):
 				var target_pos = rect.position + Vector2(x, y)
 				paint[level].put(target_pos.x, target_pos.y, diff[i])
 			i += 1
-	paint_changed.append(level)
+	if level not in paint_changed:
+		paint_changed.append(level)
 	save_required = true
 
 func request_move_to_level(pid, userinfo, level):
@@ -245,6 +247,8 @@ func request_move_to_level(pid, userinfo, level):
 func set_palette(_pid, palette, level):
 	if palettes[level] != palette:
 		palettes[level] = palette
+		if level not in paint_changed:
+			paint_changed.append(level)
 		save_required = true
 
 ## Dog
