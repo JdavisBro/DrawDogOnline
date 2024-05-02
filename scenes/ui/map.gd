@@ -8,11 +8,14 @@ var head_node = preload("res://objects/map_dog_head.tscn")
 
 var paints = {}
 
-var paint_node = preload("res://objects/paint.tscn")
+var paint_node = load("res://objects/paint.tscn")
+var minimal_paint_node = load("res://objects/minimal_paint.tscn")
 
 var screen = Vector2(1920, 1080)
 
 var threads = []
+
+var updating = true
 
 @onready var teleport = $VBoxContainer/MarginContainer/HBoxContainer/Teleport
 var teleport_level = null
@@ -31,10 +34,15 @@ func set_teleport(level, pos):
 func set_paint(level, paint, palette):
 	if level == Global.current_level:
 		return
-	var node = paint_node.instantiate()
+	var node
+	if Settings.minimal_map:
+		node = minimal_paint_node.instantiate()
+	else:
+		node = paint_node.instantiate()
+		node.diffs_enabled = false
+		node.pause_process = updating
 	node.force_update()
 	node.palette = palette
-	node.diffs_enabled = false
 	node.position = screen * Vector2(level.x, level.y)
 	node.name = "%d,%d" % [level.x, level.y]
 	paints[level] = node
@@ -137,8 +145,10 @@ func before_close():
 			thread.wait_to_finish()
 	MultiplayerManager.client.player_list = null
 	Global.paint_target.pause_process = false
+	MultiplayerManager.map_closed.rpc_id(0)
 
 func _on_update_switch_toggled(button_pressed):
+	updating = button_pressed
 	for level in paints:
 		paints[level].pause_process = button_pressed
 
