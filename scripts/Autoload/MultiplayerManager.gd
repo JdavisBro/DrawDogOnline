@@ -84,15 +84,16 @@ func get_ip_port(newip):
 func level_in_bounds(level):
 	return Vector3(clamp(level.x, -LEVEL_RANGE.x, LEVEL_RANGE.x), clamp(level.y, -LEVEL_RANGE.y, LEVEL_RANGE.y), 0)
 
+const COMPRESSION = FileAccess.COMPRESSION_DEFLATE
+
 func encode_diff(diff):
-	return [diff.size(), diff.compress()]
+	return [diff.size(), diff.compress(COMPRESSION)]
 
 func decode_diff(diff, size):
-	return diff.decompress(size)
+	return diff.decompress(size, COMPRESSION)
 
 var hex = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F"]
 
-const COMPRESSION = FileAccess.COMPRESSION_DEFLATE
 
 func compress_paint(inpaint):
 	return [inpaint.array.size(), inpaint.array.compress(COMPRESSION)]
