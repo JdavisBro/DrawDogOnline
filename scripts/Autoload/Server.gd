@@ -1,10 +1,14 @@
 extends Node
 
+var saved_levels = {}
 var paint = {}
 var palettes = {}
+var paint_changed = []
 var save_required = true
 var players = {} # level: {pid: userinfo}
 var player_location = {} # pid: level
+
+var map_paint_requests = {} # pid: [levels]
 
 var saved_players = {} # players saved dogs & usernames {authid: {dog: dog, username: string}}
 
@@ -30,17 +34,17 @@ func save_players():
 		FileAccess.open("user://players.json", FileAccess.WRITE_READ).store_line(JSON.stringify(outplayers))
 
 func save_levels():
-	var levelsout = {}
-	for level in paint:
+	for level in paint_changed:
 		check_server_level(level)
 		var levelstr = "%s,%s,%s" % [level.x, level.y, level.z]
 		var lpaint = MultiplayerManager.compress_paint(paint[level])
 		var palette = []
 		for col in palettes[level]:
 			palette.append("#" + col.to_html(false))
-		levelsout[levelstr] = {"paintsize": lpaint[0], "paint": Marshalls.raw_to_base64(lpaint[1]), "palette": palette}
+		saved_levels[levelstr] = {"paintsize": lpaint[0], "paint": Marshalls.raw_to_base64(lpaint[1]), "palette": palette}
 	var file = FileAccess.open("user://levels.json", FileAccess.WRITE)
-	file.store_line(JSON.stringify(levelsout))	
+	paint_changed = []
+	file.store_line(JSON.stringify(saved_levels))
 	file.close()
 	save_players()
 	print("Saved")
@@ -52,6 +56,7 @@ func _process(delta):
 		if save_timer > SAVE_INTERVAL:
 			save_timer = 0.0
 			save_levels()
+	process_send_levels()
 
 # Signals
 
@@ -93,7 +98,6 @@ func load_players():
 				player.dog.color[i] = Color(player.dog.color[i])
 			saved_players[user] = player
 
-
 func load_paint():
 	if FileAccess.file_exists("user://paint.txt"):
 		var file = FileAccess.open("user://paint.txt", FileAccess.READ)
@@ -112,10 +116,10 @@ func load_paint():
 		DirAccess.open("user://").remove("paint.txt")
 	elif FileAccess.file_exists("user://levels.json"):
 		var file = FileAccess.open("user://levels.json", FileAccess.READ)
-		var levelsin = JSON.parse_string(file.get_line())
+		saved_levels = JSON.parse_string(file.get_line())
 		file.close()
-		for level in levelsin:
-			var leveldata = levelsin[level]
+		for level in saved_levels:
+			var leveldata = saved_levels[level]
 			level = level.split(",")
 			level = Vector3(int(level[0]), int(level[1]), int(level[2]))
 			paint[level] = PackedByteArray2D.new()
@@ -203,6 +207,7 @@ func draw_diff_to_server(pid, size, diff, rect, level):
 				var target_pos = rect.position + Vector2(x, y)
 				paint[level].put(target_pos.x, target_pos.y, diff[i])
 			i += 1
+	paint_changed.append(level)
 	save_required = true
 
 func request_move_to_level(pid, userinfo, level):
@@ -269,12 +274,28 @@ func chat_message(_pid, username, level, message):
 func chat_message_global(_pid, username, level, message):
 	print("GLOBAL %s (%d,%d,%d)> %s" % [username, level.x, level.y, level.z, message])
 
+## Map
+
+func sort_by_distance(a, b, position):
+	return a.distance_squared_to(position) < b.distance_squared_to(position)
+
 func get_map_player_list(pid):
 	MultiplayerManager.recieve_player_list.rpc_id(pid, players)
-	for level in paint:
-		if player_location[pid] == level: continue
-		var newpaint = MultiplayerManager.compress_paint(paint[level])
-		MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])
+	map_paint_requests[pid] = paint.keys()
+	map_paint_requests[pid].sort_custom(sort_by_distance.bind(player_location[pid]))
+
+const LEVEL_PER_PROCESS = 4
+
+func process_send_levels():
+	for pid in map_paint_requests:
+		for i in range(LEVEL_PER_PROCESS):
+			var level = map_paint_requests[pid].pop_front()
+			if player_location[pid] == level: continue
+			var newpaint = MultiplayerManager.compress_paint(paint[level])
+			MultiplayerManager.recieve_level_paint.rpc_id(pid, newpaint[1], newpaint[0], level, palettes[level])
+
+func map_closed(pid):
+	map_paint_requests[pid] = null
 
 func request_map_paint(pid, level):
 	var newpaint = MultiplayerManager.compress_paint(paint[level])

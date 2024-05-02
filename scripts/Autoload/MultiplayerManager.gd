@@ -296,6 +296,13 @@ func get_map_player_list():
 	if not is_authenticated(pid): return
 	client.get_map_player_list(pid)
 
+@rpc("any_peer", "call_remote", "reliable")
+func map_closed():
+	var pid = multiplayer.get_remote_sender_id()
+	if not server: return
+	if not is_authenticated(pid): return
+	client.map_closed(pid)
+
 @rpc("authority", "call_remote", "reliable")
 func recieve_player_list(playerlist):
 	var pid = multiplayer.get_remote_sender_id()
