@@ -41,7 +41,7 @@ Also add `WebVersionHost/auth.html` (e.g. `https://jdavisbro.github.io/DrawDogOn
 
 Requires
 
-- [Godot 4.2.1](https://godotengine.org/download/archive/4.2.1-stable/)
+- [Godot 4.2.2](https://godotengine.org/download/archive/4.2.2-stable/)
 - [UndertaleModTool](https://github.com/krzys-h/UndertaleModTool/)
 
 First (before opening the repo in Godot) create an Export_Sprites and Exported_Sounds with UndertaleModTool and move it to this repo dir.
