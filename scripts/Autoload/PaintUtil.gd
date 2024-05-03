@@ -41,7 +41,7 @@ func update_diff(paint, color, position):
 		return
 	paint.paint_diff.put(position.x, position.y, color)
 	if not paint.paint_diff_changed:
-		paint.paint_diff_rect = Rect2(position, Vector2.ONE*2)
+		paint.paint_diff_rect = Rect2(position, Vector2.ONE)
 	else:
 		paint.paint_diff_rect = paint.paint_diff_rect.expand(position)
 		paint.paint_diff_rect = paint.paint_diff_rect.expand(position+Vector2.ONE)
@@ -66,7 +66,7 @@ func undo_diff(paint, _color, position, me, diff):
 		return
 	paint.undo_diff.put(position.x, position.y, paint.paint.at(position.x, position.y))
 	if not paint.undo_diff_changed:
-		paint.undo_diff_rect = Rect2(position, Vector2.ONE*2)
+		paint.undo_diff_rect = Rect2(position, Vector2.ONE)
 	else:
 		paint.undo_diff_rect = paint.undo_diff_rect.expand(position)
 		paint.undo_diff_rect = paint.undo_diff_rect.expand(position+Vector2.ONE)
