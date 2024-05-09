@@ -245,11 +245,14 @@ func request_move_to_level(pid, userinfo, level):
 	MultiplayerManager.complete_level_move.rpc_id(pid, level)
 
 func set_palette(_pid, palette, level):
-	if palettes[level] != palette:
-		palettes[level] = palette
-		if level not in paint_changed:
-			paint_changed.append(level)
-		save_required = true
+	if palettes[level] == palette:
+		return
+	if not MultiplayerManager.palette_sanity_check(palettes[level], palette):
+		return
+	palettes[level] = palette
+	if level not in paint_changed:
+		paint_changed.append(level)
+	save_required = true
 
 ## Dog
 

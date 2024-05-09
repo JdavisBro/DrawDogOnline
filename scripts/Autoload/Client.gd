@@ -228,6 +228,7 @@ func recieve_level_paint(_pid, newpaint, size, level, palette):
 	if level == Global.current_level:
 		Global.paint_target.clear_paint()
 		Global.paint_target.paint.array = MultiplayerManager.decompress_paint(newpaint, size)
+		Global.palette = []
 		set_palette(_pid, palette, level)
 	elif player_list:
 		player_list.set_paint(level, MultiplayerManager.decompress_paint(newpaint, size), palette)
@@ -264,13 +265,17 @@ func client_level_moved(pid, userinfo, level):
 		add_puppet(pid, userinfo)
 
 func set_palette(_pid, palette, level):
-	if level == Global.current_level:
-		Global.palette = palette
-		Global.paint_target.palette = palette
-		Global.paint_target.update_palette()
-		dog.brush.color_index = min(dog.brush.color_index, len(Global.palette)-1)
-	elif player_list:
+	if player_list:
 		player_list.update_palette(level, palette)
+		return
+	if level != Global.current_level:
+		return
+	if not MultiplayerManager.palette_sanity_check(Global.palette, palette):
+		return
+	Global.palette = palette
+	Global.paint_target.palette = palette
+	Global.paint_target.update_palette()
+	dog.brush.color_index = min(dog.brush.color_index, len(Global.palette)-1)
 
 ## Dogs
 

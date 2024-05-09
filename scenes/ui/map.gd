@@ -57,6 +57,8 @@ func _process(_delta):
 		node.update_paint()
 
 func update_palette(level, palette):
+	if not MultiplayerManager.palette_sanity_check(paints[level].palette, palette):
+		return
 	paints[level].palette = palette
 	paints[level].update_palette()
 

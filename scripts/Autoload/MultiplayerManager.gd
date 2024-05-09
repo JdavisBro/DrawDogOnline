@@ -217,6 +217,9 @@ func set_palette(palette, level):
 	if not is_authenticated(pid): return
 	client.set_palette(pid, palette, level)
 
+func palette_sanity_check(old_palette, new_palette):
+	return old_palette.size() <= new_palette.size()
+
 @rpc("authority", "call_remote", "reliable", 3)
 func recieve_level_paint(newpaint, size, level, palette):
 	var pid = multiplayer.get_remote_sender_id()
