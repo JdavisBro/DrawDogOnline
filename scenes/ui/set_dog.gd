@@ -46,6 +46,7 @@ func _ready():
 	$VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/ClothesPickerButton.color = newdog.color.clothes
 	$VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/HatPickerButton.color = newdog.color.hat
 	$VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/BrushPickerButton.color = newdog.color.brush_handle
+	$VBoxContainer/MarginContainer/HBoxContainer/Close.grab_focus()
 
 func _process(_delta):
 	brush.global_position = dog.body.global_position + (Vector2(0, -15)*5)

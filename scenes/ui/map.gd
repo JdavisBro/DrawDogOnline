@@ -137,6 +137,7 @@ func _ready():
 	Global.paint_target.pause_process = true
 	MultiplayerManager.client.player_list = self
 	MultiplayerManager.get_map_player_list.rpc_id(1)
+	$VBoxContainer/MarginContainer/HBoxContainer/Close.grab_focus()
 
 func before_close():
 	MultiplayerManager.client.player_list = null

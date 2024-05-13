@@ -75,6 +75,7 @@ func _ready():
 	
 	palette_item.select(0)
 	ingame_tree.set_selected(ingame_tree_root.get_child(0), 0)
+	$VBoxContainer/MarginContainer/HBoxContainer/Close.grab_focus()
 
 func _on_plus_button_pressed():
 	if len(newpalette) < 15:

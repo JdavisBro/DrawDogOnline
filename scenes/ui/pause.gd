@@ -5,6 +5,14 @@ var submenu = null
 func _process(_delta):
 	if !Global.pause_enable:
 		return
+	if is_instance_valid(submenu):
+		for button in $VBoxContainer/ButtonsMargin/HFlowContainer.get_children():
+			if button.has_focus():
+				button.release_focus()
+			button.focus_mode = FOCUS_NONE
+	else:
+		for button in $VBoxContainer/ButtonsMargin/HFlowContainer.get_children():
+			button.focus_mode = FOCUS_ALL
 	if Input.is_action_just_pressed("pause", true) and not get_tree().paused:
 		get_tree().paused = true
 		visible = true

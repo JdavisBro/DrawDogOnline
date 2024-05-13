@@ -7,6 +7,7 @@ const TITLE_NEEDED = [Settings.SettingType.INT_LIST, Settings.SettingType.FLOAT_
 var newvalues = {}
 
 func _ready():
+	$VBoxContainer/MarginContainer/HBoxContainer/Close.grab_focus()
 	for prop in Settings.SETTING_INFO:
 		var val = Settings.SETTING_INFO[prop]
 		var setting_type = val.type
