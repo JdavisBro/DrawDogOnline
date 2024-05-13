@@ -1,7 +1,5 @@
 extends Node2D
 
-
-
 @onready var sfx = {
 	"sfx_footsteps": $footsteps,
 	"sfx_jump": $jump,
@@ -11,21 +9,22 @@ extends Node2D
 	"sfx_turn": $turn
 }
 
-var frame_counter = 0
-var step_frequency = 20
+var step_timer = 0.0
+var step_frequency = 0.3334
 var running = false
+var anim_speed = 1.0
 
 func set_not_puppet():
 	for s in sfx:
 		sfx[s].set_bus("DogSounds")
 
-func _process(_delta):
+func _process(delta):
 	if running:
-		frame_counter += 1
-		if frame_counter == step_frequency:
-			frame_counter = 0
+		step_timer += delta * anim_speed
+		prints(step_timer, anim_speed)
+		if step_timer >= step_frequency:
+			step_timer = fmod(step_timer, step_frequency)
 			play_sound("sfx_footsteps")
-
 
 func play_sound(sound):
 	sfx[sound].play()
@@ -33,12 +32,12 @@ func play_sound(sound):
 func start_running():
 	if not running:
 		running = true
-		frame_counter = 0
+		step_timer = 0
 
 func stop_running():
 	if running:
 		running = false
-		frame_counter = 0
+		step_timer = 0
 
 func jump():
 	stop_running()
@@ -47,4 +46,4 @@ func jump():
 	
 func turn_around():
 	play_sound("sfx_turn")
-	frame_counter = 8
+	step_timer = 8

@@ -84,6 +84,7 @@ func _ready():
 			load_frames(anim, l[0], l[1])
 
 func _process(delta):
+	sfx.anim_speed = speed_scale
 	var f = int(frame / 10)
 	if animation_name == "jump":
 		position.y = initial_pos.y - 70*sin( min(frame/10, len(sprites_ear)-2) * ( PI/(len(sprites_ear)-2) ) )
