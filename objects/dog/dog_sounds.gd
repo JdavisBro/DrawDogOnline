@@ -21,7 +21,6 @@ func set_not_puppet():
 func _process(delta):
 	if running:
 		step_timer += delta * anim_speed
-		prints(step_timer, anim_speed)
 		if step_timer >= step_frequency:
 			step_timer = fmod(step_timer, step_frequency)
 			play_sound("sfx_footsteps")
