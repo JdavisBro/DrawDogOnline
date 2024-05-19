@@ -66,7 +66,7 @@ func _on_server_disconnected():
 
 # Util
 
-func get_ip_port(newip):
+func set_ip_port(newip):
 	if ":" in newip:
 		var both = newip.split(":")
 		ip = both[0]
@@ -80,6 +80,9 @@ func get_ip_port(newip):
 		else:
 			port = DEFAULT_PORT
 	return true
+
+func get_ip():
+	return "%s%s:%s" % [MultiplayerManager.protocol, MultiplayerManager.ip, MultiplayerManager.port]
 
 func level_in_bounds(level):
 	return Vector3(clamp(level.x, -LEVEL_RANGE.x, LEVEL_RANGE.x), clamp(level.y, -LEVEL_RANGE.y, LEVEL_RANGE.y), 0)
@@ -301,11 +304,17 @@ func join_leave_message(username, joined):
 	client.join_leave_message(pid, username, joined)
 
 @rpc("any_peer", "call_remote", "reliable")
-func get_map_player_list():
+func get_map_player_list(paint_update_times):
 	var pid = multiplayer.get_remote_sender_id()
 	if not server: return
 	if not is_authenticated(pid): return
-	client.get_map_player_list(pid)
+	client.get_map_player_list(pid, paint_update_times)
+
+@rpc("authority", "call_remote", "reliable")
+func map_unchanged_levels(unchanged_levels):
+	var pid = multiplayer.get_remote_sender_id()
+	if server: return
+	client.map_unchanged_levels(pid, unchanged_levels)
 
 @rpc("any_peer", "call_remote", "reliable")
 func map_closed():

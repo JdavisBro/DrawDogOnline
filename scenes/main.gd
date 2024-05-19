@@ -31,7 +31,7 @@ func process_arg(key, value=""):
 		"join-server":
 			start_connection = true
 			server = false
-			MultiplayerManager.get_ip_port(value)
+			MultiplayerManager.set_ip_port(value)
 			scene_changed = true
 		"--winpos":
 			var val = value.split(",")

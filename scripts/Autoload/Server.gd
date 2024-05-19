@@ -2,6 +2,7 @@ extends Node
 
 var saved_levels = {}
 var paint = {}
+var paint_times = {}
 var palettes = {}
 var paint_changed = []
 var save_required = true
@@ -43,7 +44,7 @@ func save_levels():
 		var palette = []
 		for col in palettes[level]:
 			palette.append("#" + col.to_html(false))
-		saved_levels[levelstr] = {"paintsize": lpaint[0], "paint": Marshalls.raw_to_base64(lpaint[1]), "palette": palette}
+		saved_levels[levelstr] = {"paintsize": lpaint[0], "paint": Marshalls.raw_to_base64(lpaint[1]), "palette": palette, "time": paint_times[level]}
 	var file = FileAccess.open("user://levels.json", FileAccess.WRITE)
 	paint_changed = []
 	file.store_line(JSON.stringify(saved_levels))
@@ -115,6 +116,7 @@ func load_paint():
 			paintstr = Marshalls.base64_to_raw(paintstr)
 			paint[level] = PackedByteArray2D.new()
 			paint[level].array = MultiplayerManager.decompress_paint_v1(paintstr, size)
+			paint_times[level] = 0
 		save_levels()
 		file.close()
 		DirAccess.open("user://").remove("paint.txt")
@@ -136,6 +138,10 @@ func load_paint():
 			paint[level] = PackedByteArray2D.new()
 			paint[level].array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(leveldata.paint), leveldata.paintsize, version)
 			palettes[level] = []
+			if "time" in leveldata:
+				paint_times[level] = leveldata.time
+			else:
+				paint_times[level] = 0
 			for col in leveldata.palette:
 				palettes[level].append(Color(col))
 	if version < MultiplayerManager.CURRENT_PAINT_VERSION:
@@ -213,6 +219,7 @@ func auth_login(pid, tokens):
 
 func draw_diff_to_server(pid, size, diff, rect, level):
 	MultiplayerManager.draw_diff_from_server.rpc(size, diff, rect, level, pid)
+	paint_times[level] = Time.get_unix_time_from_system()
 	diff = MultiplayerManager.decode_diff(diff, size)
 	var i = 0
 	for y in range(rect.size.y):
@@ -253,6 +260,7 @@ func set_palette(_pid, palette, level):
 	if level not in paint_changed:
 		paint_changed.append(level)
 	save_required = true
+	paint_times[level] = Time.get_unix_time_from_system()
 
 ## Dog
 
@@ -299,10 +307,18 @@ func chat_message_global(_pid, username, level, message):
 func sort_by_distance(a, b, position):
 	return a.distance_squared_to(position) < b.distance_squared_to(position)
 
-func get_map_player_list(pid):
+func get_map_player_list(pid, paint_update_times):
 	MultiplayerManager.recieve_player_list.rpc_id(pid, players)
 	map_paint_requests[pid] = paint.keys()
+	var unchanged_levels = PackedVector3Array()
+	for level in paint_update_times:
+		if level not in paint:
+			continue
+		if paint_update_times[level] >= paint_times[level]:
+			map_paint_requests[pid].erase(level)
+			unchanged_levels.append(level)
 	map_paint_requests[pid].sort_custom(sort_by_distance.bind(player_location[pid]))
+	MultiplayerManager.map_unchanged_levels.rpc_id(pid, unchanged_levels)
 
 const MAP_LEVEL_PER_SECOND = 20.0
 var map_timer = 0

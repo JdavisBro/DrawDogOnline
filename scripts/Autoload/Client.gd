@@ -26,6 +26,10 @@ var auth_error: String = ""
 var client_id
 var server_player = {"dog": null, "username": null}
 
+var paint_cache = {}
+var cache_save_timer = 0.0
+var CACHE_SAVE_INTERVAL = 10.0
+
 # Signal
 
 func on_player_disconnected(id):
@@ -55,7 +59,32 @@ func on_server_disconnected():
 
 # Builtin
 
+func save_paint_cache(delta):
+	if cache_save_timer > 0:
+		cache_save_timer -= delta
+		if cache_save_timer <= 0:
+			print("Saving paint cache")
+			var data = {}
+			for level in paint_cache:
+				var level_serialized = "%s,%s,%s" % [level.x, level.y, level.z]
+				data[level_serialized] = {}
+				data[level_serialized].paint = Marshalls.raw_to_base64(paint_cache[level].paint)
+				data[level_serialized].size = paint_cache[level].size
+				var palette = []
+				for col in paint_cache[level].palette:
+					palette.append("#" + col.to_html(false))
+				data[level_serialized].palette = palette
+				data[level_serialized].time = paint_cache[level].time
+			var ip = MultiplayerManager.get_ip()
+			var path = "user://paint_cache/%s.json" % ip.validate_filename()
+			if not DirAccess.dir_exists_absolute("user://paint_cache/"):
+				DirAccess.make_dir_absolute("user://paint_cache/")
+			var file = FileAccess.open(path, FileAccess.WRITE_READ)
+			if file:
+				file.store_string(JSON.stringify(data))
+
 func _process(delta):
+	save_paint_cache(delta)
 	if not timeout_enable:
 		return
 	timeout += delta
@@ -136,15 +165,33 @@ func change_level(level, position):
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 	get_tree().paused = true
 
-func get_ip():
-	return "%s%s:%s" % [MultiplayerManager.protocol, MultiplayerManager.ip, MultiplayerManager.port]
-
 func enter_level():
 	get_tree().change_scene_to_file("res://scenes/level.tscn")
 	await get_tree().node_added
 	MultiplayerManager.request_move_to_level.rpc_id(1, me, Global.current_level)
 
 # Start
+
+func get_paint_cache():
+	var ip = MultiplayerManager.get_ip()
+	var path = "user://paint_cache/%s.json" % ip.validate_filename()
+	if not FileAccess.file_exists(path):
+		return {}
+	var file = FileAccess.open(path, FileAccess.READ)
+	var data = JSON.parse_string(file.get_as_text())
+	if not data:
+		return {}
+	for level_serialized in data.keys():
+		var level = level_serialized.split(",")
+		level = Vector3(int(level[0]), int(level[1]), int(level[2]))
+		data[level] = data[level_serialized]
+		var palette = []
+		for col in data[level].palette:
+			palette.append(Color(col))
+		data[level].palette = palette
+		data[level].paint = Marshalls.base64_to_raw(data[level].paint)
+		data.erase(level_serialized)
+	return data
 
 func start():
 	timeout_enable = true
@@ -166,6 +213,7 @@ func start():
 		Settings.last_server_ip = "%s:%d" % [MultiplayerManager.ip, MultiplayerManager.port]
 	Settings.last_server_protocol = MultiplayerManager.protocol
 	Settings.save()
+	paint_cache = get_paint_cache()
 
 # RPC
 
@@ -184,7 +232,7 @@ func request_auth(_pid, auth_type, server_client_id):
 	timeout_enable = false
 	MultiplayerManager.auth_type = auth_type
 	if auth_type == "discord":
-		var tokens = get_server_auth_tokens(get_ip())
+		var tokens = get_server_auth_tokens(MultiplayerManager.get_ip())
 		if tokens:
 			# tokens = {"access_token": "a", "refresh_token": "a"} # invalid token test
 			MultiplayerManager.auth_login.rpc_id(1, tokens)
@@ -193,7 +241,7 @@ func request_auth(_pid, auth_type, server_client_id):
 
 func auth_logged_in(_pid, tokens, userinfo, authenticated, prev_users):
 	MultiplayerManager.authenticated_players = authenticated
-	set_server_auth_tokens(get_ip(), tokens)
+	set_server_auth_tokens(MultiplayerManager.get_ip(), tokens)
 	print("Logged in as %s" % userinfo.username)
 	var login = get_node_or_null("/root/Login")
 	if not login:
@@ -206,7 +254,7 @@ func auth_logged_in(_pid, tokens, userinfo, authenticated, prev_users):
 	login.logged_in()
 
 func auth_failed(_pid, error_message):
-	set_server_auth_tokens(get_ip(), null)
+	set_server_auth_tokens(MultiplayerManager.get_ip(), null)
 	auth_error = error_message
 	print(auth_error)
 	var login = get_node("/root/Login")
@@ -221,6 +269,10 @@ func draw_diff(_pid, size, diff, rect, level, user):
 	diff = MultiplayerManager.decode_diff(diff, size)
 	if level == Global.current_level:
 		PaintUtil.apply_diff(Global.paint_target, diff, rect, user)
+		var compressed = MultiplayerManager.compress_paint(Global.paint_target.paint)
+		paint_cache[level] = {"size": compressed[0], "paint": compressed[1], "palette": Global.paint_target.palette, "time": Time.get_unix_time_from_system()}
+		if cache_save_timer <= 0:
+			cache_save_timer = CACHE_SAVE_INTERVAL
 	elif player_list:
 		player_list.update_paint(level, diff, rect)
 
@@ -232,6 +284,9 @@ func recieve_level_paint(_pid, newpaint, size, level, palette):
 		set_palette(_pid, palette, level)
 	elif player_list:
 		player_list.set_paint(level, MultiplayerManager.decompress_paint(newpaint, size), palette)
+	paint_cache[level] = {"size": size, "paint": newpaint, "palette": palette, "time": Time.get_unix_time_from_system()}
+	if cache_save_timer <= 0:
+		cache_save_timer = CACHE_SAVE_INTERVAL
 
 ## Puppets
 
@@ -342,3 +397,8 @@ func recieve_player_list(_pid, playerlist):
 	if player_list:
 		player_list.set_players(playerlist)
 
+## Map
+
+func map_unchanged_levels(_pid, unchanged_levels):
+	if player_list:
+		player_list.set_unchanged_levels(unchanged_levels)

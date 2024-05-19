@@ -27,12 +27,12 @@ func _process(_delta):
 	if get_tree().paused and not pause_process:
 		return
 	if update_needed:
-		update_paint()
+		update_paint_rect()
 
 func update_palette():
 	force_update()
 
-func update_paint():
+func update_paint_rect():
 	var newrect = Rect2(Vector2.ZERO, size)
 	if not newrect.encloses(update_rect):
 		update_rect = newrect
@@ -46,5 +46,29 @@ func update_paint():
 			else:
 				image.set_pixel(x, y, palette[(col-1) % palette.size()])
 			updated.set_bit(x, y, true)
+	update_needed = false
+	sprite.texture.update(image)
+
+func update_paint():
+	var x = 0
+	var y = 0
+	for col in paint.array:
+		if x == paint.size.x:
+			y += 1
+			x = 0
+		if x >= size.x:
+			x += 1
+			continue
+		if y >= size.y:
+			break
+		#if updated.get_bit(x, y):
+			#continue
+		if col == 0:
+			image.set_pixel(x, y, Color.WHITE)
+		else:
+			image.set_pixel(x, y, palette[(col-1) % palette.size()])
+		#updated.set_bit(x, y, true)
+		x += 1
+	updated.set_bit_rect(Rect2i(Vector2i(), Vector2i(size)), true)
 	update_needed = false
 	sprite.texture.update(image)

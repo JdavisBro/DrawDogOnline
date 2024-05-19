@@ -29,8 +29,15 @@ func set_teleport(level, pos):
 	teleport.text = "Teleport to %d,%d,%d" % [level.x, level.y, level.z]
 	teleport.disabled = false
 
-func set_paint(level, paint, palette):
+func set_paint(level, paint, palette, local=false):
 	if level == Global.current_level:
+		return
+	if level in paints:
+		paints[level].paint.array = paint
+		paints[level].palette = palette
+		paints[level].modulate.a = 1.0
+		if paints[level] not in update_needed:
+			update_needed.push_front(paints[level])
 		return
 	var node
 	node = minimal_paint_node.instantiate()
@@ -43,6 +50,8 @@ func set_paint(level, paint, palette):
 	mapviewport.add_child(node)
 	node.paint.array = paint
 	node.update_needed = false
+	if local:
+		node.modulate.a = 0.7
 	update_needed.append(node)
 
 func update_paint(level, diff, rect):
@@ -50,11 +59,23 @@ func update_paint(level, diff, rect):
 		MultiplayerManager.request_map_paint.rpc_id(1, level)
 		return
 	PaintUtil.apply_diff(paints[level], diff, rect)
+	paints[level].modulate.a = 1.0
+
+func set_unchanged_levels(unchanged_levels):
+	for level in unchanged_levels:
+		if level in paints:
+			paints[level].modulate.a = 1.0
+
+const MAX_UPDATE_TIME = 80 #ms
 
 func _process(_delta):
-	if update_needed:
-		var node = update_needed.pop_front()
-		node.update_paint()
+	var start_time = Time.get_ticks_msec()
+	while (Time.get_ticks_msec() - start_time) < MAX_UPDATE_TIME:
+		if not update_needed:
+			return
+		update_needed.pop_front().update_paint()
+		if (Time.get_ticks_msec() - start_time) > MAX_UPDATE_TIME:
+			return
 
 func update_palette(level, palette):
 	if not MultiplayerManager.palette_sanity_check(paints[level].palette, palette):
@@ -125,6 +146,9 @@ func head_input(event: InputEvent, pid):
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			mapviewport.get_node("Camera2D").position = heads[pid].position
 
+func sort_by_distance(a, b, middle_position):
+	return a.distance_squared_to(middle_position) < b.distance_squared_to(middle_position)
+
 func _ready():
 	add_player(MultiplayerManager.uid, MultiplayerManager.client.me, Global.current_level, true)
 	var node = Sprite2D.new()
@@ -136,8 +160,16 @@ func _ready():
 	mapviewport.add_child(node)
 	Global.paint_target.pause_process = true
 	MultiplayerManager.client.player_list = self
-	MultiplayerManager.get_map_player_list.rpc_id(1)
+	var paint_times = {}
+	for level in MultiplayerManager.client.paint_cache:
+		paint_times[level] = MultiplayerManager.client.paint_cache[level].time
+	MultiplayerManager.get_map_player_list.rpc_id(1, paint_times)
 	$VBoxContainer/MarginContainer/HBoxContainer/Close.grab_focus()
+	var levels = MultiplayerManager.client.paint_cache.keys()
+	levels.sort_custom(sort_by_distance.bind(Vector3(Global.current_level.x, Global.current_level.y, 0)))
+	for level in levels:
+		var paint_data = MultiplayerManager.client.paint_cache[level]
+		set_paint(level, MultiplayerManager.decompress_paint(paint_data.paint, paint_data.size), paint_data.palette, true)
 
 func before_close():
 	MultiplayerManager.client.player_list = null

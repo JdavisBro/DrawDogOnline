@@ -69,7 +69,7 @@ func _process(_delta):
 func _on_join_button_pressed():
 	Global.current_level = Vector3.ZERO
 	MultiplayerManager.protocol = protocolselect.text
-	if not MultiplayerManager.get_ip_port(ipenter.text):
+	if not MultiplayerManager.set_ip_port(ipenter.text):
 		iptitle.text = "IP - Invalid:"
 		return
 	if Settings.username != usernameenter.text.strip_edges():
