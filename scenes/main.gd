@@ -7,7 +7,20 @@ var scene_changed = false
 var start_connection = false
 var server = false
 
-func process_arg(key, value=""):
+func parse_uri(uri: String):
+	uri = uri.uri_decode().trim_prefix("drawdogonline://").trim_prefix("DrawDogOnline://")
+	match uri.get_slice("/", 0):
+		"join":
+			var ip = uri.trim_prefix("join/")
+			if ip.begins_with("wss://"):
+				ip = ip.trim_prefix("wss://")
+				MultiplayerManager.protocol = "wss://"
+			else:
+				ip = ip.trim_prefix("ws://")
+				MultiplayerManager.protocol = "ws://"
+			MultiplayerManager.uri_used = ip
+
+func process_arg(key: String, value: String=""):
 	match key:
 		"--authtype":
 			if value in ["discord"]:
@@ -48,6 +61,9 @@ func _ready():
 	var getting_value = false
 	var args = OS.get_cmdline_args()
 	for value in args:
+		if value.to_lower().begins_with("drawdogonline://"):
+			parse_uri(value)
+			continue
 		if value.is_absolute_path(): continue
 		if not getting_value:
 			key = value

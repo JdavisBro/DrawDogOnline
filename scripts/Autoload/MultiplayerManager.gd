@@ -23,6 +23,8 @@ var uid = 0
 var auth_type = null
 var authenticated_players = {} # pid: discorduserinfo
 
+var uri_used = ""
+
 func _ready():
 	multiplayer.peer_connected.connect(_on_player_connected)
 	multiplayer.peer_disconnected.connect(_on_player_disconnected)

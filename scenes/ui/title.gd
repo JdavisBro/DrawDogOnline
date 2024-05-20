@@ -34,10 +34,15 @@ func _ready():
 	status.text = MultiplayerManager.connection_status
 	usernameenter.text = Settings.username
 	
-	ipenter.text = Settings.last_server_ip
-	protocolselect.select(0)
-	if Settings.last_server_protocol == "wss://":
-		protocolselect.select(1)
+	if MultiplayerManager.uri_used:
+		protocolselect.select(int(MultiplayerManager.protocol == "wss://"))
+		ipenter.text = MultiplayerManager.uri_used
+		MultiplayerManager.uri_used = ""
+	else:
+		ipenter.text = Settings.last_server_ip
+		protocolselect.select(0)
+		if Settings.last_server_protocol == "wss://":
+			protocolselect.select(1)
 	
 	if OS.has_feature("web"):
 		var search = JavaScriptBridge.eval("window.location.search")
