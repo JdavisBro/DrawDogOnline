@@ -84,6 +84,7 @@ func apply_diff(paint, diff, rect, pid=0, multiplayer_diff=true):
 			i += 1
 
 func draw_rect(paint, color: int, rect: Rect2):
+	print(rect)
 	rect = ensure_rect_bounds(paint.size, rect)
 	for x in range(rect.position.x, rect.end.x):
 		for y in range(rect.position.y, rect.end.y):
@@ -91,6 +92,45 @@ func draw_rect(paint, color: int, rect: Rect2):
 			update_pos(paint, color, position)
 
 func draw_line(paint, color: int, start: Vector2, end: Vector2, thickness: int=1):
+	if start.distance_to(end) == 0:
+		update_pos(paint, color, start)
+		return
+	var update_line_pos = func(pos): update_pos(paint, color, pos)
+	if thickness > 1:
+		var half_thickness = int(thickness) / 2
+		var angle = start.angle_to_point(end)
+		var start1 = (start + Vector2.from_angle(angle - PI/2) * half_thickness).snapped(Vector2.ONE)
+		var start2 = (start + Vector2.from_angle(angle + PI/2) * half_thickness).snapped(Vector2.ONE)
+		var end1 = (end + Vector2.from_angle(angle - PI/2) * half_thickness).snapped(Vector2.ONE)
+		bresenham(start1, start2, func(pos): bresenham(pos, end1 + (pos - start1), update_line_pos))
+		return
+	if start == end:
+		print(start, end)
+		update_pos(paint, color, start)
+		return
+	bresenham(start, end, update_line_pos)
+
+func bresenham(start: Vector2, end: Vector2, function: Callable):
+	var position = start
+	var dx = abs(end.x - start.x)
+	var sx = 1 if start.x < end.x else -1
+	var dy = -abs(end.y - start.y)
+	var sy = 1 if start.y < end.y else -1
+	var error = dx + dy
+	while true:
+		function.call(position)
+		var e2 = 2 * error
+		if e2 >= dy:
+			if (sx == 1 and position.x >= end.x) or (sx == -1 and position.x <= end.x): break
+			error += dy
+			position.x += sx
+		elif e2 <= dx:
+			if (sy == 1 and position.y >= end.y) or (sy == -1 and position.y <= end.y): break
+			error += dx
+			position.y += sy 
+
+
+func draw_line_old(paint, color: int, start: Vector2, end: Vector2, thickness: int=1):
 	if start.distance_to(end) == 0:
 		update_pos(paint, color, start)
 		return
@@ -107,7 +147,7 @@ func draw_line(paint, color: int, start: Vector2, end: Vector2, thickness: int=1
 		var done_end = []
 		while true:
 			if start1 not in done_start and end1 not in done_end:
-				draw_line(paint, color, start1, end1)
+				draw_line_old(paint, color, start1, end1)
 				done_start.append(start1)
 				done_start.append(end1)
 			if start1 == start2:

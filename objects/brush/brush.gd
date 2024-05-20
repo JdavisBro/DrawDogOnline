@@ -208,8 +208,6 @@ func _physics_process(delta):
 	prev_draw_col = draw_col
 	prev_drawing = drawing
 	prev_size = size
-	
-	
 
 func setup_styles():
 	# add a ui and loading and stuff when there are more than 4 brush styles. or before, whatever.
