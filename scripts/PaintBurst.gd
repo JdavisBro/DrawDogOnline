@@ -60,7 +60,7 @@ func _process(delta):
 		queue_free()
 
 func add_newpos(newpos):
-	if newpos.x > paint.size.x-1 or newpos.x < 0 or newpos.y > paint.size.y-1 or newpos.y < 0:
+	if newpos.x >= paint.size.x or newpos.x < 0 or newpos.y >= paint.size.y or newpos.y < 0:
 		return
 	if not done.get_bitv(newpos):
 		done.set_bitv(newpos, true)

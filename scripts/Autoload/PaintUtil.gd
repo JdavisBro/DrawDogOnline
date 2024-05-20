@@ -2,8 +2,8 @@ extends Node
 
 func ensure_bounds(size: Vector2, position: Vector2):
 	var newpos = position.clamp(Vector2.ZERO, size-Vector2.ONE).round()
-	if newpos != position:
-		pass#push_warning("Paint drawing out of paint bounds.")
+	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
+		return Vector2.INF
 	return newpos
 
 func ensure_rect_bounds(size: Vector2, rect: Rect2):
@@ -17,6 +17,8 @@ func ensure_rect_bounds(size: Vector2, rect: Rect2):
 
 func update_pos(paint, color: int, position: Vector2, me=true, diff=false):
 	position = ensure_bounds(paint.size, position)
+	if position.x == INF:
+		return
 	undo_diff(paint, color, position, me, diff)
 	if paint.paint.at(position.x, position.y) == color:
 		return
