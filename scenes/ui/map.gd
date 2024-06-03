@@ -105,7 +105,7 @@ func add_player(pid, userdata, level, adding_self=false):
 	if adding_self:
 		head.get_node("username").add_theme_color_override("font_color", Color("5c7aff"))
 	head.get_node("username").text = userdata.username
-	head.position = userdata.position + (screen * Vector2(level.x, level.y))
+	head.position = userdata.position / 12.0 + (screen * Vector2(level.x, level.y))
 	head.name = userdata.username
 	head.set_dog_dict(userdata.dog)
 
@@ -120,7 +120,7 @@ func set_player(pid, userdata, level):
 		players[pid].dog_dict = userdata.dog
 		players[pid].level = level
 		players[pid].setup()
-		heads[pid].position = userdata.position + (screen * Vector2(level.x, level.y))
+		heads[pid].position = userdata.position / 12.0 + (screen * Vector2(level.x, level.y))
 		heads[pid].set_dog_dict(userdata.dog)
 	else:
 		add_player(pid, userdata, level)
@@ -132,7 +132,7 @@ func update_dog(pid, newdog):
 
 func update_head_position(pid, newpos):
 	if pid in players:
-		heads[pid].position = newpos + (screen * Vector2(players[pid].level.x, players[pid].level.y))
+		heads[pid].position = newpos / 12.0 + (screen * Vector2(players[pid].level.x, players[pid].level.y))
 
 func remove_player(pid):
 	if pid in players:
@@ -153,9 +153,10 @@ func _ready():
 	add_player(MultiplayerManager.uid, MultiplayerManager.client.me, Global.current_level, true)
 	var node = Sprite2D.new()
 	node.texture = Global.paint_target.get_node("DisplaySprite").texture
-	node.material = Global.paint_target.get_node("DisplaySprite").material
+	#node.material = Global.paint_target.get_node("DisplaySprite").material
 	node.name = "%d,%d" % [Global.current_level.x, Global.current_level.y]
 	node.position = screen * Vector2(Global.current_level.x, Global.current_level.y)
+	node.scale = Vector2(1 / 12.0, 1 / 12.0)
 	node.centered = false
 	mapviewport.add_child(node)
 	Global.paint_target.pause_process = true
