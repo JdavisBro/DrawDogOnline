@@ -7,14 +7,14 @@ extends SubViewportContainer
 var moving = false
 var selecting = false
 
-var ZOOM_MIN = 0.018
-var ZOOM_MAX = 10.0
+var ZOOM_MIN = 0.22
+var ZOOM_MAX = 5
 
 func get_teleport(event):
 	var viewcorner = camera.get_screen_center_position() - (Vector2(viewport.size)/camera.zoom/2.0)
 	var pos = viewcorner + (event.position/camera.zoom)
-	var screen_pos = pos.posmodv(Vector2(1920, 1080))
-	var screen = (pos / Vector2(1920, 1080)).floor().clamp(Vector2(-20,-20), Vector2(20, 20))
+	var screen_pos = pos.posmodv(Vector2(160, 90))
+	var screen = (pos / Vector2(160, 90)).floor().clamp(Vector2(-20,-20), Vector2(20, 20))
 	screen = Vector3(screen.x, screen.y, 0)
 	map.set_teleport(screen, screen_pos)
 

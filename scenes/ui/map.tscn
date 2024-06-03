@@ -16,7 +16,7 @@ func _draw():
 			elif y % 2 != 0:
 				box = true
 			if box:
-				draw_rect(Rect2(x*1920, y*1080, 1920, 1080), Color(0,0,0,0.1))
+				draw_rect(Rect2(x*160, y*90, 160, 90), Color(0,0,0,0.1))
 "
 
 [node name="map" type="Control"]
@@ -65,11 +65,10 @@ z_index = -101
 script = SubResource("GDScript_vkiip")
 
 [node name="Camera2D" type="Camera2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
-zoom = Vector2(0.1, 0.1)
-limit_left = -38400
-limit_top = -21600
-limit_right = 40320
-limit_bottom = 22680
+limit_left = -3200
+limit_top = -1800
+limit_right = 3360
+limit_bottom = 1890
 
 [node name="heads" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
 z_index = 1

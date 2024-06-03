@@ -11,7 +11,7 @@ var update_needed = []
 
 var minimal_paint_node = load("res://objects/minimal_paint.tscn")
 
-var screen = Vector2(1920, 1080)
+var screen = Vector2(160, 90)
 
 var updating = true
 

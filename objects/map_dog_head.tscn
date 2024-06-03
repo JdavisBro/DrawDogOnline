@@ -7,7 +7,6 @@
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="5_l6778"]
 
 [node name="map_dog_head" type="Node2D"]
-scale = Vector2(3, 3)
 script = ExtResource("1_r1b11")
 
 [node name="head" type="Node2D" parent="."]
