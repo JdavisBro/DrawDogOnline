@@ -157,6 +157,7 @@ const expressions = [
 	"embarrass",
 	"closed sad"
 ]
+
 func set_expression(expression):
 	var im
 	if expression == "normal":
@@ -290,7 +291,6 @@ func play(anim):
 func play_if_not(anim):
 	if animation_name != anim:
 		play(anim)
-
 
 func play_sounds_on_state_change():
 	if animation_name == "jump":

@@ -49,7 +49,7 @@ dog_animations = [
     # "gasp",
     # "hit",
     "toes",
-    # "lay",
+    "lay",
     "hero",
     "think",
     # "letter",

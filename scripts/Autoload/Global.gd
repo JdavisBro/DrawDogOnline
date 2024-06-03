@@ -21,12 +21,13 @@ var boil_timer := 0.0
 var boil = randf()
 
 const emotes = {
-	"sit": {"name": "Sit", "start": "hop_up", "end": "hop_down"},
+	"sit": {"name": "Sit", "start": "hop_up", "loop": "sit", "end": "hop_down"},
 	"phone": {"name": "Phone Call", "start": "phone"},
 	"hero": {"name": "Hero", "start": "hero"},
-	"hug": {"name": "Hug", "start": "hug_chicory"},
-	"item": {"name": "Item Get", "start": "item"},
-	"knockdown": {"name": "Knockdown",
+	"hug": {"name": "Hug", "preview_frame": 5, "start": "hug_chicory"},
+	"item": {"name": "Item Get", "preview_frame": 9, "start": "item", "start_expression": "grin"},
+	"knockdown": {
+		"name": "Knockdown", "preview_frame": 10, 
 		"start": "knockdown", "start_expression": "knockdown",
 		"end": "assist", "end_expression": "okay",
 	},

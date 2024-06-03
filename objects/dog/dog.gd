@@ -80,6 +80,8 @@ func do_emote(nemote):
 	animation.play(emote.start)
 	if "start_expression" in emote:
 		animation.set_expression(emote.start_expression)
+	else:
+		animation.set_expression("normal")
 	emoting = true
 	emote_ending = false
 	if "loop" in emote:
@@ -95,6 +97,8 @@ func end_emote():
 			animation.set_expression(emote.end_expression)
 		emote_ending = true
 		await animation.animation_complete
+		if not emote_ending:
+			return
 	animation.play("idle")
 	animation.set_expression("normal")
 	emoting = false

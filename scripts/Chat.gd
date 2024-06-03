@@ -91,7 +91,7 @@ func _process(delta):
 		Input.mouse_mode = Input.MOUSE_MODE_VISIBLE
 		Global.paintable = false
 		lineedit.mouse_filter = MOUSE_FILTER_PASS
-	else:
+	elif lineedit.mouse_filter != MOUSE_FILTER_IGNORE:
 		Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 		Global.paintable = true
 		lineedit.mouse_filter = MOUSE_FILTER_IGNORE
