@@ -92,7 +92,8 @@ func draw_rect(paint, color: int, rect: Rect2):
 			update_pos(paint, color, position)
 
 func draw_line(paint, color: int, start: Vector2, end: Vector2, thickness: int=1):
-	if start.distance_to(end) == 0:
+	var dist = start.distance_squared_to(end)
+	if (thickness > 1 and dist == 0) or thickness <= 1 and dist < 1:
 		update_pos(paint, color, start)
 		return
 	var update_line_pos = func(pos): update_pos(paint, color, pos)
