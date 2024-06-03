@@ -108,9 +108,6 @@ func _physics_process(delta):
 	if !Global.chat:
 		moving = do_movement(delta)
 	
-	if Input.is_action_just_pressed("ruler") and not emoting and not moving:
-		do_emote(Global.emotes.knockdown)
-	
 	if emoting and moving and not emote_ending:
 		end_emote()
 	
