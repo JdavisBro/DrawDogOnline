@@ -168,5 +168,4 @@ func get_authnames():
 		$Auth.visible = false
 
 func settings_changed():
-	print("changed")
 	get_authnames()

@@ -84,7 +84,6 @@ func apply_diff(paint, diff, rect, pid=0, multiplayer_diff=true):
 			i += 1
 
 func draw_rect(paint, color: int, rect: Rect2):
-	print(rect)
 	rect = ensure_rect_bounds(paint.size, rect)
 	for x in range(rect.position.x, rect.end.x):
 		for y in range(rect.position.y, rect.end.y):
@@ -106,7 +105,6 @@ func draw_line(paint, color: int, start: Vector2, end: Vector2, thickness: int=1
 		bresenham(start1, start2, func(pos): bresenham(pos, end1 + (pos - start1), update_line_pos))
 		return
 	if start == end:
-		print(start, end)
 		update_pos(paint, color, start)
 		return
 	bresenham(start, end, update_line_pos)

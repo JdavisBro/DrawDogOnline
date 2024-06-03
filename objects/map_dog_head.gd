@@ -19,7 +19,6 @@ func _process(_delta):
 		return
 	var newflip = prev_position.x > position.x
 	if flip != newflip:
-		prints(prev_position.x, position.x)
 		flip = newflip
 		var nextscale = 1
 		if flip:
