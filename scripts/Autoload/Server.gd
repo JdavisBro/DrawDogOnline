@@ -197,7 +197,6 @@ func auth_get_tokens(pid, code, uri):
 
 func auth_login(pid, tokens):
 	var newtokens = await auth.get_user_from_token_or_refresh(tokens)
-	print(newtokens)
 	if newtokens == null:
 		print("Player %s login failed" % pid)
 		MultiplayerManager.auth_failed.rpc_id(pid, "Login failed. Try again")
