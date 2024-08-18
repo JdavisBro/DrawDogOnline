@@ -303,5 +303,3 @@ func play_sounds_on_state_change():
 		sfx.start_running()
 	else:
 		sfx.stop_running()
-
-

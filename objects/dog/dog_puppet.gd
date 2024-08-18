@@ -68,4 +68,3 @@ func update_auth():
 			$Auth/Profile.texture = null
 	else:
 		$Auth.visible = false
-
