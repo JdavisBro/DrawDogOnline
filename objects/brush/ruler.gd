@@ -21,6 +21,8 @@ func _process(_delta):
 	if Input.is_action_just_pressed("ruler"):
 		start = brush.pos.snapped(STEP) - Vector2(6,6)
 		rect = Rect2(start, Vector2.ZERO)
+	if not start:
+		return
 	
 	var newend = brush.pos.snapped(STEP) - Vector2(6,6)
 	if newend != end:
