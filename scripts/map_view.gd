@@ -7,8 +7,9 @@ extends SubViewportContainer
 var moving = false
 var selecting = false
 
-var ZOOM_MIN = 0.22
-var ZOOM_MAX = 5
+const ZOOM_MIN = 0.22
+const ZOOM_MAX = 5
+const ZOOM_SENSITIVITY = 0.2
 
 func get_teleport(event):
 	var viewcorner = camera.get_screen_center_position() - (Vector2(viewport.size)/camera.zoom/2.0)
@@ -34,9 +35,9 @@ func _gui_input(event):
 			MOUSE_BUTTON_LEFT:
 				moving = event.pressed
 			MOUSE_BUTTON_WHEEL_DOWN:
-				scroll -= event.factor/50.0
+				scroll -= event.factor*ZOOM_SENSITIVITY
 			MOUSE_BUTTON_WHEEL_UP:
-				scroll += event.factor/50.0
+				scroll += event.factor*ZOOM_SENSITIVITY
 		if scroll != 0:
 			var newzoom = camera.zoom + Vector2.ONE * (scroll / 4)
 			camera.zoom = newzoom.clamp(Vector2(ZOOM_MIN, ZOOM_MIN), Vector2(ZOOM_MAX, ZOOM_MAX))
