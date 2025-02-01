@@ -41,6 +41,7 @@ func _gui_input(event):
 		if scroll != 0:
 			var newzoom = camera.zoom + Vector2.ONE * (scroll / 4)
 			camera.zoom = newzoom.clamp(Vector2(ZOOM_MIN, ZOOM_MIN), Vector2(ZOOM_MAX, ZOOM_MAX))
+			camera.position = camera.get_screen_center_position()
 
 func _ready():
 	camera.position = (Vector2(Global.current_level.x, Global.current_level.y) * Vector2(192, 108)) + MultiplayerManager.client.me.position / 10
