@@ -43,4 +43,4 @@ func _gui_input(event):
 			camera.zoom = newzoom.clamp(Vector2(ZOOM_MIN, ZOOM_MIN), Vector2(ZOOM_MAX, ZOOM_MAX))
 
 func _ready():
-	camera.position = (Vector2(Global.current_level.x, Global.current_level.y) * Vector2(1920, 1080)) + MultiplayerManager.client.me.position
+	camera.position = (Vector2(Global.current_level.x, Global.current_level.y) * Vector2(192, 108)) + MultiplayerManager.client.me.position / 10
