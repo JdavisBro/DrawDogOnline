@@ -1,6 +1,6 @@
 [gd_resource type="Theme" load_steps=7 format=3 uid="uid://da2feywqtmki"]
 
-[ext_resource type="FontFile" uid="uid://oksyowjco4fg" path="res://assets/Domigorgon_Plus.ttf" id="1_r5235"]
+[ext_resource type="FontFile" uid="uid://oksyowjco4fg" path="res://assets/Domigorgon_Plus.ttf" id="1_0qtyx"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_djauw"]
 content_margin_left = 4.0
@@ -72,6 +72,7 @@ corner_radius_bottom_left = 3
 corner_detail = 5
 
 [resource]
+default_font = ExtResource("1_0qtyx")
 Button/colors/font_color = Color(0.875, 0.875, 0.875, 1)
 Button/colors/font_disabled_color = Color(0.875, 0.875, 0.875, 0.5)
 Button/colors/font_focus_color = Color(0.95, 0.95, 0.95, 1)
@@ -89,41 +90,40 @@ Button/constants/h_separation = 2
 Button/constants/icon_max_width = 0
 Button/constants/outline_size = 0
 Button/font_sizes/font_size = 32
-Button/fonts/font = ExtResource("1_r5235")
 Button/styles/disabled = SubResource("StyleBoxFlat_djauw")
 Button/styles/focus = SubResource("StyleBoxFlat_0iant")
 Button/styles/hover = SubResource("StyleBoxFlat_ia0xk")
 Button/styles/normal = SubResource("StyleBoxFlat_nx8sb")
 Button/styles/pressed = SubResource("StyleBoxFlat_0lcxc")
-CheckBox/fonts/font = null
-CheckButton/fonts/font = null
-CodeEdit/fonts/font = null
-ColorPickerButton/fonts/font = null
-Fonts/fonts/large = null
-Fonts/fonts/normal = null
-GraphNode/fonts/title_font = null
+CheckBox/fonts/font = ExtResource("1_0qtyx")
+CheckButton/fonts/font = ExtResource("1_0qtyx")
+CodeEdit/fonts/font = ExtResource("1_0qtyx")
+ColorPickerButton/fonts/font = ExtResource("1_0qtyx")
+Fonts/fonts/large = ExtResource("1_0qtyx")
+Fonts/fonts/normal = ExtResource("1_0qtyx")
+GraphNode/fonts/title_font = ExtResource("1_0qtyx")
 ItemList/font_sizes/font_size = 26
-ItemList/fonts/font = ExtResource("1_r5235")
+ItemList/fonts/font = ExtResource("1_0qtyx")
 Label/font_sizes/font_size = 26
-Label/fonts/font = ExtResource("1_r5235")
-LineEdit/fonts/font = ExtResource("1_r5235")
-LinkButton/fonts/font = null
-MenuBar/fonts/font = null
-MenuButton/fonts/font = null
-OptionButton/fonts/font = null
-PopupMenu/fonts/font = null
-PopupMenu/fonts/font_separator = null
-ProgressBar/fonts/font = null
-RichTextLabel/fonts/bold_font = null
-RichTextLabel/fonts/bold_italics_font = null
-RichTextLabel/fonts/italics_font = null
-RichTextLabel/fonts/mono_font = null
-RichTextLabel/fonts/normal_font = null
-TabBar/fonts/font = null
-TabContainer/fonts/font = null
-TextEdit/fonts/font = null
-TooltipLabel/fonts/font = null
+Label/fonts/font = ExtResource("1_0qtyx")
+LineEdit/fonts/font = ExtResource("1_0qtyx")
+LinkButton/fonts/font = ExtResource("1_0qtyx")
+MenuBar/fonts/font = ExtResource("1_0qtyx")
+MenuButton/fonts/font = ExtResource("1_0qtyx")
+OptionButton/fonts/font = ExtResource("1_0qtyx")
+PopupMenu/fonts/font = ExtResource("1_0qtyx")
+PopupMenu/fonts/font_separator = ExtResource("1_0qtyx")
+ProgressBar/fonts/font = ExtResource("1_0qtyx")
+RichTextLabel/fonts/bold_font = ExtResource("1_0qtyx")
+RichTextLabel/fonts/bold_italics_font = ExtResource("1_0qtyx")
+RichTextLabel/fonts/italics_font = ExtResource("1_0qtyx")
+RichTextLabel/fonts/mono_font = ExtResource("1_0qtyx")
+RichTextLabel/fonts/normal_font = ExtResource("1_0qtyx")
+TabBar/fonts/font = ExtResource("1_0qtyx")
+TabContainer/fonts/font = ExtResource("1_0qtyx")
+TextEdit/fonts/font = ExtResource("1_0qtyx")
+TooltipLabel/fonts/font = ExtResource("1_0qtyx")
 Tree/font_sizes/font_size = 32
-Tree/fonts/font = ExtResource("1_r5235")
-Tree/fonts/title_button_font = null
-Window/fonts/title_font = null
+Tree/fonts/font = ExtResource("1_0qtyx")
+Tree/fonts/title_button_font = ExtResource("1_0qtyx")
+Window/fonts/title_font = ExtResource("1_0qtyx")

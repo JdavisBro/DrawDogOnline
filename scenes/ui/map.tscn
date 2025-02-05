@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://ctliw0bub5qtc"]
+[gd_scene load_steps=5 format=3 uid="uid://ctliw0bub5qtc"]
 
 [ext_resource type="Script" path="res://scenes/ui/map.gd" id="1_ylkcl"]
 [ext_resource type="Script" path="res://scripts/map_view.gd" id="2_4wsmq"]
@@ -17,6 +17,15 @@ func _draw():
 				box = true
 			if box:
 				draw_rect(Rect2(x*160, y*90, 160, 90), Color(0,0,0,0.1))
+"
+
+[sub_resource type="GDScript" id="GDScript_c4g6u"]
+script/source = "extends Node2D
+
+
+func _draw():
+	draw_circle(Vector2.ZERO, 4, Color.DARK_RED)
+	draw_circle(Vector2.ZERO, 2, Color.RED)
 "
 
 [node name="map" type="Control"]
@@ -72,6 +81,12 @@ limit_bottom = 1890
 
 [node name="heads" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
 z_index = 1
+
+[node name="teleportpoint" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
+unique_name_in_owner = true
+visible = false
+z_index = 1
+script = SubResource("GDScript_c4g6u")
 
 [node name="PlayerListContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
 layout_mode = 2

@@ -23,11 +23,16 @@ var teleport_position = null
 @onready var mapheads = $VBoxContainer/HBoxContainer/MapContainer/MapViewport/heads
 @onready var playercontainer = $VBoxContainer/HBoxContainer/PlayerListContainer/VBoxContainer
 
-func set_teleport(level, pos):
-	teleport_level = level
-	teleport_position = pos
-	teleport.text = "Teleport to %d,%d,%d" % [level.x, level.y, level.z]
+func set_teleport(pos):
+	var screen_pos = pos.posmodv(Vector2(160, 90)) * 12
+	var screen = (pos / Vector2(160, 90)).floor().clamp(Vector2(-20,-20), Vector2(20, 20))
+	screen = Vector3(screen.x, screen.y, 0)
+	teleport_level = screen
+	teleport_position = screen_pos
+	teleport.text = "Teleport to %d,%d,%d" % [screen.x, screen.y, screen.z]
 	teleport.disabled = false
+	%teleportpoint.position = pos
+	%teleportpoint.visible = true
 
 func set_paint(level, paint, palette, local=false):
 	if level == Global.current_level:

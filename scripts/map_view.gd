@@ -14,10 +14,7 @@ const ZOOM_SENSITIVITY = 0.2
 func get_teleport(event):
 	var viewcorner = camera.get_screen_center_position() - (Vector2(viewport.size)/camera.zoom/2.0)
 	var pos = viewcorner + (event.position/camera.zoom)
-	var screen_pos = pos.posmodv(Vector2(160, 90))
-	var screen = (pos / Vector2(160, 90)).floor().clamp(Vector2(-20,-20), Vector2(20, 20))
-	screen = Vector3(screen.x, screen.y, 0)
-	map.set_teleport(screen, screen_pos)
+	map.set_teleport(pos)
 
 func _gui_input(event):
 	if event is InputEventMouseMotion:
@@ -44,4 +41,4 @@ func _gui_input(event):
 			camera.position = camera.get_screen_center_position()
 
 func _ready():
-	camera.position = (Vector2(Global.current_level.x, Global.current_level.y) * Vector2(192, 108)) + MultiplayerManager.client.me.position / 10
+	camera.position = (Vector2(Global.current_level.x, Global.current_level.y) * Vector2(160, 80)) + MultiplayerManager.client.me.position / 10
