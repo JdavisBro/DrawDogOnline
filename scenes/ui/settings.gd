@@ -7,12 +7,11 @@ const TITLE_NEEDED = [Settings.SettingType.INT_LIST, Settings.SettingType.FLOAT_
 var newvalues = {}
 
 func _ready():
-	$VBoxContainer/MarginContainer/HBoxContainer/Close.grab_focus()
+	$VBoxContainer/MarginContainer/HBoxContainer/CancelButton.grab_focus()
 	for prop in Settings.SETTING_INFO:
 		var val = Settings.SETTING_INFO[prop]
 		var setting_type = val.type
 		var setting_con = HBoxContainer.new()
-		setting_con.tooltip_text = val.desc
 		var value_node
 		match setting_type:
 			Settings.SettingType.BOOL:
@@ -50,10 +49,13 @@ func _ready():
 			_:
 				push_warning("Non Implemented Setting Type.")
 				continue
+		setting_con.tooltip_text = val.desc
+		value_node.tooltip_text = val.desc
 		if setting_type in TITLE_NEEDED:
 			var label = Label.new()
 			label.size_flags_horizontal = SIZE_EXPAND
 			label.text = val.name
+			label.tooltip_text = val.desc
 			var panel = PanelContainer.new()
 			setting_con.add_child(label)
 			setting_con.add_child(value_node)
