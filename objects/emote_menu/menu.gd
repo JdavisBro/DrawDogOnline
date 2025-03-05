@@ -24,7 +24,7 @@ func _on_close_pressed():
 	Global.paintable = true
 	Input.mouse_mode = Input.MOUSE_MODE_HIDDEN
 
-func _process(delta):
+func _process(_delta):
 	if Input.is_action_just_pressed("emote"):
 		Global.paintable = visible
 		visible = !visible

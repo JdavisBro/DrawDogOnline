@@ -97,6 +97,7 @@ func draw_line(paint, color: int, start: Vector2, end: Vector2, thickness: int=1
 		return
 	var update_line_pos = func(pos): update_pos(paint, color, pos)
 	if thickness > 1:
+		@warning_ignore("integer_division")
 		var half_thickness = int(thickness) / 2
 		var angle = start.angle_to_point(end)
 		var start1 = (start + Vector2.from_angle(angle - PI/2) * half_thickness).snapped(Vector2.ONE)
