@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="DogAnimation" load_steps=39 format=3 uid="uid://bqrigo3hgxofo"]
 
-[ext_resource type="Script" path="res://scripts/DogAnimationFrame.gd" id="1_ct0i0"]
-[ext_resource type="Script" path="res://scripts/DogAnimation.gd" id="2_dm51f"]
+[ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_ct0i0"]
+[ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_dm51f"]
 
 [sub_resource type="Resource" id="Resource_tu5s0"]
 script = ExtResource("1_ct0i0")

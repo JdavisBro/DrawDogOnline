@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=3 uid="uid://dr1js1iu23i63"]
 
-[ext_resource type="Script" path="res://objects/dog/dog_animation.gd" id="1_0tcq3"]
+[ext_resource type="Script" uid="uid://3ge2t4ddatbb" path="res://objects/dog/dog_animation.gd" id="1_0tcq3"]
 [ext_resource type="Texture2D" uid="uid://cgsyq3u2fnjj5" path="res://assets/chicory/dog/idle/B/00.png" id="2_0edie"]
-[ext_resource type="Script" path="res://objects/dog/shadow.gd" id="2_irxnk"]
+[ext_resource type="Script" uid="uid://cyqautoqs4pjr" path="res://objects/dog/shadow.gd" id="2_irxnk"]
 [ext_resource type="Texture2D" uid="uid://dvq471tqpt82" path="res://assets/chicory/clothes/00.png" id="3_jfnic"]
 [ext_resource type="Texture2D" uid="uid://bky6r7w31c4yc" path="res://assets/chicory/dog/idle/A/00.png" id="4_swwp0"]
 [ext_resource type="Texture2D" uid="uid://jwr6p4602ecr" path="res://assets/chicory/expression/0.png" id="5_x346j"]

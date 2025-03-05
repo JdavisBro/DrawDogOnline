@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c7qca6i2c2ow3"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_k6wvt"]
-[ext_resource type="Script" path="res://scenes/ui/pause.gd" id="2_tli4u"]
+[ext_resource type="Script" uid="uid://d11ogokytyvxe" path="res://scenes/ui/pause.gd" id="2_tli4u"]
 
 [sub_resource type="Theme" id="Theme_cb5ev"]
 Button/font_sizes/font_size = 54

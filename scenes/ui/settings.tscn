@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://v2wyxl35vh0s"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_455xm"]
-[ext_resource type="Script" path="res://scenes/ui/settings.gd" id="2_gnijh"]
+[ext_resource type="Script" uid="uid://d2v6pl4lvs8dk" path="res://scenes/ui/settings.gd" id="2_gnijh"]
 
 [node name="settings" type="Control"]
 z_index = 3000

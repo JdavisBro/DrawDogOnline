@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://ctliw0bub5qtc"]
 
-[ext_resource type="Script" path="res://scenes/ui/map.gd" id="1_ylkcl"]
-[ext_resource type="Script" path="res://scripts/map_view.gd" id="2_4wsmq"]
+[ext_resource type="Script" uid="uid://btuxaysg4lhl6" path="res://scenes/ui/map.gd" id="1_ylkcl"]
+[ext_resource type="Script" uid="uid://b12mwtgjt8euh" path="res://scripts/map_view.gd" id="2_4wsmq"]
 
 [sub_resource type="GDScript" id="GDScript_vkiip"]
 script/source = "extends Node2D

@@ -1,6 +1,6 @@
 [gd_scene load_steps=2 format=3 uid="uid://d0gnlnu5ijq44"]
 
-[ext_resource type="Script" path="res://objects/emote_menu/menu.gd" id="1_0no24"]
+[ext_resource type="Script" uid="uid://dms1wlqx52iv1" path="res://objects/emote_menu/menu.gd" id="1_0no24"]
 
 [node name="EmoteMenu" type="Control"]
 z_index = 2000

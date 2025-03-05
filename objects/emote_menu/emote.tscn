@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bxi4ttif7awbq"]
 
-[ext_resource type="Script" path="res://objects/emote_menu/emote.gd" id="1_gwnec"]
+[ext_resource type="Script" uid="uid://cp27eext3wkei" path="res://objects/emote_menu/emote.gd" id="1_gwnec"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="1_ygfp2"]
 
 [sub_resource type="ViewportTexture" id="ViewportTexture_ecvms"]

@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://be26o0f2gwnrv"]
 
-[ext_resource type="Script" path="res://scenes/ui/login.gd" id="1_bkfkf"]
+[ext_resource type="Script" uid="uid://bm4rh6mipue61" path="res://scenes/ui/login.gd" id="1_bkfkf"]
 [ext_resource type="Texture2D" uid="uid://lfhpolapfy1" path="res://assets/discord-mark-white.png" id="2_p33bu"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="3_4kenm"]
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://bebdv4x8a47fm"]
 
-[ext_resource type="Script" path="res://objects/dog/dog.gd" id="1_0su5j"]
+[ext_resource type="Script" uid="uid://svdrqih4s10r" path="res://objects/dog/dog.gd" id="1_0su5j"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="2_ovtlf"]
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="3_5ypnp"]
 [ext_resource type="PackedScene" uid="uid://ctjsen354eycf" path="res://objects/dog/dog_sounds.tscn" id="3_gorde"]

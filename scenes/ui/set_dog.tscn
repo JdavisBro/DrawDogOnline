@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://duymuwnvdmpi6"]
 
-[ext_resource type="Script" path="res://scenes/ui/set_dog.gd" id="1_7gm8l"]
+[ext_resource type="Script" uid="uid://b6bwr4lbporqo" path="res://scenes/ui/set_dog.gd" id="1_7gm8l"]
 [ext_resource type="Texture2D" uid="uid://cfacn8d5kbpll" path="res://assets/chicory/brush/1.png" id="2_vkivh"]
 [ext_resource type="Texture2D" uid="uid://d0xaan28amdkd" path="res://assets/chicory/brush/0.png" id="3_df4k7"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="4_udqss"]

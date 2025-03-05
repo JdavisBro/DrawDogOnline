@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=3 uid="uid://bfo442g8sgahl"]
 
 [ext_resource type="AudioStream" uid="uid://crt3j3lgpdd27" path="res://assets/chicory/sounds/sfx/paint/colour_change/01.wav" id="1_ao0n3"]
-[ext_resource type="Script" path="res://objects/brush/brush_sounds.gd" id="1_qjowx"]
+[ext_resource type="Script" uid="uid://cojcpl36l53ps" path="res://objects/brush/brush_sounds.gd" id="1_qjowx"]
 [ext_resource type="AudioStream" uid="uid://qdhv5jonw62l" path="res://assets/chicory/sounds/sfx/paint/colour_change/02.wav" id="2_ojc3w"]
 [ext_resource type="AudioStream" uid="uid://c5qcjmkh2m2ey" path="res://assets/chicory/sounds/sfx/paint/colour_change/03.wav" id="3_eg6qn"]
 [ext_resource type="AudioStream" uid="uid://dtsg4u8t4diom" path="res://assets/chicory/sounds/sfx/paint/colour_change/04.wav" id="4_ulbcx"]
@@ -14,13 +14,9 @@
 [sub_resource type="AudioStreamRandomizer" id="AudioStreamRandomizer_fbgic"]
 streams_count = 4
 stream_0/stream = ExtResource("1_ao0n3")
-stream_0/weight = 1.0
 stream_1/stream = ExtResource("2_ojc3w")
-stream_1/weight = 1.0
 stream_2/stream = ExtResource("3_eg6qn")
-stream_2/weight = 1.0
 stream_3/stream = ExtResource("4_ulbcx")
-stream_3/weight = 1.0
 
 [node name="brush_sounds" type="Node2D"]
 script = ExtResource("1_qjowx")
