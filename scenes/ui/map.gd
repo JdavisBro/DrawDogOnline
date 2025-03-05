@@ -24,12 +24,10 @@ var teleport_position = null
 @onready var playercontainer = $VBoxContainer/HBoxContainer/PlayerListContainer/VBoxContainer
 
 func set_teleport(pos):
-	var screen_pos = pos.posmodv(Vector2(160, 90)) * 12
-	var screen = (pos / Vector2(160, 90)).floor().clamp(Vector2(-20,-20), Vector2(20, 20))
-	screen = Vector3(screen.x, screen.y, 0)
-	teleport_level = screen
-	teleport_position = screen_pos
-	teleport.text = "Teleport to %d,%d,%d" % [screen.x, screen.y, screen.z]
+	teleport_level = (pos / Vector2(160, 90)).floor().clamp(Vector2(-20,-20), Vector2(20, 20))
+	teleport_level = Vector3(teleport_level.x, teleport_level.y, 0)
+	teleport_position = pos.posmodv(Vector2(160, 90)) * 12
+	teleport.text = "Teleport to %d,%d,%d" % [teleport_level.x, teleport_level.y, teleport_level.z]
 	teleport.disabled = false
 	%teleportpoint.position = pos
 	%teleportpoint.visible = true
