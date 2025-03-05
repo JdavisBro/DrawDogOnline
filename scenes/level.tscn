@@ -96,7 +96,7 @@ LineEdit/styles/read_only = SubResource("StyleBoxFlat_2fsxs")
 script/source = "extends Label
 
 func _process(_delta):
-	text = \"%s, %s, %s\" % [Global.current_level.x, Global.current_level.y, Global.current_level.z]
+	text = \"%d, %d, %d\" % [Global.current_level.x, Global.current_level.y, Global.current_level.z]
 "
 
 [node name="level" type="Node2D"]
