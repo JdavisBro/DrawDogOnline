@@ -8,6 +8,15 @@ Download from [releases](https://github.com/JdavisBro/DrawDogOnline/releases)
 
 Start the execuatable, put in your IP!
 
+### Features
+
+- Undo and Redo: `ctrl + z`, `ctrl + shift + z`
+- Fill Bucket! `1`
+  - The fill bucket in Chicory will fill through corners, in DrawDogOnline there is an option to disable that in settings
+- Quick Color Swapping! Hold `tab` and move your mouse to select
+- Palette setting! Press `esc` and click Set palette
+- Ruler! Hold `r` and it'll measure distance between that point and where you move your mouse
+
 ## Hosting a Server
 
 Download from [releases](https://github.com/JdavisBro/DrawDogOnline/releases)
