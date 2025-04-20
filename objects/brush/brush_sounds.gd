@@ -23,6 +23,8 @@ func play_sound_on_size_change(size):
 		play_sound("sfx_size_big")
 	
 func erase(speed):
+	if OS.has_feature("web"):
+		return # sound is broken on web. dunno why lmfao rofl
 	if not sfx["sfx_erase"].playing and not sfx["sfx_erase"].stream_paused:
 		sfx["sfx_erase"].play()
 	erase_pitch.pitch_scale = speed + 1
