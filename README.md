@@ -16,6 +16,7 @@ Start the execuatable, put in your IP!
 - Quick Color Swapping! Hold `tab` and move your mouse to select
 - Palette setting! Press `esc` and click Set palette
 - Ruler! Hold `r` and it'll measure distance between that point and where you move your mouse
+- Chat: press `t` to chat
 
 ## Hosting a Server
 
