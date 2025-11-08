@@ -25,18 +25,7 @@ func update_pos(paint, color: int, position: Vector2, me=true, diff=false):
 	if me and not diff:
 		update_diff(paint, color, position)
 	paint.paint.put(position.x, position.y, color)
-	paint.updated.set_bit(position.x, position.y, false)
-	if position.x > 0:
-		paint.updated.set_bit(position.x-1, position.y, false)
-		if position.y > 0:
-			paint.updated.set_bit(position.x-1, position.y-1, false)
-	if position.y:
-		paint.updated.set_bit(position.x, position.y-1, false)
-	if not paint.update_needed:
-		paint.update_rect = Rect2(position - Vector2.ONE, Vector2.ONE*2)
-	else:
-		paint.update_rect = paint.update_rect.merge(Rect2(position - Vector2.ONE, Vector2.ONE*2))
-	paint.update_needed = true
+	paint.image.set_pixelv(position, Color.TRANSPARENT if color == 0 else paint.palette[color-1])
 	
 func update_diff(paint, color, position):
 	if not paint.paint_diff_drawing or not paint.diffs_enabled:

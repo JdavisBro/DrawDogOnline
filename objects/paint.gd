@@ -8,10 +8,12 @@ extends Node2D
 var size := Vector2(162, 91)
 var total_pixel := size.x * size.y
 
+var image := Image.create_empty(size.x, size.y, false, Image.FORMAT_RGBA8)
+
 var paint := PackedByteArray2D.new()
 var update_needed := true
 var update_rect := Rect2(Vector2.ZERO, size-Vector2.ONE)
-var updated: BitMap = BitMap.new()
+var updated := BitMap.new()
 var palette = Global.palette
 
 var diffs_enabled = true
@@ -32,10 +34,9 @@ var undo_diff_changed = false
 
 var pause_process = false
 
-@onready var map = $PaintViewport/TileMap
-@onready var paintviewport = $PaintViewport
-
 func get_texture():
+	$ScreenshotViewport/ScreenshotSprite.material.set_shader_parameter("boil", Global.boil)
+	$ScreenshotViewport/ScreenshotSprite.texture = ImageTexture.create_from_image(image)
 	$ScreenshotViewport.render_target_update_mode = SubViewport.UPDATE_ONCE
 	await get_tree().process_frame
 	return $ScreenshotViewport.get_texture().get_image()
@@ -46,6 +47,7 @@ func clear_undo():
 	undo_diff_changed = false
 
 func clear_paint():
+	image.fill(Color.TRANSPARENT)
 	paint.clear()
 	updated.create(Vector2i(size))
 	update_rect = Rect2(0,0,size.x,size.y)
@@ -78,15 +80,7 @@ func add_undo_to(undo=true, clear_redo=true):
 		queue.remove_at(len(queue)-1)
 
 func update_palette():
-	while map.get_layers_count() > len(palette):
-		map.remove_layer(map.get_layers_count()-1)
-	var i = 0
-	for col in palette:
-		if i >= map.get_layers_count():
-			map.add_layer(i)
-		map.set_layer_modulate(i, col)
-		i += 1
-	paintviewport.render_target_update_mode = SubViewport.UPDATE_ONCE
+	force_update()
 
 func set_init_paint():
 	if init_paint_string:
@@ -99,10 +93,10 @@ func force_update():
 	update_needed = true
 
 func _ready():
+	$DisplaySprite.texture = ImageTexture.create_from_image(image)
 	clear_paint()
 	clear_undo_diff()
 	set_init_paint()
-	update_palette()
 	if not Global.paint_target and set_paint_target:
 		Global.paint_target = self
 
@@ -131,7 +125,6 @@ func apply_undo(diff, rect):
 
 func _process(_delta):
 	$DisplaySprite.material.set_shader_parameter("boil", Global.boil)
-	$ScreenshotViewport/ScreenshotSprite.material.set_shader_parameter("boil", Global.boil)
 
 	if get_tree().paused and not pause_process:
 		return
@@ -156,30 +149,17 @@ func _process(_delta):
 	
 	if update_needed:
 		update_paint()
+	$DisplaySprite.texture.update(image)
 
 func update_paint():
-	var newrect = Rect2(Vector2.ZERO, size-Vector2.ONE)
+	var newrect = Rect2(Vector2.ZERO, size)
 	if not newrect.encloses(update_rect):
 		update_rect = newrect
 	for y in range(update_rect.position.y, update_rect.end.y):
 		for x in range(update_rect.position.x, update_rect.end.x):
 			if updated.get_bit(x, y):
 				continue
-			for i in range(len(palette)):
-				map.set_cell(i, Vector2(x, y))
-			var donecol = []
 			var v1 = paint.at(x, y)
-			var v2 = paint.at(x+1, y)
-			var v3 = paint.at(x+1, y+1)
-			var v4 = paint.at(x, y+1)
-			for color in [v1, v2, v3, v4]:
-				if color in donecol or color == 0 or color > map.get_layers_count():
-					continue
-				donecol.append(color)
-				var val = int(v1 == color) + (int(v2 == color) << 1) + (int(v3 == color) << 2) + (int(v4 == color) << 3) 
-				if val > 0:
-					@warning_ignore("integer_division")
-					map.set_cell(color-1, Vector2(x, y), 0, Vector2((val) % 4, (val) / 4))
+			image.set_pixel(x, y, Color.TRANSPARENT if v1 == 0 else palette[v1-1])
 			updated.set_bit(x, y, true)
 	update_needed = false
-	paintviewport.render_target_update_mode = SubViewport.UPDATE_ONCE

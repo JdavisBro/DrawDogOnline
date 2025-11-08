@@ -84,7 +84,7 @@ func update_palette(level, palette):
 	if not MultiplayerManager.palette_sanity_check(paints[level].palette, palette):
 		return
 	paints[level].palette = palette
-	paints[level].update_palette()
+	paints[level].force_update()
 
 func add_player(pid, userdata, level, adding_self=false):
 	if pid == MultiplayerManager.uid and not adding_self:
@@ -156,11 +156,11 @@ func _ready():
 	add_player(MultiplayerManager.uid, MultiplayerManager.client.me, Global.current_level, true)
 	var node = Sprite2D.new()
 	node.texture = Global.paint_target.get_node("DisplaySprite").texture
-	#node.material = Global.paint_target.get_node("DisplaySprite").material
+	node.material = Global.paint_target.get_node("DisplaySprite").material
 	node.name = "%d,%d" % [Global.current_level.x, Global.current_level.y]
 	node.position = screen * Vector2(Global.current_level.x, Global.current_level.y)
-	node.scale = Vector2(1 / 12.0, 1 / 12.0)
 	node.centered = false
+	node.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	mapviewport.add_child(node)
 	Global.paint_target.pause_process = true
 	MultiplayerManager.client.player_list = self

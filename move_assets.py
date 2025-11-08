@@ -138,11 +138,11 @@ for fp in export_sprites.glob("sprStamp_*.png"):
     new.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy(fp, new)
 
-# im = Image.new("RGBA", (12*4, 12*4), color=(0,0,0,0))
+# im = Image.new("RGBA", (12*16, 12), color=(0,0,0,0))
 # for i, fp in enumerate(sorted(export_sprites.glob("sprMsquare_*.png"), key=lambda a: int(a.stem.split("_")[-1]))):
 #     frame = int(fp.stem.split("_")[-1])
 #     im2 = Image.open(fp)
-#     im.paste(im2, ((i+1) % 4 * 12, (i+1)//4 * 12))
+#     im.paste(im2, ((i+1) * 12, 0))
 
 #     # new = out / "paint" / f"{frame:02}.png"
 #     # new.parent.mkdir(parents=True, exist_ok=True)

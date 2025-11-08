@@ -28,6 +28,8 @@ func _process(_delta):
 		return
 	if update_needed:
 		update_paint_rect()
+	else:
+		sprite.texture.update(image)
 
 func update_palette():
 	force_update()

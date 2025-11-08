@@ -22,7 +22,6 @@ func load_custom_paint():
 		for i in Settings.title_paint_custom_palette:
 			pal.append(Color(i))
 		$paint.palette = pal
-		$paint.update_palette()
 		$paint.force_update()
 		paintset = true
 
@@ -62,7 +61,6 @@ func _process(_delta):
 			load_custom_paint()
 		else:
 			$paint.set_init_paint()
-			$paint.update_palette()
 			$paint.force_update()
 			paintset = false
 	if submenu and Input.is_action_just_pressed("pause", true):
