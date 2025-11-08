@@ -14,7 +14,7 @@ void fragment() {
 	vec4 noiseSample = texture( noise, UV+vec2(boil) );
 	vec2 noiseColor = vec2(imsize.x* (boilpixel*2.0) *noiseSample.r, imsize.y* (boilpixel*2.0) *noiseSample.g) - (imsize * vec2(boilpixel, boilpixel));
 	vec2 new_UV = UV + noiseColor;
-	
+
 	vec4 v[] = {
 		texture(TEXTURE, new_UV),
 		texture(TEXTURE, vec2(new_UV.x+xsz, new_UV.y)),

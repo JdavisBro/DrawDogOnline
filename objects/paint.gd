@@ -8,6 +8,7 @@ extends Node2D
 var size := Vector2(162, 91)
 var total_pixel := size.x * size.y
 
+@warning_ignore("narrowing_conversion")
 var image := Image.create_empty(size.x, size.y, false, Image.FORMAT_RGBA8)
 
 var paint := PackedByteArray2D.new()
