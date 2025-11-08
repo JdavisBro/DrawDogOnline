@@ -58,30 +58,35 @@ func on_server_disconnected():
 		get_tree().change_scene_to_file("res://scenes/ui/title.tscn")
 
 # Builtin
+var saving_thread: Thread
+
+func save_paint_cache_thread(paint_cache_copy):
+	print("Saving paint cache")
+	var data = {}
+	for level in paint_cache_copy:
+		var level_serialized = "%s,%s,%s" % [level.x, level.y, level.z]
+		data[level_serialized] = {}
+		data[level_serialized].paint = Marshalls.raw_to_base64(paint_cache_copy[level].paint)
+		data[level_serialized].size = paint_cache_copy[level].size
+		var palette = []
+		for col in paint_cache_copy[level].palette:
+			palette.append("#" + col.to_html(false))
+		data[level_serialized].palette = palette
+		data[level_serialized].time = paint_cache_copy[level].time
+	var ip = MultiplayerManager.get_ip()
+	var path = "user://paint_cache/%s.json" % ip.validate_filename()
+	if not DirAccess.dir_exists_absolute("user://paint_cache/"):
+		DirAccess.make_dir_absolute("user://paint_cache/")
+	var file = FileAccess.open(path, FileAccess.WRITE_READ)
+	if file:
+		file.store_string(JSON.stringify(data))
 
 func save_paint_cache(delta):
 	if cache_save_timer > 0:
 		cache_save_timer -= delta
-		if cache_save_timer <= 0:
-			print("Saving paint cache")
-			var data = {}
-			for level in paint_cache:
-				var level_serialized = "%s,%s,%s" % [level.x, level.y, level.z]
-				data[level_serialized] = {}
-				data[level_serialized].paint = Marshalls.raw_to_base64(paint_cache[level].paint)
-				data[level_serialized].size = paint_cache[level].size
-				var palette = []
-				for col in paint_cache[level].palette:
-					palette.append("#" + col.to_html(false))
-				data[level_serialized].palette = palette
-				data[level_serialized].time = paint_cache[level].time
-			var ip = MultiplayerManager.get_ip()
-			var path = "user://paint_cache/%s.json" % ip.validate_filename()
-			if not DirAccess.dir_exists_absolute("user://paint_cache/"):
-				DirAccess.make_dir_absolute("user://paint_cache/")
-			var file = FileAccess.open(path, FileAccess.WRITE_READ)
-			if file:
-				file.store_string(JSON.stringify(data))
+		if cache_save_timer <= 0 and (not saving_thread or not saving_thread.is_alive()):
+			saving_thread = Thread.new()
+			saving_thread.start(save_paint_cache_thread.bind(paint_cache.duplicate(true)))
 
 func _process(delta):
 	save_paint_cache(delta)
