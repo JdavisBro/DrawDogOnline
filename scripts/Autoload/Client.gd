@@ -85,6 +85,8 @@ func save_paint_cache(delta):
 	if cache_save_timer > 0:
 		cache_save_timer -= delta
 		if cache_save_timer <= 0 and (not saving_thread or not saving_thread.is_alive()):
+			if saving_thread:
+				saving_thread.wait_to_finish()
 			saving_thread = Thread.new()
 			saving_thread.start(save_paint_cache_thread.bind(paint_cache.duplicate(true)))
 
