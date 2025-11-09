@@ -30,6 +30,6 @@ func duplicate():
 func slice(rect: Rect2):
 	var new = PackedByteArray2D.new(rect.size, fill)
 	new.array = PackedByteArray()
-	for y in range(rect.position.y, rect.end.y):
-		new.array.append_array(array.slice((y*size.x)+rect.position.x, (y*size.x)+rect.end.x))
+	for y in range(rect.position.y, rect.end.y+1):
+		new.array.append_array(array.slice((y*size.x)+rect.position.x, (y*size.x)+rect.end.x+1))
 	return new

@@ -1,13 +1,13 @@
 extends Node
 
 func ensure_bounds(size: Vector2, position: Vector2):
-	var newpos = position.clamp(Vector2.ZERO, size-Vector2.ONE).round()
+	var newpos = position.clamp(Vector2.ZERO, size).round()
 	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
 		return Vector2.INF
 	return newpos
 
 func ensure_rect_bounds(size: Vector2, rect: Rect2):
-	var paint_rect = Rect2(Vector2.ZERO, size-Vector2.ONE)
+	var paint_rect = Rect2(Vector2.ZERO, size)
 	if paint_rect.encloses(rect):
 		return rect
 	#push_warning("Paint rect drawing out of paint bounds.")
@@ -32,10 +32,10 @@ func update_diff(paint, color, position):
 		return
 	paint.paint_diff.put(position.x, position.y, color)
 	if not paint.paint_diff_changed:
-		paint.paint_diff_rect = Rect2(position, Vector2.ONE)
-	else:
+		paint.paint_diff_rect = Rect2(position, Vector2.ZERO)
+	elif not paint.paint_diff_rect.has_point(position):
 		paint.paint_diff_rect = paint.paint_diff_rect.expand(position)
-		paint.paint_diff_rect = paint.paint_diff_rect.expand(position+Vector2.ONE)
+		#paint.paint_diff_rect = paint.paint_diff_rect.expand(position+Vector2.ONE)
 	paint.paint_diff_changed = true
 
 func undo_diff(paint, _color, position, me, diff):
@@ -57,16 +57,16 @@ func undo_diff(paint, _color, position, me, diff):
 		return
 	paint.undo_diff.put(position.x, position.y, paint.paint.at(position.x, position.y))
 	if not paint.undo_diff_changed:
-		paint.undo_diff_rect = Rect2(position, Vector2.ONE)
+		paint.undo_diff_rect = Rect2(position, Vector2.ZERO)
 	else:
 		paint.undo_diff_rect = paint.undo_diff_rect.expand(position)
-		paint.undo_diff_rect = paint.undo_diff_rect.expand(position+Vector2.ONE)
+		#paint.undo_diff_rect = paint.undo_diff_rect.expand(position+Vector2.ONE)
 	paint.undo_diff_changed = true
 
-func apply_diff(paint, diff, rect, pid=0, multiplayer_diff=true):
+func apply_diff(paint, diff: PackedByteArray, rect: Rect2, pid=0, multiplayer_diff=true):
 	var i = 0
-	for y in range(rect.size.y):
-		for x in range(rect.size.x):
+	for y in range(rect.size.y+1):
+		for x in range(rect.size.x+1):
 			if diff[i] != 255:
 				var target_pos = rect.position + Vector2(x, y)
 				update_pos(paint, diff[i], target_pos, pid == MultiplayerManager.uid, multiplayer_diff)
@@ -74,8 +74,8 @@ func apply_diff(paint, diff, rect, pid=0, multiplayer_diff=true):
 
 func draw_rect(paint, color: int, rect: Rect2):
 	rect = ensure_rect_bounds(paint.size, rect)
-	for x in range(rect.position.x, rect.end.x):
-		for y in range(rect.position.y, rect.end.y):
+	for x in range(rect.position.x, rect.end.x+1):
+		for y in range(rect.position.y, rect.end.y+1):
 			var position = Vector2(x, y)
 			update_pos(paint, color, position)
 

@@ -13,8 +13,6 @@ var image := Image.create_empty(size.x, size.y, false, Image.FORMAT_RGBA8)
 
 var paint := PackedByteArray2D.new()
 var update_needed := true
-var update_rect := Rect2(Vector2.ZERO, size-Vector2.ONE)
-var updated := BitMap.new()
 var palette = Global.palette
 
 var diffs_enabled = true
@@ -50,8 +48,6 @@ func clear_undo():
 func clear_paint():
 	image.fill(Color.TRANSPARENT)
 	paint.clear()
-	updated.create(Vector2i(size))
-	update_rect = Rect2(0,0,size.x,size.y)
 	update_needed = true
 
 func clear_paint_diff():
@@ -89,8 +85,6 @@ func set_init_paint():
 		paint.array = MultiplayerManager.decompress_paint(Marshalls.base64_to_raw(init_paint_string), init_paint_size)
 
 func force_update():
-	updated.create(Vector2i(size))
-	update_rect = Rect2(0,0,size.x,size.y)
 	update_needed = true
 
 func _ready():
@@ -153,14 +147,8 @@ func _process(_delta):
 	$DisplaySprite.texture.update(image)
 
 func update_paint():
-	var newrect = Rect2(Vector2.ZERO, size)
-	if not newrect.encloses(update_rect):
-		update_rect = newrect
-	for y in range(update_rect.position.y, update_rect.end.y):
-		for x in range(update_rect.position.x, update_rect.end.x):
-			if updated.get_bit(x, y):
-				continue
-			var v1 = paint.at(x, y)
-			image.set_pixel(x, y, Color.TRANSPARENT if v1 == 0 else palette[v1-1])
-			updated.set_bit(x, y, true)
+	for y in range(size.y):
+		for x in range(size.x):
+			var col = paint.at(x, y)
+			image.set_pixel(x, y, Color.TRANSPARENT if col == 0 else palette[col-1])
 	update_needed = false

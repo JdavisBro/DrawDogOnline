@@ -221,8 +221,8 @@ func draw_diff_to_server(pid, size, diff, rect, level):
 	paint_times[level] = Time.get_unix_time_from_system()
 	diff = MultiplayerManager.decode_diff(diff, size)
 	var i = 0
-	for y in range(rect.size.y):
-		for x in range(rect.size.x):
+	for y in range(rect.size.y+1):
+		for x in range(rect.size.x+1):
 			if diff[i] != 255:
 				var target_pos = rect.position + Vector2(x, y)
 				paint[level].put(target_pos.x, target_pos.y, diff[i])
