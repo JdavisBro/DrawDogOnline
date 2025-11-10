@@ -52,7 +52,14 @@ Also add `WebVersionHost/auth.html` (e.g. `https://jdavisbro.github.io/DrawDogOn
 Requires
 
 - [Godot 4.5.1](https://godotengine.org/download/archive/4.5.1-stable/)
-- [UndertaleModTool](https://github.com/krzys-h/UndertaleModTool/)
+
+Clone the repo, open it in Godot! To run a server and 2 clients click the button in the top right.
+
+### Adding more Sprites from the game
+
+> Sprites used in the export are now included in the repo. To add more sprites modify `move_assets.py` to copy them over from a sprite export.
+
+- [UndertaleModTool](https://github.com/UnderminersTeam/UndertaleModTool/)
 
 First (before opening the repo in Godot) create an Export_Sprites and Exported_Sounds with UndertaleModTool and move it to this repo dir.
 
@@ -68,9 +75,9 @@ To import the brush sounds properly, find sfx/erase/loop/mono.wav and sfx/paint/
 
 Domigorgon Plus font by [Legendknight 3000](https://www.youtube.com/@Legendknight3000).
 
-Game assets distributed with releases are from Chicory: A Colorful Tale
+Game assets are from Chicory: A Colorful Tale
 
-Game based on Chicory: A Colorful Tale
+Based on Chicory: A Colorful Tale
 
 You should play Chicory: A Colorful Tale
 
