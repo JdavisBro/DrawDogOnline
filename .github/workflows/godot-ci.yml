@@ -4,7 +4,12 @@ on: push
 jobs:
   export_game:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
     name: Export Game
     steps:
       - name: checkout
@@ -32,13 +37,10 @@ jobs:
           path: ${{ steps.export.outputs.build_directory }}/Linux/
 
       - name: Upload Web Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v4
         with:
-          name: web
           path: ${{ steps.export.outputs.build_directory }}/Web/
 
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-        with:
-          artifact_name: web
