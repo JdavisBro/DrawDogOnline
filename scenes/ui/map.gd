@@ -200,4 +200,4 @@ func _on_teleport_pressed():
 	queue_free()
 
 func _on_reset_zoom_pressed():
-	$VBoxContainer/HBoxContainer/MapContainer/MapViewport/Camera2D.zoom = Vector2(0.1, 0.1)
+	$VBoxContainer/HBoxContainer/MapContainer/MapViewport/Camera2D.zoom = Vector2(1, 1)
