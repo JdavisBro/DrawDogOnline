@@ -2,72 +2,42 @@ name: "godot-ci export"
 on: push
 
 jobs:
-  # job id, can be anything
-  # export_game:
-  #   if: github.repository == 'JdavisBro/DrawDogOnline'
-  #   runs-on: ubuntu-latest
-  #   permissions: write-all
-  #   name: Export Game
-  #   steps:
-  #     - name: checkout
-  #       uses: actions/checkout@v3.3.0
-
-  #     - name: Get Game Sprite Export
-  #       run: |
-  #         curl ${{ secrets.ASSETS_URL }} -o "assets.zip" > /dev/null
-  #         unzip "assets.zip" -d assets/
-  #         rm assets.zip
-
-  #     - name: export game
-  #       id: export
-  #       uses: firebelley/godot-export@v5.2.0
-  #       with:
-  #         godot_executable_download_url: https://downloads.tuxfamily.org/godotengine/4.1.2/Godot_v4.1.2-stable_linux.x86_64.zip
-  #         godot_export_templates_download_url: https://downloads.tuxfamily.org/godotengine/4.1.2/Godot_v4.1.2-stable_export_templates.tpz
-  #         relative_project_path: ./
-  #         archive_output: false
-
-  #     - name: Upload Windows Artifact
-  #       uses: actions/upload-artifact@v1
-  #       with:
-  #         name: windows
-  #         path: ${{ steps.export.outputs.build_directory }}/Windows Desktop/
-
-  #     - name: Upload Linux Artifact
-  #       uses: actions/upload-artifact@v1
-  #       with:
-  #         name: linux
-  #         path: ${{ steps.export.outputs.build_directory }}/LinuxX11/
-
-  #     - name: Add coi-serviceworker to web export.
-  #       run: curl https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.min.js -o "${{ steps.export.outputs.build_directory }}/Web/coi-serviceworker.min.js"
-        
-
-  #     - name: Upload Web Artifact
-  #       uses: actions/upload-artifact@v1
-  #       with:
-  #         name: web
-  #         path: ${{ steps.export.outputs.build_directory }}/Web/
-
-  #     - name: Deploy Pages
-  #       uses: JamesIves/github-pages-deploy-action@v4
-  #       with:
-  #         folder: ${{ steps.export.outputs.build_directory }}/Web/
-  #         target-folder: latest/
-
-  text_export:
-    # if: github.repository != 'JdavisBro/DrawDogOnline'
+  export_game:
     runs-on: ubuntu-latest
-    name: Text Export
+    permissions: write-all
+    name: Export Game
     steps:
       - name: checkout
         uses: actions/checkout@v3.3.0
 
-      - name: test export
+      - name: export game
         id: export
-        uses: firebelley/godot-export@v5.2.0
+        uses: firebelley/godot-export@v7.0.0
         with:
           godot_executable_download_url: https://github.com/godotengine/godot/releases/download/4.5.1-stable/Godot_v4.5.1-stable_linux.x86_64.zip
           godot_export_templates_download_url: https://github.com/godotengine/godot/releases/download/4.5.1-stable/Godot_v4.5.1-stable_export_templates.tpz
           relative_project_path: ./
           archive_output: false
+
+      - name: Upload Windows Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows
+          path: ${{ steps.export.outputs.build_directory }}/Windows/
+
+      - name: Upload Linux Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: linux
+          path: ${{ steps.export.outputs.build_directory }}/Linux/
+
+      - name: Upload Web Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web
+          path: ${{ steps.export.outputs.build_directory }}/Web/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+        artifact-name: web
