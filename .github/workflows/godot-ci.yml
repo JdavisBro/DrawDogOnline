@@ -4,7 +4,12 @@ on: push
 jobs:
   export_game:
     runs-on: ubuntu-latest
-    permissions: write-all
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
     name: Export Game
     steps:
       - name: checkout
