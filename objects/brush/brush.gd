@@ -136,6 +136,13 @@ func _physics_process(delta):
 			color_index = posmod(color_index-1, len(Global.palette))
 			reset_flood()
 			sfx.play_sound("sfx_colorswitch")
+			
+		if Input.is_action_pressed("pick_color", true):
+			var col_here = Global.paint_target.paint.at(round(paint_pos.x), round(paint_pos.y)) - 1
+			if col_here >= 0 and color_index != col_here:
+				color_index = col_here
+				sfx.play_sound("sfx_colorswitch")
+		
 		process_style_inputs()
 	
 	var drawing = false
