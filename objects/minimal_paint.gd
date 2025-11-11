@@ -12,6 +12,7 @@ var diffs_enabled = false
 var pause_process = true
 
 @onready var sprite = $Sprite2D
+@warning_ignore("narrowing_conversion")
 var image = Image.create(size.x, size.y, false, Image.FORMAT_RGB8)
 
 func force_update():
