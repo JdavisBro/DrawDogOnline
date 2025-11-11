@@ -150,5 +150,5 @@ func update_paint():
 	for y in range(size.y):
 		for x in range(size.x):
 			var col = paint.at(x, y)
-			image.set_pixel(x, y, Color.TRANSPARENT if col == 0 else palette[col-1])
+			image.set_pixel(x, y, Color.TRANSPARENT if col == 0 else palette[(col-1) % palette.size()])
 	update_needed = false
