@@ -15,11 +15,12 @@ void fragment() {
 	vec2 noiseColor = vec2(imsize.x* (boilpixel*2.0) *noiseSample.r, imsize.y* (boilpixel*2.0) *noiseSample.g) - (imsize * vec2(boilpixel, boilpixel));
 	vec2 new_UV = UV + noiseColor;
 
+	vec2 pixel_center = vec2(floor(new_UV.x*162.)/162.+xsz/2., floor(new_UV.y*91.)/91.+ysz/2.);
 	vec4 v[] = {
-		texture(TEXTURE, new_UV),
-		texture(TEXTURE, vec2(new_UV.x+xsz, new_UV.y)),
-		texture(TEXTURE, vec2(new_UV.x+xsz, new_UV.y+ysz)),
-		texture(TEXTURE, vec2(new_UV.x, new_UV.y+ysz))
+		texture(TEXTURE, pixel_center),
+		texture(TEXTURE, vec2(pixel_center.x+xsz, pixel_center.y)),
+		texture(TEXTURE, vec2(pixel_center.x+xsz, pixel_center.y+ysz)),
+		texture(TEXTURE, vec2(pixel_center.x, pixel_center.y+ysz))
 	};
 	COLOR = vec4(1);
 	for (int i = 0; i < 4; i++) {
