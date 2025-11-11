@@ -2,7 +2,7 @@ extends Node
 
 func ensure_bounds(size: Vector2, position: Vector2):
 	var newpos = position.clamp(Vector2.ZERO, size).round()
-	if position.x < 0 or position.x >= size.x or position.y < 0 or position.y >= size.y:
+	if position.x < -0.5 or newpos.x >= size.x or position.y < -0.5 or newpos.y >= size.y:
 		return Vector2.INF
 	return newpos
 
