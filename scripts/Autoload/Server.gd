@@ -311,7 +311,7 @@ func get_map_player_list(pid, paint_update_times):
 	map_paint_requests[pid] = paint.keys()
 	var unchanged_levels = PackedVector3Array()
 	for level in paint_update_times:
-		if level not in paint:
+		if level not in paint or level not in paint_times:
 			continue
 		if paint_update_times[level] >= paint_times[level]:
 			map_paint_requests[pid].erase(level)
