@@ -205,5 +205,6 @@ func _on_reset_zoom_pressed():
 func _on_clear_cache_pressed() -> void:
 	MultiplayerManager.client.paint_cache = {}
 	MultiplayerManager.get_map_player_list.rpc_id(1, {})
-	for level in paints:
-		paints[level].modulate.a = 0.7
+	for level in paints.keys():
+		paints[level].queue_free()
+		paints.erase(level)
