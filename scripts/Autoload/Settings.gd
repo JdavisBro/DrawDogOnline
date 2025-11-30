@@ -33,15 +33,15 @@ const SAVED_PROPERTIES = [
 ]
 
 # Not in settings UI
-var last_save_location = OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
-var title_paint_custom = ""
-var title_paint_custom_size = 7371
-var title_paint_custom_palette = []
-var title_paint_custom_version = 1
-var allow_insecure_server_auth = false
-var last_server_ip = MultiplayerManager.DEFAULT_IP
-var last_server_protocol = "ws://"
-var username = "Default"
+var last_save_location := OS.get_system_dir(OS.SYSTEM_DIR_DOWNLOADS)
+var title_paint_custom := ""
+var title_paint_custom_size := 7371
+var title_paint_custom_palette := []
+var title_paint_custom_version := 1
+var allow_insecure_server_auth := false
+var last_server_ip := MultiplayerManager.DEFAULT_IP
+var last_server_protocol := "ws://"
+var username := "Default"
 
 const SETTING_INFO = { # info for settings ui
 	"master_volume": {"type": SettingType.FLOAT_RANGE, "min": 0.0, "max": 100.0, "name": "Master Volume", "desc": "Volume of everything in the game."},
@@ -57,16 +57,16 @@ const SETTING_INFO = { # info for settings ui
 }
 
 # In Settings UI
-var master_volume = 100
-var player_volume = 100
-var other_player_volume = 80
-var hold_brushburst = true
-var fill_bucket_do_corners = true
-var eyestrain_mode = 1
-var title_paint_custom_enabled = false
-var show_auth_names = true
-var show_avatars_level = true
-var show_avatars_map = true
+var master_volume := 100
+var player_volume := 100
+var other_player_volume := 80
+var hold_brushburst := true
+var fill_bucket_do_corners := true
+var eyestrain_mode := 1
+var title_paint_custom_enabled := false
+var show_auth_names := true
+var show_avatars_level := true
+var show_avatars_map := true
 
 func save():
 	var file = FileAccess.open("user://settings.json", FileAccess.WRITE)
