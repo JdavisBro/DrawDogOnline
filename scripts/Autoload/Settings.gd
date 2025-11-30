@@ -18,6 +18,8 @@ const SAVED_PROPERTIES = [
 	"allow_insecure_server_auth",
 	"last_server_ip",
 	"last_server_protocol",
+	"server_list",
+	"last_server_tab",
 	"username",
 	# UI
 	"master_volume",
@@ -41,6 +43,8 @@ var title_paint_custom_version := 1
 var allow_insecure_server_auth := false
 var last_server_ip := MultiplayerManager.DEFAULT_IP
 var last_server_protocol := "ws://"
+var server_list := []
+var last_server_tab := 0
 var username := "Default"
 
 const SETTING_INFO = { # info for settings ui

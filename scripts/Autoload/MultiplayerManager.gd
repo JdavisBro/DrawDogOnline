@@ -83,8 +83,10 @@ func set_ip_port(newip):
 			port = DEFAULT_PORT
 	return true
 
-func get_ip():
-	return "%s%s:%s" % [MultiplayerManager.protocol, MultiplayerManager.ip, MultiplayerManager.port]
+func get_ip(port_optional=false):
+	if port_optional and port == (DEFAULT_WSS_PORT if protocol == "wss://" else DEFAULT_PORT):
+		return protocol + ip
+	return "%s%s:%s" % [protocol, ip, port]
 
 func level_in_bounds(level):
 	return Vector3(clamp(level.x, -LEVEL_RANGE.x, LEVEL_RANGE.x), clamp(level.y, -LEVEL_RANGE.y, LEVEL_RANGE.y), 0)
