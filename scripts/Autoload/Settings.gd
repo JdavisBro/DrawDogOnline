@@ -80,7 +80,7 @@ func _ready():
 	if not FileAccess.file_exists("user://settings.json"):
 		return
 	var file = FileAccess.open("user://settings.json", FileAccess.READ)
-	var props = JSON.parse_string(file.get_line())
+	var props = JSON.parse_string(file.get_as_text())
 	if not props:
 		return
 	for i in props:
