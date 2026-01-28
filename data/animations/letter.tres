@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=19 format=3 uid="uid://qfyho3ldrofb"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://qfyho3ldrofb"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_xl1hg"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_ve2va"]
@@ -89,8 +89,6 @@ origin = Vector2(75, 130)
 ear = "sprDog_letter_ear"
 A = "sprDog_letter_A"
 B = "sprDog_letter_B"
-loop = "1"
 bounce = 1.0
 head = [SubResource("Resource_xwnsw"), SubResource("Resource_7yg5k"), SubResource("Resource_dn3x5"), SubResource("Resource_t2ilj"), SubResource("Resource_l7lw6"), SubResource("Resource_vrt1k"), SubResource("Resource_787f1"), SubResource("Resource_mvcnw")]
 body = [SubResource("Resource_lmh6n"), SubResource("Resource_udyym"), SubResource("Resource_jm43q"), SubResource("Resource_fcgum"), SubResource("Resource_scqjg"), SubResource("Resource_4my61"), SubResource("Resource_fiu8v"), SubResource("Resource_wptp1")]
-speed_scale = 1.0

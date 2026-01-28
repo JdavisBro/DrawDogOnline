@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://c8n4gjq3v6y35"]
+[gd_scene format=3 uid="uid://c8n4gjq3v6y35"]
 
 [ext_resource type="PackedScene" uid="uid://doo4hph7vj7lr" path="res://objects/paint.tscn" id="1_moyao"]
 [ext_resource type="PackedScene" uid="uid://bebdv4x8a47fm" path="res://objects/dog/dog.tscn" id="2_q35ip"]
@@ -99,15 +99,15 @@ func _process(_delta):
 	text = \"%d, %d, %d\" % [Global.current_level.x, Global.current_level.y, Global.current_level.z]
 "
 
-[node name="level" type="Node2D"]
+[node name="level" type="Node2D" unique_id=1035105970]
 script = SubResource("GDScript_shql5")
 
-[node name="paint" parent="." instance=ExtResource("1_moyao")]
+[node name="paint" parent="." unique_id=1362481742 instance=ExtResource("1_moyao")]
 
-[node name="Dog" parent="." instance=ExtResource("2_q35ip")]
+[node name="Dog" parent="." unique_id=1538781309 instance=ExtResource("2_q35ip")]
 position = Vector2(51, 47)
 
-[node name="Camera2D" type="Camera2D" parent="."]
+[node name="Camera2D" type="Camera2D" parent="." unique_id=1931712769]
 anchor_mode = 0
 limit_left = 0
 limit_top = 0
@@ -115,7 +115,7 @@ limit_right = 1920
 limit_bottom = 1080
 script = ExtResource("3_xxubx")
 
-[node name="Container" type="MarginContainer" parent="."]
+[node name="Container" type="MarginContainer" parent="." unique_id=780276004]
 process_mode = 1
 z_index = 2500
 offset_right = 1920.0
@@ -126,7 +126,7 @@ theme_override_constants/margin_top = 8
 theme_override_constants/margin_right = 8
 theme_override_constants/margin_bottom = 8
 
-[node name="Chat" type="VBoxContainer" parent="Container"]
+[node name="Chat" type="VBoxContainer" parent="Container" unique_id=1293576578]
 custom_minimum_size = Vector2(800, 0)
 layout_mode = 2
 size_flags_horizontal = 0
@@ -134,25 +134,25 @@ size_flags_vertical = 8
 theme = SubResource("Theme_1gkna")
 script = ExtResource("4_1g5n7")
 
-[node name="TabContainer" type="TabContainer" parent="Container/Chat"]
+[node name="TabContainer" type="TabContainer" parent="Container/Chat" unique_id=1118923933]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 current_tab = 0
 
-[node name="Room Chat" type="ScrollContainer" parent="Container/Chat/TabContainer"]
+[node name="Room Chat" type="ScrollContainer" parent="Container/Chat/TabContainer" unique_id=1183823054]
 custom_minimum_size = Vector2(0, 350)
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 metadata/_tab_index = 0
 
-[node name="RoomBox" type="VBoxContainer" parent="Container/Chat/TabContainer/Room Chat"]
+[node name="RoomBox" type="VBoxContainer" parent="Container/Chat/TabContainer/Room Chat" unique_id=1582758804]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 10
 
-[node name="Global Chat" type="ScrollContainer" parent="Container/Chat/TabContainer"]
+[node name="Global Chat" type="ScrollContainer" parent="Container/Chat/TabContainer" unique_id=772948862]
 visible = false
 custom_minimum_size = Vector2(0, 350)
 layout_mode = 2
@@ -160,23 +160,23 @@ horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 metadata/_tab_index = 1
 
-[node name="GlobalBox" type="VBoxContainer" parent="Container/Chat/TabContainer/Global Chat"]
+[node name="GlobalBox" type="VBoxContainer" parent="Container/Chat/TabContainer/Global Chat" unique_id=1721336602]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 10
 
-[node name="Hidden" type="Control" parent="Container/Chat/TabContainer"]
+[node name="Hidden" type="Control" parent="Container/Chat/TabContainer" unique_id=337594528]
 visible = false
 custom_minimum_size = Vector2(0, 350)
 layout_mode = 2
 metadata/_tab_index = 2
 
-[node name="LineEdit" type="LineEdit" parent="Container/Chat"]
+[node name="LineEdit" type="LineEdit" parent="Container/Chat" unique_id=712319373]
 layout_mode = 2
 size_flags_vertical = 8
 caret_blink = true
 
-[node name="level" type="Label" parent="Container"]
+[node name="level" type="Label" parent="Container" unique_id=1348380867]
 layout_mode = 2
 size_flags_horizontal = 8
 size_flags_vertical = 0
@@ -188,9 +188,9 @@ theme_override_font_sizes/font_size = 32
 text = "0, 0, 0"
 script = SubResource("GDScript_gfrtc")
 
-[node name="Eyestrain" parent="." instance=ExtResource("7_5kibr")]
+[node name="Eyestrain" parent="." unique_id=625333885 instance=ExtResource("7_5kibr")]
 
-[node name="EmoteMenu" parent="." node_paths=PackedStringArray("dog") instance=ExtResource("8_jorfc")]
+[node name="EmoteMenu" parent="." unique_id=1458960339 node_paths=PackedStringArray("dog") instance=ExtResource("8_jorfc")]
 visible = false
 dog = NodePath("../Dog")
 

@@ -1,46 +1,38 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=19 format=3 uid="uid://cirj3xdfevd0b"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://cirj3xdfevd0b"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_3d08e"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_djrdm"]
 
 [sub_resource type="Resource" id="Resource_0a1dv"]
 script = ExtResource("1_3d08e")
-rotation = 0.0
 position = Vector2(-3.85, -11.5)
 
 [sub_resource type="Resource" id="Resource_b0vmb"]
 script = ExtResource("1_3d08e")
-rotation = 0.0
 position = Vector2(-3.85, -7)
 
 [sub_resource type="Resource" id="Resource_qkjxo"]
 script = ExtResource("1_3d08e")
-rotation = 0.0
 position = Vector2(-3.85, -8.75)
 
 [sub_resource type="Resource" id="Resource_2rfil"]
 script = ExtResource("1_3d08e")
-rotation = 0.0
 position = Vector2(-3.85, -14.1)
 
 [sub_resource type="Resource" id="Resource_nyb83"]
 script = ExtResource("1_3d08e")
-rotation = 0.0
 position = Vector2(-3.8, -13)
 
 [sub_resource type="Resource" id="Resource_dbru2"]
 script = ExtResource("1_3d08e")
-rotation = 0.0
 position = Vector2(-3.85, -7.5)
 
 [sub_resource type="Resource" id="Resource_3ns5h"]
 script = ExtResource("1_3d08e")
-rotation = 0.0
 position = Vector2(-3.85, -8.3)
 
 [sub_resource type="Resource" id="Resource_sw4pq"]
 script = ExtResource("1_3d08e")
-rotation = 0.0
 position = Vector2(-3.8, -13.65)
 
 [sub_resource type="Resource" id="Resource_6sng0"]
@@ -89,8 +81,6 @@ origin = Vector2(75, 130)
 ear = "sprDog_run_ear"
 A = "sprDog_run_A"
 B = "sprDog_run_B"
-loop = "1"
-bounce = 0.0
 head = [SubResource("Resource_6sng0"), SubResource("Resource_85pu7"), SubResource("Resource_ajrbj"), SubResource("Resource_cpkvt"), SubResource("Resource_k17ma"), SubResource("Resource_ms1ww"), SubResource("Resource_8atd6"), SubResource("Resource_wcxwb")]
 body = [SubResource("Resource_0a1dv"), SubResource("Resource_b0vmb"), SubResource("Resource_qkjxo"), SubResource("Resource_2rfil"), SubResource("Resource_nyb83"), SubResource("Resource_dbru2"), SubResource("Resource_3ns5h"), SubResource("Resource_sw4pq")]
 speed_scale = 2.0

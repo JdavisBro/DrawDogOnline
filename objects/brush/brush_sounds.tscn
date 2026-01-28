@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bfo442g8sgahl"]
+[gd_scene format=3 uid="uid://bfo442g8sgahl"]
 
 [ext_resource type="AudioStream" uid="uid://crt3j3lgpdd27" path="res://assets/chicory/sounds/sfx/paint/colour_change/01.wav" id="1_ao0n3"]
 [ext_resource type="Script" uid="uid://cojcpl36l53ps" path="res://objects/brush/brush_sounds.gd" id="1_qjowx"]
@@ -18,35 +18,35 @@ stream_1/stream = ExtResource("2_ojc3w")
 stream_2/stream = ExtResource("3_eg6qn")
 stream_3/stream = ExtResource("4_ulbcx")
 
-[node name="brush_sounds" type="Node2D"]
+[node name="brush_sounds" type="Node2D" unique_id=1069279962]
 script = ExtResource("1_qjowx")
 
-[node name="color_switch" type="AudioStreamPlayer" parent="."]
+[node name="color_switch" type="AudioStreamPlayer" parent="." unique_id=1184644143]
 stream = SubResource("AudioStreamRandomizer_fbgic")
 volume_db = -12.0
 bus = &"BrushSounds"
 
-[node name="size_small" type="AudioStreamPlayer" parent="."]
+[node name="size_small" type="AudioStreamPlayer" parent="." unique_id=841674257]
 stream = ExtResource("5_q0hdp")
 volume_db = -12.0
 bus = &"BrushSounds"
 
-[node name="size_medium" type="AudioStreamPlayer" parent="."]
+[node name="size_medium" type="AudioStreamPlayer" parent="." unique_id=2083620314]
 stream = ExtResource("6_6dswh")
 volume_db = -12.0
 bus = &"BrushSounds"
 
-[node name="size_big" type="AudioStreamPlayer" parent="."]
+[node name="size_big" type="AudioStreamPlayer" parent="." unique_id=784393474]
 stream = ExtResource("7_1gh8f")
 volume_db = -12.0
 bus = &"BrushSounds"
 
-[node name="paint_medium" type="AudioStreamPlayer2D" parent="."]
+[node name="paint_medium" type="AudioStreamPlayer2D" parent="." unique_id=115768414]
 stream = ExtResource("9_rqbwd")
 panning_strength = 3.0
 bus = &"BrushSounds"
 
-[node name="erase" type="AudioStreamPlayer2D" parent="."]
+[node name="erase" type="AudioStreamPlayer2D" parent="." unique_id=632421188]
 stream = ExtResource("10_lyltl")
 volume_db = -5.0
 panning_strength = 3.0

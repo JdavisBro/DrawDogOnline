@@ -1,11 +1,10 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=21 format=3 uid="uid://o882gpjsuuxk"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://o882gpjsuuxk"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_x0mji"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_f1dri"]
 
 [sub_resource type="Resource" id="Resource_s307e"]
 script = ExtResource("1_x0mji")
-rotation = 0.0
 position = Vector2(-3.9, -11.45)
 
 [sub_resource type="Resource" id="Resource_popyo"]
@@ -103,4 +102,3 @@ loop = "0"
 bounce = 1.5
 head = [SubResource("Resource_7g5ms"), SubResource("Resource_0qxb4"), SubResource("Resource_abq0i"), SubResource("Resource_pgsms"), SubResource("Resource_0ad5q"), SubResource("Resource_2d7g0"), SubResource("Resource_fxldw"), SubResource("Resource_vsycl"), SubResource("Resource_b33qt")]
 body = [SubResource("Resource_s307e"), SubResource("Resource_popyo"), SubResource("Resource_3musf"), SubResource("Resource_5m52f"), SubResource("Resource_3xpfw"), SubResource("Resource_l5lg0"), SubResource("Resource_jn335"), SubResource("Resource_8q71q"), SubResource("Resource_wmtp2")]
-speed_scale = 1.0

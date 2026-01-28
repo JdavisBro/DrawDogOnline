@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://ctliw0bub5qtc"]
+[gd_scene format=3 uid="uid://ctliw0bub5qtc"]
 
 [ext_resource type="Script" uid="uid://btuxaysg4lhl6" path="res://scenes/ui/map.gd" id="1_ylkcl"]
 [ext_resource type="Script" uid="uid://b12mwtgjt8euh" path="res://scripts/map_view.gd" id="2_4wsmq"]
@@ -28,7 +28,7 @@ func _draw():
 	draw_circle(Vector2.ZERO, 2, Color.RED)
 "
 
-[node name="map" type="Control"]
+[node name="map" type="Control" unique_id=69179996]
 process_mode = 3
 z_index = 3000
 layout_mode = 3
@@ -39,98 +39,98 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_ylkcl")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=800761421]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.435294, 0.435294, 0.435294, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1763435067]
 layout_mode = 0
 offset_left = 28.0
 offset_top = 16.0
 offset_right = 1891.0
 offset_bottom = 1064.0
 
-[node name="Label" type="Label" parent="VBoxContainer"]
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1213890485]
 layout_mode = 2
 text = "Map"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=982047718]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MapContainer" type="SubViewportContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="MapContainer" type="SubViewportContainer" parent="VBoxContainer/HBoxContainer" unique_id=506681528]
 layout_mode = 2
 script = ExtResource("2_4wsmq")
 
-[node name="MapViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer/MapContainer"]
+[node name="MapViewport" type="SubViewport" parent="VBoxContainer/HBoxContainer/MapContainer" unique_id=1358842957]
 handle_input_locally = false
 size = Vector2i(1420, 950)
 render_target_update_mode = 4
 
-[node name="squares" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
+[node name="squares" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport" unique_id=115440569]
 z_index = -101
 script = SubResource("GDScript_vkiip")
 
-[node name="Camera2D" type="Camera2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
+[node name="Camera2D" type="Camera2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport" unique_id=2034991212]
 limit_left = -3200
 limit_top = -1800
 limit_right = 3360
 limit_bottom = 1890
 
-[node name="heads" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
+[node name="heads" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport" unique_id=851394566]
 z_index = 1
 
-[node name="teleportpoint" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport"]
+[node name="teleportpoint" type="Node2D" parent="VBoxContainer/HBoxContainer/MapContainer/MapViewport" unique_id=31078599]
 unique_name_in_owner = true
 visible = false
 z_index = 1
 script = SubResource("GDScript_c4g6u")
 
-[node name="PlayerListContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="PlayerListContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer" unique_id=1062227013]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PlayerListContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/PlayerListContainer" unique_id=273922781]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 alignment = 1
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=747063044]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=1829043715]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="UpdateSwitch" type="CheckButton" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="UpdateSwitch" type="CheckButton" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=430276396]
 layout_mode = 2
 button_pressed = true
 text = "Update Paint"
 
-[node name="HeadsSwitch" type="CheckButton" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="HeadsSwitch" type="CheckButton" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1980916503]
 layout_mode = 2
 button_pressed = true
 text = "Show Heads"
 
-[node name="ClearCache" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="ClearCache" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1497874959]
 layout_mode = 2
 text = "Clear Cache"
 
-[node name="ResetZoom" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="ResetZoom" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=914255563]
 layout_mode = 2
 text = "Reset Zoom"
 
-[node name="Teleport" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="Teleport" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1200757822]
 layout_mode = 2
 disabled = true
 text = "Teleport unset (right click)"
 
-[node name="Close" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="Close" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1620705375]
 layout_mode = 2
 text = "Close"
 

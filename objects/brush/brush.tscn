@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://d21m8qkv2atq5"]
+[gd_scene format=3 uid="uid://d21m8qkv2atq5"]
 
 [ext_resource type="Script" uid="uid://clabuvfsratvd" path="res://objects/brush/brush.gd" id="1_e6fv8"]
 [ext_resource type="Script" uid="uid://bro4fmf7wr6xj" path="res://objects/brush/brush_circle.gd" id="2_lvilv"]
@@ -17,35 +17,35 @@ shader = ExtResource("7_17kxd")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qt182"]
 shader = ExtResource("7_17kxd")
 
-[node name="brush" type="Node2D"]
+[node name="brush" type="Node2D" unique_id=1773129756]
 process_mode = 3
 script = ExtResource("1_e6fv8")
 
-[node name="circle" type="MeshInstance2D" parent="."]
+[node name="circle" type="MeshInstance2D" parent="." unique_id=132694380]
 process_mode = 1
 z_index = 2000
 z_as_relative = false
 script = ExtResource("2_lvilv")
 
-[node name="prop" parent="." instance=ExtResource("3_46ldi")]
+[node name="prop" parent="." unique_id=1253992288 instance=ExtResource("3_46ldi")]
 process_mode = 1
 
-[node name="SoundManager" parent="prop" instance=ExtResource("10_lf6s8")]
+[node name="SoundManager" parent="prop" unique_id=1238868766 instance=ExtResource("10_lf6s8")]
 
-[node name="ColorSelectorCircle" type="MeshInstance2D" parent="."]
+[node name="ColorSelectorCircle" type="MeshInstance2D" parent="." unique_id=1551769174]
 process_mode = 1
 visible = false
 script = ExtResource("4_hdasc")
 
-[node name="styletip" type="Node2D" parent="."]
+[node name="styletip" type="Node2D" parent="." unique_id=91823483]
 position = Vector2(23, -74)
 
-[node name="ColorRect" type="ColorRect" parent="styletip"]
+[node name="ColorRect" type="ColorRect" parent="styletip" unique_id=693510]
 offset_right = 68.0
 offset_bottom = 53.0
 color = Color(0.588235, 0.588235, 0.588235, 1)
 
-[node name="Label" type="Label" parent="styletip"]
+[node name="Label" type="Label" parent="styletip" unique_id=1921585554]
 offset_left = 4.0
 offset_top = 2.0
 offset_right = 40.0
@@ -55,17 +55,17 @@ theme_override_fonts/font = ExtResource("5_5x5o1")
 theme_override_font_sizes/font_size = 50
 text = "2"
 
-[node name="Icon" type="Sprite2D" parent="styletip"]
+[node name="Icon" type="Sprite2D" parent="styletip" unique_id=1455767069]
 position = Vector2(47, 26)
 scale = Vector2(1.1875, 1.1875)
 texture = ExtResource("6_lk76n")
 
-[node name="ruler" type="Node2D" parent="."]
+[node name="ruler" type="Node2D" parent="." unique_id=482549483]
 process_mode = 1
 material = SubResource("ShaderMaterial_eylrg")
 script = ExtResource("7_ych26")
 
-[node name="distlabel" type="Label" parent="ruler"]
+[node name="distlabel" type="Label" parent="ruler" unique_id=74800986]
 z_index = 2001
 z_as_relative = false
 material = SubResource("ShaderMaterial_qt182")

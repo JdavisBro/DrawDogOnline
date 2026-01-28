@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://tout8bwr3inw"]
+[gd_scene format=3 uid="uid://tout8bwr3inw"]
 
 [ext_resource type="Script" uid="uid://bo1jdi0p5nqd8" path="res://scenes/ui/set_palette.gd" id="1_p18gk"]
 
@@ -9,48 +9,48 @@ colors = PackedColorArray(1, 0, 0, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ys6nq"]
 gradient = SubResource("Gradient_puur2")
 
-[node name="set_palette" type="Control"]
+[node name="set_palette" type="Control" unique_id=1099760087]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 script = ExtResource("1_p18gk")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=272400005]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.435294, 0.435294, 0.435294, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=255764323]
 layout_mode = 0
 offset_left = 28.0
 offset_top = 16.0
 offset_right = 1891.0
 offset_bottom = 1064.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=2104408424]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PaletteColumnContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="PaletteColumnContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1172053110]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
-[node name="SetPaletteText" type="Label" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer"]
+[node name="SetPaletteText" type="Label" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer" unique_id=804706237]
 layout_mode = 2
 text = "Set Palette"
 
-[node name="PaletteContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer"]
+[node name="PaletteContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer" unique_id=532105641]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer" unique_id=1317272547]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="PaletteItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer"]
+[node name="PaletteItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer/PaletteContainer/ScrollContainer" unique_id=115903740]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -58,86 +58,86 @@ item_count = 1
 item_0/text = "Color 1"
 item_0/icon = SubResource("GradientTexture2D_ys6nq")
 
-[node name="PlusButton" type="Button" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer"]
+[node name="PlusButton" type="Button" parent="VBoxContainer/HBoxContainer/PaletteColumnContainer" unique_id=968612454]
 layout_mode = 2
 text = "Add Color"
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer" unique_id=1994568837]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/CenterContainer" unique_id=1967391074]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=419039630]
 layout_mode = 2
 theme_override_constants/margin_top = 38
 theme_override_constants/margin_bottom = 38
 
-[node name="ColorPicker" type="ColorPicker" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/MarginContainer"]
+[node name="ColorPicker" type="ColorPicker" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer/MarginContainer" unique_id=342354473]
 layout_mode = 2
 edit_alpha = false
 
-[node name="ApplyColorButton" type="Button" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="ApplyColorButton" type="Button" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=1106655225]
 layout_mode = 2
 text = "Apply Color"
 
-[node name="InGameColumnContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="InGameColumnContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1066798266]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 
-[node name="SetPaletteText" type="Label" parent="VBoxContainer/HBoxContainer/InGameColumnContainer"]
+[node name="SetPaletteText" type="Label" parent="VBoxContainer/HBoxContainer/InGameColumnContainer" unique_id=1008787381]
 layout_mode = 2
 text = "Set as Chicory Color"
 
-[node name="InGameContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer"]
+[node name="InGameContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer" unique_id=179064397]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="InGameSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer"]
+[node name="InGameSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer" unique_id=370380014]
 layout_mode = 2
 placeholder_text = "Search..."
 clear_button_enabled = true
 
-[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer" unique_id=2020144533]
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="InGameTree" type="Tree" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer"]
+[node name="InGameTree" type="Tree" parent="VBoxContainer/HBoxContainer/InGameColumnContainer/InGameContainer/ScrollContainer" unique_id=1446330114]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 allow_search = false
 hide_root = true
 
-[node name="InGameApplyButton" type="Button" parent="VBoxContainer/HBoxContainer/InGameColumnContainer"]
+[node name="InGameApplyButton" type="Button" parent="VBoxContainer/HBoxContainer/InGameColumnContainer" unique_id=2138681710]
 layout_mode = 2
 text = "Apply Color"
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=1117188599]
 layout_mode = 2
 theme_override_constants/margin_top = 8
 
-[node name="WarningPanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer"]
+[node name="WarningPanelContainer" type="PanelContainer" parent="VBoxContainer/MarginContainer" unique_id=915893721]
 layout_mode = 2
 size_flags_horizontal = 0
 
-[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/WarningPanelContainer"]
+[node name="Label" type="Label" parent="VBoxContainer/MarginContainer/WarningPanelContainer" unique_id=1136581118]
 layout_mode = 2
 text = " Warning!! %s %s already editing this screen's palette!! What you do might overwrite what they're doing! "
 
-[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+[node name="ButtonContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=725473211]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/ButtonContainer"]
+[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/ButtonContainer" unique_id=2089491025]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel "
 
-[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/ButtonContainer"]
+[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/ButtonContainer" unique_id=2017149587]
 layout_mode = 2
 text = "Confirm"
 

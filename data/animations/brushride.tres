@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=11 format=3 uid="uid://wqtmjkyssypr"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://wqtmjkyssypr"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_jv84o"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_prwn6"]
@@ -50,7 +50,5 @@ ear = "sprDog_brushride_ear"
 A = "sprDog_brushride_A"
 B = "sprDog_brushride_B"
 loop = "0"
-bounce = 0.0
 head = [SubResource("Resource_66d14"), SubResource("Resource_uq5by"), SubResource("Resource_amyic"), SubResource("Resource_abwij")]
 body = [SubResource("Resource_ptku5"), SubResource("Resource_4qaso"), SubResource("Resource_03jf5"), SubResource("Resource_6jyqu")]
-speed_scale = 1.0

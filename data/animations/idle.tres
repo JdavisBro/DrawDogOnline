@@ -1,46 +1,38 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=19 format=3 uid="uid://bysmjglafo3ly"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://bysmjglafo3ly"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_ax56e"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_giont"]
 
 [sub_resource type="Resource" id="Resource_sylbt"]
 script = ExtResource("1_ax56e")
-rotation = 0.0
 position = Vector2(-4.55, -12.05)
 
 [sub_resource type="Resource" id="Resource_s2lfk"]
 script = ExtResource("1_ax56e")
-rotation = 0.0
 position = Vector2(-4.3, -12.3)
 
 [sub_resource type="Resource" id="Resource_mr34o"]
 script = ExtResource("1_ax56e")
-rotation = 0.0
 position = Vector2(-3.55, -13.55)
 
 [sub_resource type="Resource" id="Resource_0e7tb"]
 script = ExtResource("1_ax56e")
-rotation = 0.0
 position = Vector2(-4.1, -14.05)
 
 [sub_resource type="Resource" id="Resource_8k7r5"]
 script = ExtResource("1_ax56e")
-rotation = 0.0
 position = Vector2(-4.1, -14.05)
 
 [sub_resource type="Resource" id="Resource_rxcnj"]
 script = ExtResource("1_ax56e")
-rotation = 0.0
 position = Vector2(-4.05, -14.05)
 
 [sub_resource type="Resource" id="Resource_a5n30"]
 script = ExtResource("1_ax56e")
-rotation = 0.0
 position = Vector2(-3.85, -13.4)
 
 [sub_resource type="Resource" id="Resource_ldq57"]
 script = ExtResource("1_ax56e")
-rotation = 0.0
 position = Vector2(-3.95, -12.3)
 
 [sub_resource type="Resource" id="Resource_hp02u"]
@@ -86,11 +78,5 @@ position = Vector2(-2.5, -46.85)
 [resource]
 script = ExtResource("2_giont")
 origin = Vector2(375, 650)
-ear = "sprDog_idle_ear"
-A = "sprDog_idle_A"
-B = "sprDog_idle_B"
-loop = "1"
-bounce = 0.0
 head = [SubResource("Resource_hp02u"), SubResource("Resource_3awra"), SubResource("Resource_oegh8"), SubResource("Resource_q6xq3"), SubResource("Resource_mk5wl"), SubResource("Resource_hogf5"), SubResource("Resource_j3k1n"), SubResource("Resource_0qqpj")]
 body = [SubResource("Resource_sylbt"), SubResource("Resource_s2lfk"), SubResource("Resource_mr34o"), SubResource("Resource_0e7tb"), SubResource("Resource_8k7r5"), SubResource("Resource_rxcnj"), SubResource("Resource_a5n30"), SubResource("Resource_ldq57")]
-speed_scale = 1.0

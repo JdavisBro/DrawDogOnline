@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://mgqf0hweh5h8"]
+[gd_scene format=3 uid="uid://mgqf0hweh5h8"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_hy0qq"]
 [ext_resource type="PackedScene" uid="uid://doo4hph7vj7lr" path="res://objects/paint.tscn" id="2_1uc1t"]
@@ -12,7 +12,7 @@ corner_radius_top_right = 8
 corner_radius_bottom_right = 8
 corner_radius_bottom_left = 8
 
-[node name="title" type="Control"]
+[node name="title" type="Control" unique_id=158591757]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -25,7 +25,7 @@ grow_vertical = 2
 theme = ExtResource("1_hy0qq")
 script = ExtResource("2_362du")
 
-[node name="TitleText" type="Label" parent="."]
+[node name="TitleText" type="Label" parent="." unique_id=91498334]
 visible = false
 layout_mode = 0
 offset_left = 3.0
@@ -39,14 +39,14 @@ theme_override_font_sizes/font_size = 72
 text = "DrawDog Online"
 horizontal_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=55253428]
 layout_mode = 0
 offset_left = 1215.0
 offset_top = 224.0
 offset_right = 1785.0
 offset_bottom = 838.0
 
-[node name="TabContainer" type="TabContainer" parent="VBoxContainer"]
+[node name="TabContainer" type="TabContainer" parent="VBoxContainer" unique_id=740671785]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(613, 378)
 layout_mode = 2
@@ -54,16 +54,16 @@ theme_override_font_sizes/font_size = 22
 theme_override_styles/panel = SubResource("StyleBoxFlat_s1drf")
 current_tab = 1
 
-[node name="Add Server" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+[node name="Add Server" type="VBoxContainer" parent="VBoxContainer/TabContainer" unique_id=377628918]
 visible = false
 layout_mode = 2
 metadata/_tab_index = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Add Server"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/TabContainer/Add Server" unique_id=485163471]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="IPTitle" type="Label" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer"]
+[node name="IPTitle" type="Label" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer" unique_id=1127271746]
 unique_name_in_owner = true
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -71,10 +71,10 @@ theme_override_font_sizes/font_size = 72
 text = "Host:"
 horizontal_alignment = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer" unique_id=1083154066]
 layout_mode = 2
 
-[node name="ProtocolSelect" type="OptionButton" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer/HBoxContainer"]
+[node name="ProtocolSelect" type="OptionButton" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer/HBoxContainer" unique_id=88889042]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_right = NodePath("../IPEnter")
@@ -88,7 +88,7 @@ popup/item_0/id = 0
 popup/item_1/text = "wss://"
 popup/item_1/id = 1
 
-[node name="IPEnter" type="LineEdit" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer/HBoxContainer"]
+[node name="IPEnter" type="LineEdit" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer/HBoxContainer" unique_id=902547017]
 unique_name_in_owner = true
 custom_minimum_size = Vector2(500, 0)
 layout_mode = 2
@@ -102,18 +102,18 @@ theme_override_font_sizes/font_size = 36
 clear_button_enabled = true
 caret_blink = true
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/TabContainer/Add Server"]
+[node name="VBoxContainer2" type="VBoxContainer" parent="VBoxContainer/TabContainer/Add Server" unique_id=436097110]
 layout_mode = 2
 size_flags_vertical = 6
 
-[node name="UsernameTitle" type="Label" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer2"]
+[node name="UsernameTitle" type="Label" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer2" unique_id=1406474242]
 layout_mode = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Username:"
 horizontal_alignment = 1
 
-[node name="UsernameEnter" type="LineEdit" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer2"]
+[node name="UsernameEnter" type="LineEdit" parent="VBoxContainer/TabContainer/Add Server/VBoxContainer2" unique_id=1208347032]
 unique_name_in_owner = true
 layout_mode = 2
 focus_neighbor_left = NodePath("../../VBoxContainer/HBoxContainer/IPEnter")
@@ -124,10 +124,10 @@ theme_override_font_sizes/font_size = 36
 placeholder_text = "Default"
 clear_button_enabled = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Add Server"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Add Server" unique_id=928781102]
 layout_mode = 2
 
-[node name="JoinButton" type="Button" parent="VBoxContainer/TabContainer/Add Server/HBoxContainer"]
+[node name="JoinButton" type="Button" parent="VBoxContainer/TabContainer/Add Server/HBoxContainer" unique_id=577466843]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -137,7 +137,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Join"
 
-[node name="AddButton" type="Button" parent="VBoxContainer/TabContainer/Add Server/HBoxContainer"]
+[node name="AddButton" type="Button" parent="VBoxContainer/TabContainer/Add Server/HBoxContainer" unique_id=418440101]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -147,11 +147,11 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Add"
 
-[node name="Server List" type="VBoxContainer" parent="VBoxContainer/TabContainer"]
+[node name="Server List" type="VBoxContainer" parent="VBoxContainer/TabContainer" unique_id=135185771]
 layout_mode = 2
 metadata/_tab_index = 1
 
-[node name="ServerListTree" type="Tree" parent="VBoxContainer/TabContainer/Server List"]
+[node name="ServerListTree" type="Tree" parent="VBoxContainer/TabContainer/Server List" unique_id=874033290]
 unique_name_in_owner = true
 layout_mode = 2
 size_flags_vertical = 3
@@ -159,10 +159,10 @@ theme_override_font_sizes/font_size = 24
 columns = 2
 select_mode = 1
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Server List"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/TabContainer/Server List" unique_id=1754959833]
 layout_mode = 2
 
-[node name="JoinButton" type="Button" parent="VBoxContainer/TabContainer/Server List/HBoxContainer"]
+[node name="JoinButton" type="Button" parent="VBoxContainer/TabContainer/Server List/HBoxContainer" unique_id=1496815025]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -172,7 +172,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Join"
 
-[node name="DeleteButton" type="Button" parent="VBoxContainer/TabContainer/Server List/HBoxContainer"]
+[node name="DeleteButton" type="Button" parent="VBoxContainer/TabContainer/Server List/HBoxContainer" unique_id=104151751]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 6
@@ -182,7 +182,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Delete"
 
-[node name="SetDogButton" type="Button" parent="VBoxContainer"]
+[node name="SetDogButton" type="Button" parent="VBoxContainer" unique_id=2100053349]
 layout_mode = 2
 size_flags_vertical = 6
 focus_neighbor_top = NodePath("../TabContainer/Add Server/VBoxContainer/HBoxContainer/IPEnter")
@@ -191,7 +191,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Set Dog"
 
-[node name="SettingsButton" type="Button" parent="VBoxContainer"]
+[node name="SettingsButton" type="Button" parent="VBoxContainer" unique_id=1595729504]
 layout_mode = 2
 size_flags_vertical = 6
 focus_neighbor_top = NodePath("../TabContainer/Add Server/VBoxContainer/HBoxContainer/IPEnter")
@@ -200,7 +200,7 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 text = "Settings"
 
-[node name="Status" type="Label" parent="."]
+[node name="Status" type="Label" parent="." unique_id=463642056]
 unique_name_in_owner = true
 layout_mode = 0
 offset_top = 956.0
@@ -210,13 +210,13 @@ theme_override_colors/font_color = Color(0, 0, 0, 1)
 theme_override_font_sizes/font_size = 72
 horizontal_alignment = 1
 
-[node name="paint" parent="." instance=ExtResource("2_1uc1t")]
+[node name="paint" parent="." unique_id=1781582324 instance=ExtResource("2_1uc1t")]
 set_paint_target = false
 init_paint_string = "eJztmgmShCAMRcuaeP8rT6ss+VlwY+uq/jOlNiI8QwKILssA0abSOabFyclyNIJzSpcpFiFeeUp5406MbCLJoNn/PDqW6ldavPJKKflCIwftfNDq14vX+QsllPHd2veky44mXdhnEaefu3Pw2EfXXir+bbClxq+FVF0k9vNJEdbv/F5KED5wmgYdOpYPB7f9+kIX9VaERtxrulHhlZ7nNaImvOGMgaspYqrjKSErp1lTs0EFCXOl3qAJv/sTJrNw0jPCJpYkaSPKAYOoFiHhMbR2LVxi8RKJOA0BIRpT0kDMVPNNNoPlDcUJF4ZoEkYY6HmqRTiJMc8gFJVKMnCIfCkYtB6h9jlB4BGqvC0J47EgDK3tEhn3WJ2Qj3i56GQ2TigzeTdZm9Cey2J99wxTnbC6piZs4odLzXGrFqBYc3CKzVFzo+AqgCFOJaAsmPcub6u8qcOAQGhxqE6Sn2mLjfM/NeIpRPmzWjScEIrJjZ7C5pSMNQGhMXgkJyCepSUhyb0NMi+hChE4Ie+iF2Gar0JYK0LuCe34WAznlGQVCGsWO5qwISapA9a/mR2P2Q+1IySD8MlspCGhcTSXvoDQbOWpND/hN65jzycxc1BaD/XCMURsq7Sx/W0aSRkGM+NMwgsaxugRIl5g7A23yyE0AD+I3ek24YNU1BEfcxAukjBE77q1agCLm2HBwgnBcimQ42YCQhm+0xFK15OEg7rvTKhiQxCO6rsToRG8GCnRiL0RM6HuAOXvMYiR0BpFPMK+iIlQAU5GaI1zkxFqwLkITROufAeInQm3/4IJcRbRn5DOCD90cqbT3YQbpR8n2ZLZjL0Bt+26MhqLMLtj/zY+ONWMMKOhCfuHSdwxX0NCcMPucYzPyyuYy3oOGDBrwP3R1AtMZMCSnfmMVZGDYmVdyqBxRIKJp7115HMTyF1Y2nvpzjCm0gsndWbsalLW2crXeP0IK6i4fDiFvoDweDM2GqMoe3VuKs1P2Pirqhr6EWJlT15GVyf0CeSnJ+dXUvyugSecVF58J4/v90vVqxz80wWkOdLh64Fi5d5veXc6dwnZMFI+re6ZTPnYboazq90MKukfyHZT3Q=="
 init_paint_size = 14742
 init_palette = Array[Color]([Color(0, 0.952941, 0.866667, 1), Color(0.847059, 1, 0.333333, 1), Color(1, 0.65098, 0.580392, 1), Color(0.713726, 0.603922, 1, 1), Color(0, 0, 0, 1)])
 
-[node name="Eyestrain" parent="." instance=ExtResource("3_sxvmw")]
+[node name="Eyestrain" parent="." unique_id=376692180 instance=ExtResource("3_sxvmw")]
 
 [connection signal="tab_changed" from="VBoxContainer/TabContainer" to="." method="_on_tab_container_tab_changed"]
 [connection signal="pressed" from="VBoxContainer/TabContainer/Add Server/HBoxContainer/JoinButton" to="." method="_on_join_button_pressed"]

@@ -1,9 +1,9 @@
-[gd_scene load_steps=3 format=3 uid="uid://v2wyxl35vh0s"]
+[gd_scene format=3 uid="uid://v2wyxl35vh0s"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_455xm"]
 [ext_resource type="Script" uid="uid://d2v6pl4lvs8dk" path="res://scenes/ui/settings.gd" id="2_gnijh"]
 
-[node name="settings" type="Control"]
+[node name="settings" type="Control" unique_id=84797675]
 z_index = 3000
 layout_mode = 3
 anchors_preset = 0
@@ -11,13 +11,13 @@ theme = ExtResource("1_455xm")
 script = ExtResource("2_gnijh")
 metadata/_edit_use_anchors_ = true
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=2006198891]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.435294, 0.435294, 0.435294, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2001649961]
 layout_mode = 1
 anchors_preset = -1
 offset_left = 28.0
@@ -26,32 +26,32 @@ offset_right = 1891.0
 offset_bottom = 1064.0
 grow_vertical = 2
 
-[node name="Title" type="Label" parent="VBoxContainer"]
+[node name="Title" type="Label" parent="VBoxContainer" unique_id=1918049066]
 layout_mode = 2
 text = "Settings"
 
-[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer" unique_id=1525158366]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/PanelContainer" unique_id=1468106365]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=1314789152]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=1855681407]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1901515486]
 layout_mode = 2
 text = "Cancel "
 
-[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=211813790]
 layout_mode = 2
 text = "Confirm"
 

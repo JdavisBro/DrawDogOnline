@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=5 format=3 uid="uid://csq8ukenyxxir"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://csq8ukenyxxir"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_sysqu"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_ve6ax"]
@@ -19,8 +19,6 @@ origin = Vector2(75, 130)
 ear = "sprDog_lay_ear"
 A = "sprDog_lay_A"
 B = "sprDog_lay_B"
-loop = "1"
 bounce = 1.0
 head = [SubResource("Resource_0ds5x")]
 body = [SubResource("Resource_3avws")]
-speed_scale = 1.0

@@ -1,8 +1,8 @@
-[gd_scene load_steps=2 format=3 uid="uid://boxyydjrjw71j"]
+[gd_scene format=3 uid="uid://boxyydjrjw71j"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_cff24"]
 
-[node name="loading" type="Control"]
+[node name="loading" type="Control" unique_id=1146552328]
 process_mode = 3
 z_index = 2000
 layout_mode = 3
@@ -12,14 +12,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=738179290]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 theme = ExtResource("1_cff24")
 color = Color(0.886275, 0.886275, 0.886275, 1)
 
-[node name="TitleText" type="Label" parent="."]
+[node name="TitleText" type="Label" parent="." unique_id=310230680]
 layout_mode = 0
 offset_left = 39.0
 offset_top = 32.0

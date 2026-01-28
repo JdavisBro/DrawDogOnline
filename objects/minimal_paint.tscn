@@ -1,10 +1,10 @@
-[gd_scene load_steps=2 format=3 uid="uid://bbw03a1088h05"]
+[gd_scene format=3 uid="uid://bbw03a1088h05"]
 
 [ext_resource type="Script" uid="uid://d0ab2qy4semga" path="res://objects/minimal_paint.gd" id="1_locu3"]
 
-[node name="MinimalPaint" type="Node2D"]
+[node name="MinimalPaint" type="Node2D" unique_id=1669229938]
 script = ExtResource("1_locu3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=804074763]
 texture_filter = 1
 centered = false

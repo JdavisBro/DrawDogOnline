@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://duymuwnvdmpi6"]
+[gd_scene format=3 uid="uid://duymuwnvdmpi6"]
 
 [ext_resource type="Script" uid="uid://b6bwr4lbporqo" path="res://scenes/ui/set_dog.gd" id="1_7gm8l"]
 [ext_resource type="Texture2D" uid="uid://cfacn8d5kbpll" path="res://assets/chicory/brush/1.png" id="2_vkivh"]
@@ -11,7 +11,7 @@
 [sub_resource type="ViewportTexture" id="ViewportTexture_s2u77"]
 viewport_path = NodePath("SubViewport")
 
-[node name="set_dog" type="Control"]
+[node name="set_dog" type="Control" unique_id=1147138225]
 z_index = 3000
 layout_mode = 3
 anchors_preset = 15
@@ -21,70 +21,70 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_7gm8l")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1135337697]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.435294, 0.435294, 0.435294, 1)
 
-[node name="SubViewport" type="SubViewport" parent="."]
+[node name="SubViewport" type="SubViewport" parent="." unique_id=1615957792]
 transparent_bg = true
 size = Vector2i(750, 800)
 
-[node name="brush" type="Node2D" parent="SubViewport"]
+[node name="brush" type="Node2D" parent="SubViewport" unique_id=944092309]
 
-[node name="end" type="Sprite2D" parent="SubViewport/brush"]
+[node name="end" type="Sprite2D" parent="SubViewport/brush" unique_id=412214281]
 texture = ExtResource("2_vkivh")
 offset = Vector2(0, -26)
 
-[node name="handle" type="Sprite2D" parent="SubViewport/brush"]
+[node name="handle" type="Sprite2D" parent="SubViewport/brush" unique_id=1756799334]
 texture = ExtResource("3_df4k7")
 offset = Vector2(0, -26)
 
-[node name="DogAnim" parent="SubViewport" instance=ExtResource("4_udqss")]
+[node name="DogAnim" parent="SubViewport" unique_id=1366325190 instance=ExtResource("4_udqss")]
 position = Vector2(375, 675)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1854274450]
 layout_mode = 0
 offset_left = 28.0
 offset_top = 16.0
 offset_right = 1891.0
 offset_bottom = 1064.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=683244966]
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="DogPanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="DogPanelContainer" type="PanelContainer" parent="VBoxContainer/HBoxContainer" unique_id=1673071788]
 layout_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/DogPanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/HBoxContainer/DogPanelContainer" unique_id=1209643294]
 layout_mode = 2
 theme_override_constants/margin_top = 12
 theme_override_constants/margin_bottom = 12
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/DogPanelContainer/MarginContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer/DogPanelContainer/MarginContainer" unique_id=2096748115]
 layout_mode = 2
 
-[node name="SubViewportContainer" type="TextureRect" parent="VBoxContainer/HBoxContainer/DogPanelContainer/MarginContainer/CenterContainer"]
+[node name="SubViewportContainer" type="TextureRect" parent="VBoxContainer/HBoxContainer/DogPanelContainer/MarginContainer/CenterContainer" unique_id=155546469]
 layout_mode = 2
 texture = SubResource("ViewportTexture_s2u77")
 
-[node name="ClothesContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="ClothesContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=508976303]
 layout_mode = 2
 
-[node name="ClothesSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/ClothesContainer"]
+[node name="ClothesSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/ClothesContainer" unique_id=737538339]
 layout_mode = 2
 placeholder_text = "Search..."
 clear_button_enabled = true
 
-[node name="ClothesScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/ClothesContainer"]
+[node name="ClothesScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/ClothesContainer" unique_id=990182186]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="ClothesItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/ClothesContainer/ClothesScroll"]
+[node name="ClothesItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/ClothesContainer/ClothesScroll" unique_id=1457423914]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -94,21 +94,21 @@ item_count = 1
 item_0/text = "Overalls"
 item_0/icon = ExtResource("5_xqi5h")
 
-[node name="HatContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="HatContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1868496166]
 layout_mode = 2
 
-[node name="HatSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/HatContainer"]
+[node name="HatSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/HatContainer" unique_id=538325114]
 layout_mode = 2
 placeholder_text = "Search..."
 clear_button_enabled = true
 
-[node name="HatScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/HatContainer"]
+[node name="HatScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/HatContainer" unique_id=2073946826]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="HatItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HatContainer/HatScroll"]
+[node name="HatItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HatContainer/HatScroll" unique_id=1683522646]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -117,21 +117,21 @@ item_count = 1
 item_0/text = "Bandana"
 item_0/icon = ExtResource("6_aacgv")
 
-[node name="HairContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="HairContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer" unique_id=1397370849]
 layout_mode = 2
 
-[node name="HairSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/HairContainer"]
+[node name="HairSearch" type="LineEdit" parent="VBoxContainer/HBoxContainer/HairContainer" unique_id=352985637]
 layout_mode = 2
 placeholder_text = "Search..."
 clear_button_enabled = true
 
-[node name="HairScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/HairContainer"]
+[node name="HairScroll" type="ScrollContainer" parent="VBoxContainer/HBoxContainer/HairContainer" unique_id=807841107]
 custom_minimum_size = Vector2(300, 0)
 layout_mode = 2
 size_flags_vertical = 3
 horizontal_scroll_mode = 0
 
-[node name="HairItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HairContainer/HairScroll"]
+[node name="HairItemList" type="ItemList" parent="VBoxContainer/HBoxContainer/HairContainer/HairScroll" unique_id=1939217408]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
@@ -140,71 +140,71 @@ item_count = 1
 item_0/text = "Simple"
 item_0/icon = ExtResource("7_oeqq4")
 
-[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer"]
+[node name="CenterContainer" type="CenterContainer" parent="VBoxContainer/HBoxContainer" unique_id=416961151]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/CenterContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HBoxContainer/CenterContainer" unique_id=266124425]
 layout_mode = 2
 
-[node name="BodyLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="BodyLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=1878252097]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "Body Color"
 
-[node name="BodyPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="BodyPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=456457445]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 edit_alpha = false
 
-[node name="ClothesLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="ClothesLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=535678578]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "
 Clothes Color"
 
-[node name="ClothesPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="ClothesPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=169433704]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 edit_alpha = false
 
-[node name="HatLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="HatLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=837839027]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "
 Hat Color"
 
-[node name="HatPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="HatPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=1441438122]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 edit_alpha = false
 
-[node name="BrushLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="BrushLabel" type="Label" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=714177382]
 layout_mode = 2
 size_flags_horizontal = 4
 text = "
 Brush Handle Color"
 
-[node name="BrushPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer"]
+[node name="BrushPickerButton" type="ColorPickerButton" parent="VBoxContainer/HBoxContainer/CenterContainer/VBoxContainer" unique_id=626011773]
 custom_minimum_size = Vector2(0, 40)
 layout_mode = 2
 edit_alpha = false
 
-[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer" unique_id=676841407]
 layout_mode = 2
 size_flags_vertical = 8
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/MarginContainer" unique_id=144594696]
 layout_mode = 2
 size_flags_horizontal = 8
 
-[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="CancelButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1431202806]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Cancel "
 
-[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer"]
+[node name="ConfirmButton" type="Button" parent="VBoxContainer/MarginContainer/HBoxContainer" unique_id=1567899586]
 layout_mode = 2
 size_flags_horizontal = 3
 text = "Confirm"

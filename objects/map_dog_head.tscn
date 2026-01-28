@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://c30iu7nalil7v"]
+[gd_scene format=3 uid="uid://c30iu7nalil7v"]
 
 [ext_resource type="Script" uid="uid://bjwkrlh018wws" path="res://objects/map_dog_head.gd" id="1_r1b11"]
 [ext_resource type="Texture2D" uid="uid://jwr6p4602ecr" path="res://assets/chicory/expression/0.png" id="2_gy06p"]
@@ -6,25 +6,25 @@
 [ext_resource type="Texture2D" uid="uid://dejs3c1dmhoty" path="res://assets/chicory/dog/idle/ear/03.png" id="4_dsgyb"]
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="5_l6778"]
 
-[node name="map_dog_head" type="Node2D"]
+[node name="map_dog_head" type="Node2D" unique_id=105832058]
 script = ExtResource("1_r1b11")
 
-[node name="head" type="Node2D" parent="."]
+[node name="head" type="Node2D" parent="." unique_id=844523056]
 
-[node name="hat_1" type="Sprite2D" parent="head"]
+[node name="hat_1" type="Sprite2D" parent="head" unique_id=158222343]
 
-[node name="head" type="Sprite2D" parent="head"]
+[node name="head" type="Sprite2D" parent="head" unique_id=1343004974]
 texture = ExtResource("2_gy06p")
 
-[node name="hat" type="Sprite2D" parent="head"]
+[node name="hat" type="Sprite2D" parent="head" unique_id=116378385]
 texture = ExtResource("3_p1p0y")
 
-[node name="hair" type="Sprite2D" parent="head"]
+[node name="hair" type="Sprite2D" parent="head" unique_id=1891074304]
 
-[node name="ear" type="Sprite2D" parent="head"]
+[node name="ear" type="Sprite2D" parent="head" unique_id=1478661701]
 texture = ExtResource("4_dsgyb")
 
-[node name="username" type="Label" parent="."]
+[node name="username" type="Label" parent="." unique_id=1442226280]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5

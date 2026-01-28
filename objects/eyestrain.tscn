@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://buoqly7yyvp10"]
+[gd_scene format=3 uid="uid://buoqly7yyvp10"]
 
 [ext_resource type="Shader" uid="uid://udox66b2qdw" path="res://shaders/eyestrain.gdshader" id="1_nmp2u"]
 [ext_resource type="Script" uid="uid://b1q5q4pj0rkek" path="res://objects/eyestrain.gd" id="2_722hy"]
@@ -8,9 +8,9 @@ shader = ExtResource("1_nmp2u")
 shader_parameter/mult = Vector4(1, 1, 1, 1)
 shader_parameter/add = Vector4(0, 0, 0, 0)
 
-[node name="Eyestrain" type="CanvasLayer"]
+[node name="Eyestrain" type="CanvasLayer" unique_id=400527214]
 
-[node name="EyestrainColorRect" type="ColorRect" parent="."]
+[node name="EyestrainColorRect" type="ColorRect" parent="." unique_id=72072342]
 process_mode = 3
 material = SubResource("ShaderMaterial_ddgnn")
 anchors_preset = 15

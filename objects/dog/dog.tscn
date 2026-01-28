@@ -1,16 +1,16 @@
-[gd_scene load_steps=5 format=3 uid="uid://bebdv4x8a47fm"]
+[gd_scene format=3 uid="uid://bebdv4x8a47fm"]
 
 [ext_resource type="Script" uid="uid://svdrqih4s10r" path="res://objects/dog/dog.gd" id="1_0su5j"]
 [ext_resource type="PackedScene" uid="uid://dr1js1iu23i63" path="res://objects/dog/dog_animation.tscn" id="2_ovtlf"]
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="3_5ypnp"]
 [ext_resource type="PackedScene" uid="uid://ctjsen354eycf" path="res://objects/dog/dog_sounds.tscn" id="3_gorde"]
 
-[node name="Dog" type="Node2D"]
+[node name="Dog" type="Node2D" unique_id=111531517]
 script = ExtResource("1_0su5j")
 
-[node name="AnimationManager" parent="." instance=ExtResource("2_ovtlf")]
+[node name="AnimationManager" parent="." unique_id=162633658 instance=ExtResource("2_ovtlf")]
 
-[node name="username" type="Label" parent="."]
+[node name="username" type="Label" parent="." unique_id=1316432515]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
@@ -31,7 +31,7 @@ theme_override_font_sizes/font_size = 36
 text = "USERNAME"
 horizontal_alignment = 1
 
-[node name="Auth" type="HBoxContainer" parent="."]
+[node name="Auth" type="HBoxContainer" parent="." unique_id=1849558254]
 anchors_preset = 5
 anchor_left = 0.5
 anchor_right = 0.5
@@ -43,11 +43,11 @@ grow_horizontal = 2
 theme = ExtResource("3_5ypnp")
 alignment = 1
 
-[node name="Profile" type="TextureRect" parent="Auth"]
+[node name="Profile" type="TextureRect" parent="Auth" unique_id=563430312]
 layout_mode = 2
 expand_mode = 2
 
-[node name="AuthName" type="Label" parent="Auth"]
+[node name="AuthName" type="Label" parent="Auth" unique_id=594308301]
 layout_mode = 2
 size_flags_horizontal = 4
 theme_override_colors/font_color = Color(0, 0, 0, 1)
@@ -55,4 +55,4 @@ theme_override_font_sizes/font_size = 24
 text = "username"
 horizontal_alignment = 1
 
-[node name="SoundManager" parent="." instance=ExtResource("3_gorde")]
+[node name="SoundManager" parent="." unique_id=881614501 instance=ExtResource("3_gorde")]

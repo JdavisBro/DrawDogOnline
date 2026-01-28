@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://dr1js1iu23i63"]
+[gd_scene format=3 uid="uid://dr1js1iu23i63"]
 
 [ext_resource type="Script" uid="uid://3ge2t4ddatbb" path="res://objects/dog/dog_animation.gd" id="1_0tcq3"]
 [ext_resource type="Texture2D" uid="uid://cgsyq3u2fnjj5" path="res://assets/chicory/dog/idle/B/00.png" id="2_0edie"]
@@ -10,76 +10,76 @@
 [ext_resource type="Texture2D" uid="uid://bf5dgidotmx4e" path="res://assets/chicory/dog/idle/ear/00.png" id="7_jp0i6"]
 [ext_resource type="PackedScene" uid="uid://ctjsen354eycf" path="res://objects/dog/dog_sounds.tscn" id="9_ai2lg"]
 
-[node name="AnimationManager" type="Node2D"]
+[node name="AnimationManager" type="Node2D" unique_id=905223442]
 script = ExtResource("1_0tcq3")
 
-[node name="shadow" type="Node2D" parent="."]
+[node name="shadow" type="Node2D" parent="." unique_id=256211223]
 modulate = Color(1, 1, 1, 0.690196)
 position = Vector2(-4, 0)
 scale = Vector2(1, 0.35)
 script = ExtResource("2_irxnk")
 
-[node name="B" type="Sprite2D" parent="."]
+[node name="B" type="Sprite2D" parent="." unique_id=821276454]
 texture = ExtResource("2_0edie")
 centered = false
 offset = Vector2(-75, -130)
 
-[node name="body" type="Sprite2D" parent="."]
+[node name="body" type="Sprite2D" parent="." unique_id=2117244780]
 position = Vector2(-4.55, -12.05)
 texture = ExtResource("3_jfnic")
 centered = false
 offset = Vector2(-75, -119)
 
-[node name="body_0" type="Sprite2D" parent="."]
+[node name="body_0" type="Sprite2D" parent="." unique_id=719009399]
 position = Vector2(-4.55, -12.05)
 centered = false
 offset = Vector2(-75, -119)
 
-[node name="A" type="Sprite2D" parent="."]
+[node name="A" type="Sprite2D" parent="." unique_id=691547132]
 texture = ExtResource("4_swwp0")
 centered = false
 offset = Vector2(-75, -130)
 
-[node name="body_1" type="Sprite2D" parent="."]
+[node name="body_1" type="Sprite2D" parent="." unique_id=716783507]
 position = Vector2(-4.55, -12.05)
 centered = false
 offset = Vector2(-75, -119)
 
-[node name="body_2_hat" type="Sprite2D" parent="."]
+[node name="body_2_hat" type="Sprite2D" parent="." unique_id=1513543406]
 position = Vector2(-4.55, -12.05)
 centered = false
 offset = Vector2(-75, -119)
 
-[node name="hat_1" type="Sprite2D" parent="."]
+[node name="hat_1" type="Sprite2D" parent="." unique_id=711209224]
 position = Vector2(-2.5, -45.6)
 centered = false
 offset = Vector2(-77, -84)
 
-[node name="head" type="Sprite2D" parent="."]
+[node name="head" type="Sprite2D" parent="." unique_id=986425851]
 position = Vector2(-2.5, -45.6)
 texture = ExtResource("5_x346j")
 centered = false
 offset = Vector2(-77, -84)
 
-[node name="hair" type="Sprite2D" parent="."]
+[node name="hair" type="Sprite2D" parent="." unique_id=2075539771]
 position = Vector2(-2.5, -45.6)
 centered = false
 offset = Vector2(-77, -84)
 
-[node name="body_2" type="Sprite2D" parent="."]
+[node name="body_2" type="Sprite2D" parent="." unique_id=1507658146]
 position = Vector2(-2.5, -45.6)
 centered = false
 offset = Vector2(-75, -119)
 
-[node name="hat" type="Sprite2D" parent="."]
+[node name="hat" type="Sprite2D" parent="." unique_id=189854367]
 position = Vector2(-2.5, -45.6)
 texture = ExtResource("6_6os1e")
 centered = false
 offset = Vector2(-77, -84)
 
-[node name="ear" type="Sprite2D" parent="."]
+[node name="ear" type="Sprite2D" parent="." unique_id=1402621149]
 texture = ExtResource("7_jp0i6")
 centered = false
 offset = Vector2(-75, -130)
 
-[node name="SoundManager" parent="." instance=ExtResource("9_ai2lg")]
+[node name="SoundManager" parent="." unique_id=1217855700 instance=ExtResource("9_ai2lg")]

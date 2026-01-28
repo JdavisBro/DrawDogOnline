@@ -1,4 +1,4 @@
-[gd_scene load_steps=39 format=3 uid="uid://ctjsen354eycf"]
+[gd_scene format=3 uid="uid://ctjsen354eycf"]
 
 [ext_resource type="Script" uid="uid://d343kjg3yi1l1" path="res://objects/dog/dog_sounds.gd" id="1_31422"]
 [ext_resource type="AudioStream" uid="uid://4o1ik4hd4xve" path="res://assets/chicory/sounds/fly/dirt/run/01.wav" id="2_ol4rh"]
@@ -82,35 +82,35 @@ stream_2/stream = ExtResource("30_5fb1a")
 stream_3/stream = ExtResource("31_00k45")
 stream_4/stream = ExtResource("32_ke0rn")
 
-[node name="dog_sounds" type="Node2D"]
+[node name="dog_sounds" type="Node2D" unique_id=1810440366]
 script = ExtResource("1_31422")
 
-[node name="footsteps" type="AudioStreamPlayer2D" parent="."]
+[node name="footsteps" type="AudioStreamPlayer2D" parent="." unique_id=112226657]
 stream = SubResource("AudioStreamRandomizer_6patx")
 panning_strength = 3.0
 bus = &"PuppetSounds"
 
-[node name="jump" type="AudioStreamPlayer2D" parent="."]
+[node name="jump" type="AudioStreamPlayer2D" parent="." unique_id=1549373798]
 stream = SubResource("AudioStreamRandomizer_7cckh")
 panning_strength = 3.0
 bus = &"PuppetSounds"
 
-[node name="jump_whoosh" type="AudioStreamPlayer2D" parent="."]
+[node name="jump_whoosh" type="AudioStreamPlayer2D" parent="." unique_id=271865312]
 stream = SubResource("AudioStreamRandomizer_1t28g")
 panning_strength = 3.0
 bus = &"PuppetSounds"
 
-[node name="land" type="AudioStreamPlayer2D" parent="."]
+[node name="land" type="AudioStreamPlayer2D" parent="." unique_id=1538112024]
 stream = SubResource("AudioStreamRandomizer_5tpir")
 panning_strength = 3.0
 bus = &"PuppetSounds"
 
-[node name="stop" type="AudioStreamPlayer2D" parent="."]
+[node name="stop" type="AudioStreamPlayer2D" parent="." unique_id=300619626]
 stream = SubResource("AudioStreamRandomizer_l37df")
 panning_strength = 3.0
 bus = &"PuppetSounds"
 
-[node name="turn" type="AudioStreamPlayer2D" parent="."]
+[node name="turn" type="AudioStreamPlayer2D" parent="." unique_id=366830952]
 stream = SubResource("AudioStreamRandomizer_qwbxw")
 volume_db = -20.0
 panning_strength = 3.0

@@ -1,21 +1,18 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=45 format=3 uid="uid://bfdjfb14jlxlk"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://bfdjfb14jlxlk"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_4uyxw"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_ejn5g"]
 
 [sub_resource type="Resource" id="Resource_q8e5i"]
 script = ExtResource("1_4uyxw")
-rotation = 0.0
 position = Vector2(-4.3, -12.3)
 
 [sub_resource type="Resource" id="Resource_c7bq3"]
 script = ExtResource("1_4uyxw")
-rotation = 0.0
 position = Vector2(-3.55, -12.65)
 
 [sub_resource type="Resource" id="Resource_l8jgm"]
 script = ExtResource("1_4uyxw")
-rotation = 0.0
 position = Vector2(-3.65, -13.6)
 
 [sub_resource type="Resource" id="Resource_w35fk"]
@@ -105,7 +102,6 @@ position = Vector2(-3.85, -13.15)
 
 [sub_resource type="Resource" id="Resource_wgb3d"]
 script = ExtResource("1_4uyxw")
-rotation = 0.0
 position = Vector2(-4.55, -12.45)
 
 [sub_resource type="Resource" id="Resource_x1mhx"]
@@ -220,7 +216,5 @@ ear = "sprDog_look_ear"
 A = "sprDog_look_A"
 B = "sprDog_look_B"
 loop = "idle"
-bounce = 0.0
 head = [SubResource("Resource_x1mhx"), SubResource("Resource_eoott"), SubResource("Resource_mtovt"), SubResource("Resource_im0fh"), SubResource("Resource_b320w"), SubResource("Resource_qva85"), SubResource("Resource_58k1j"), SubResource("Resource_n6ov5"), SubResource("Resource_1xqtl"), SubResource("Resource_k7i51"), SubResource("Resource_hktx4"), SubResource("Resource_12e0v"), SubResource("Resource_h4j66"), SubResource("Resource_5tkob"), SubResource("Resource_62vxy"), SubResource("Resource_ulq38"), SubResource("Resource_gd4dc"), SubResource("Resource_t7ajg"), SubResource("Resource_6ssb6"), SubResource("Resource_2jkj4"), SubResource("Resource_l1ej7")]
 body = [SubResource("Resource_q8e5i"), SubResource("Resource_c7bq3"), SubResource("Resource_l8jgm"), SubResource("Resource_w35fk"), SubResource("Resource_bq728"), SubResource("Resource_n8es6"), SubResource("Resource_pqc4q"), SubResource("Resource_f2262"), SubResource("Resource_8wqpq"), SubResource("Resource_yqp2t"), SubResource("Resource_u5hy6"), SubResource("Resource_qtc8g"), SubResource("Resource_ywu07"), SubResource("Resource_1mfe8"), SubResource("Resource_3gbhv"), SubResource("Resource_vsjmg"), SubResource("Resource_n6ag1"), SubResource("Resource_breij"), SubResource("Resource_yiqfy"), SubResource("Resource_tb2fl"), SubResource("Resource_wgb3d")]
-speed_scale = 1.0

@@ -1,46 +1,38 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=19 format=3 uid="uid://cmvmwmovwsjuw"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://cmvmwmovwsjuw"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_i0axo"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_va23x"]
 
 [sub_resource type="Resource" id="Resource_8x24v"]
 script = ExtResource("1_i0axo")
-rotation = 0.0
 position = Vector2(-3.8, -8.75)
 
 [sub_resource type="Resource" id="Resource_rl6yu"]
 script = ExtResource("1_i0axo")
-rotation = 0.0
 position = Vector2(-3.8, -12)
 
 [sub_resource type="Resource" id="Resource_e8fm5"]
 script = ExtResource("1_i0axo")
-rotation = 0.0
 position = Vector2(-3.8, -13.65)
 
 [sub_resource type="Resource" id="Resource_f8hvq"]
 script = ExtResource("1_i0axo")
-rotation = 0.0
 position = Vector2(-3.8, -11)
 
 [sub_resource type="Resource" id="Resource_fj6jx"]
 script = ExtResource("1_i0axo")
-rotation = 0.0
 position = Vector2(-3.8, -8.75)
 
 [sub_resource type="Resource" id="Resource_wimiw"]
 script = ExtResource("1_i0axo")
-rotation = 0.0
 position = Vector2(-3.8, -11.3)
 
 [sub_resource type="Resource" id="Resource_tm2a0"]
 script = ExtResource("1_i0axo")
-rotation = 0.0
 position = Vector2(-3.8, -12.95)
 
 [sub_resource type="Resource" id="Resource_8qp0q"]
 script = ExtResource("1_i0axo")
-rotation = 0.0
 position = Vector2(-3.8, -12)
 
 [sub_resource type="Resource" id="Resource_ryq3w"]
@@ -89,8 +81,5 @@ origin = Vector2(75, 130)
 ear = "sprDog_walk_ear"
 A = "sprDog_walk_A"
 B = "sprDog_walk_B"
-loop = "1"
-bounce = 0.0
 head = [SubResource("Resource_ryq3w"), SubResource("Resource_dagfw"), SubResource("Resource_xjv18"), SubResource("Resource_pistk"), SubResource("Resource_gxfxa"), SubResource("Resource_bklex"), SubResource("Resource_21ffv"), SubResource("Resource_h5gea")]
 body = [SubResource("Resource_8x24v"), SubResource("Resource_rl6yu"), SubResource("Resource_e8fm5"), SubResource("Resource_f8hvq"), SubResource("Resource_fj6jx"), SubResource("Resource_wimiw"), SubResource("Resource_tm2a0"), SubResource("Resource_8qp0q")]
-speed_scale = 1.0

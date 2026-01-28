@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=31 format=3 uid="uid://bh70nnqkeikge"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://bh70nnqkeikge"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_81ne1"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_xkfku"]
@@ -150,7 +150,5 @@ ear = "sprDog_doze_ear"
 A = "sprDog_doze_A"
 B = "sprDog_doze_B"
 loop = "snooze"
-bounce = 0.0
 head = [SubResource("Resource_itqsv"), SubResource("Resource_5jhww"), SubResource("Resource_414mf"), SubResource("Resource_1sch8"), SubResource("Resource_o16mp"), SubResource("Resource_wn5jl"), SubResource("Resource_i3kl7"), SubResource("Resource_bxpjb"), SubResource("Resource_cdbil"), SubResource("Resource_3ef56"), SubResource("Resource_gvfuv"), SubResource("Resource_1sqp3"), SubResource("Resource_gv8jj"), SubResource("Resource_3e2cd")]
 body = [SubResource("Resource_hrqus"), SubResource("Resource_5n6ma"), SubResource("Resource_sdnpx"), SubResource("Resource_4i11l"), SubResource("Resource_qbyae"), SubResource("Resource_wu0ka"), SubResource("Resource_a2kmw"), SubResource("Resource_ce3v4"), SubResource("Resource_xd6y0"), SubResource("Resource_drc8e"), SubResource("Resource_iyjk7"), SubResource("Resource_dm1op"), SubResource("Resource_ma262"), SubResource("Resource_jttr1")]
-speed_scale = 1.0

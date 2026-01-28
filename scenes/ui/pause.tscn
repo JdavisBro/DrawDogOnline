@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://c7qca6i2c2ow3"]
+[gd_scene format=3 uid="uid://c7qca6i2c2ow3"]
 
 [ext_resource type="Theme" uid="uid://da2feywqtmki" path="res://theme.tres" id="1_k6wvt"]
 [ext_resource type="Script" uid="uid://d11ogokytyvxe" path="res://scenes/ui/pause.gd" id="2_tli4u"]
@@ -6,7 +6,7 @@
 [sub_resource type="Theme" id="Theme_cb5ev"]
 Button/font_sizes/font_size = 54
 
-[node name="pause" type="Control"]
+[node name="pause" type="Control" unique_id=2065252604]
 process_mode = 3
 z_index = 3000
 layout_mode = 3
@@ -14,30 +14,30 @@ anchors_preset = 0
 theme = ExtResource("1_k6wvt")
 script = ExtResource("2_tli4u")
 
-[node name="ColorRect" type="ColorRect" parent="."]
+[node name="ColorRect" type="ColorRect" parent="." unique_id=717970315]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 color = Color(0.435294, 0.435294, 0.435294, 1)
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=2123090304]
 layout_mode = 0
 offset_right = 1920.0
 offset_bottom = 1080.0
 
-[node name="TitleMargin" type="MarginContainer" parent="VBoxContainer"]
+[node name="TitleMargin" type="MarginContainer" parent="VBoxContainer" unique_id=1644256952]
 layout_mode = 2
 theme_override_constants/margin_left = 64
 theme_override_constants/margin_top = 70
 
-[node name="TitleText" type="Label" parent="VBoxContainer/TitleMargin"]
+[node name="TitleText" type="Label" parent="VBoxContainer/TitleMargin" unique_id=944091159]
 layout_mode = 2
 size_flags_horizontal = 0
 theme_override_font_sizes/font_size = 72
 text = "Pause Menu"
 horizontal_alignment = 1
 
-[node name="ButtonsMargin" type="MarginContainer" parent="VBoxContainer"]
+[node name="ButtonsMargin" type="MarginContainer" parent="VBoxContainer" unique_id=1595684535]
 layout_mode = 2
 size_flags_horizontal = 0
 size_flags_vertical = 3
@@ -45,36 +45,36 @@ theme_override_constants/margin_left = 16
 theme_override_constants/margin_top = 40
 theme_override_constants/margin_bottom = 16
 
-[node name="HFlowContainer" type="VFlowContainer" parent="VBoxContainer/ButtonsMargin"]
+[node name="HFlowContainer" type="VFlowContainer" parent="VBoxContainer/ButtonsMargin" unique_id=1573116912]
 layout_mode = 2
 size_flags_vertical = 3
 theme = SubResource("Theme_cb5ev")
 
-[node name="Resume" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+[node name="Resume" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer" unique_id=1147704389]
 layout_mode = 2
 text = "Resume"
 
-[node name="PlayerList" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+[node name="PlayerList" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer" unique_id=1664260022]
 layout_mode = 2
 text = "Map"
 
-[node name="EditPalette" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+[node name="EditPalette" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer" unique_id=1891911450]
 layout_mode = 2
 text = "Edit Palette"
 
-[node name="EditDog" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+[node name="EditDog" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer" unique_id=1924883487]
 layout_mode = 2
 text = "Edit Dog"
 
-[node name="SetTitle" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+[node name="SetTitle" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer" unique_id=2083777552]
 layout_mode = 2
 text = "Set Title Paint"
 
-[node name="Settings" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+[node name="Settings" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer" unique_id=293660133]
 layout_mode = 2
 text = "Settings"
 
-[node name="LeaveServer" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer"]
+[node name="LeaveServer" type="Button" parent="VBoxContainer/ButtonsMargin/HFlowContainer" unique_id=1527308917]
 layout_mode = 2
 text = "Leave Server"
 

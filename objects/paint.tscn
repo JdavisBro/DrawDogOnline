@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://doo4hph7vj7lr"]
+[gd_scene format=3 uid="uid://doo4hph7vj7lr"]
 
 [ext_resource type="Script" uid="uid://cg2wqapwv7uyh" path="res://objects/paint.gd" id="1_km0p0"]
 [ext_resource type="Texture2D" uid="uid://cy2mp4tsignj8" path="res://assets/chicory/paintnoise.png" id="3_aagr5"]
@@ -17,23 +17,23 @@ shader_parameter/noise = ExtResource("3_aagr5")
 shader_parameter/boil = 0.0
 shader_parameter/paint_tex = ExtResource("4_xjx2b")
 
-[node name="paint" type="Node2D"]
+[node name="paint" type="Node2D" unique_id=448703587]
 process_mode = 3
 z_index = -100
 script = ExtResource("1_km0p0")
 
-[node name="DisplaySprite" type="Sprite2D" parent="."]
+[node name="DisplaySprite" type="Sprite2D" parent="." unique_id=2065224093]
 texture_filter = 1
 texture_repeat = 2
 material = SubResource("ShaderMaterial_2bssb")
 scale = Vector2(12, 12)
 centered = false
 
-[node name="ScreenshotViewport" type="SubViewport" parent="."]
+[node name="ScreenshotViewport" type="SubViewport" parent="." unique_id=298000774]
 size = Vector2i(1920, 1080)
 render_target_update_mode = 0
 
-[node name="ScreenshotSprite" type="Sprite2D" parent="ScreenshotViewport"]
+[node name="ScreenshotSprite" type="Sprite2D" parent="ScreenshotViewport" unique_id=1626368316]
 texture_filter = 1
 texture_repeat = 2
 material = SubResource("ShaderMaterial_g8fcy")

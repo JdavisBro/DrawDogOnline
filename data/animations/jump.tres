@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="DogAnimation" load_steps=25 format=3 uid="uid://c5sl6ngyou6p0"]
+[gd_resource type="Resource" script_class="DogAnimation" format=3 uid="uid://c5sl6ngyou6p0"]
 
 [ext_resource type="Script" uid="uid://c85827m38l57y" path="res://scripts/DogAnimationFrame.gd" id="1_0kvg7"]
 [ext_resource type="Script" uid="uid://bswpoblprr0uy" path="res://scripts/DogAnimation.gd" id="2_ybxru"]
@@ -55,7 +55,6 @@ position = Vector2(-3.75, -10.45)
 
 [sub_resource type="Resource" id="Resource_uxibv"]
 script = ExtResource("1_0kvg7")
-rotation = 0.0
 position = Vector2(-4.55, -12.05)
 
 [sub_resource type="Resource" id="Resource_txe6y"]
